@@ -38,8 +38,11 @@ const nav = [
   <div class="avance" aria-hidden="true">
     <div class="avance__fill" data-avance></div>
   </div>
+</header>
 
-  <div class="menu" id="menu" data-menu hidden>
+<!-- Outside the header on purpose: the header's backdrop-filter would make it the
+     containing block of this fixed panel and clip it to the header's height. -->
+<div class="menu" id="menu" data-menu hidden>
     <nav aria-label="Menú móvil" class="wrap">
       <ol>
         {nav.map((n, i) => (
@@ -53,8 +56,7 @@ const nav = [
       </ol>
       <a href="#contacto" class="plate plate--sign menu__cta" data-menu-link>Cotizar mi obra <Icon name="arrow-ur" /></a>
     </nav>
-  </div>
-</header>
+</div>
 
 <style>
   .hdr {
@@ -115,7 +117,7 @@ const nav = [
   .frente__code { color: var(--sign-300); border: 1px solid color-mix(in srgb, var(--sign) 60%, transparent); padding: 2px 6px 1px; }
 
   .menu {
-    position: fixed; inset: 67px 0 0 0; background: var(--ink); overflow-y: auto;
+    position: fixed; inset: 67px 0 0 0; z-index: 99; background: var(--ink); overflow-y: auto; overscroll-behavior: contain;
     padding-block: 28px 40px;
   }
   .menu ol { list-style: none; margin: 0; padding: 0; }
