@@ -1,0 +1,212 @@
+﻿---
+import Icon from './Icon.astro';
+import { WHATSAPP, wa } from '../data/site';
+
+const casos = [
+  {
+    nombre: 'El Gato Galletero',
+    url: 'https://www.elgatogalletero.com/',
+    dominio: 'elgatogalletero.com',
+    tipo: 'Tienda en línea',
+    estado: 'Entregada',
+    texto: 'Tienda completa con causa: catálogo por categorías, combos y envíos a toda Colombia. Cada compra apoya el rescate de gatos en Bucaramanga.',
+    desk: '/obras/gato-galletero.jpg',
+    movil: '/obras/gato-galletero-movil.jpg',
+  },
+  {
+    nombre: 'Suè',
+    url: 'https://suue.shop/',
+    dominio: 'suue.shop',
+    tipo: 'Marca de moda',
+    estado: 'Entregada',
+    texto: 'Marca de ropa con tejidos hechos a mano: lanzamiento de colección, fotografía grande y compra directa, con editorial propio.',
+    desk: '/obras/suue.jpg',
+    movil: '/obras/suue-movil.jpg',
+  },
+];
+---
+<section id="entregadas" class="ent" data-frente="entregadas" aria-labelledby="ent-title">
+  <div class="wrap">
+    <div class="ent__head">
+      <h2 id="ent-title" class="t-display ent__title" data-rise>Obras<br />entregadas</h2>
+      <p class="ent__intro" data-rise>Ninguna se parece a la otra. Ese es justamente el punto.</p>
+    </div>
+
+    <div class="ent__list">
+      {casos.map((c, i) => (
+        <article class={`caso ${i % 2 ? 'caso--flip' : ''}`}>
+          <a class="caso__stage" href={c.url} target="_blank" rel="noopener" aria-label={`Abrir ${c.dominio} en una pestaña nueva`} data-caso>
+            <div class="browser">
+              <div class="browser__bar" aria-hidden="true">
+                <span class="browser__dots"><i></i><i></i><i></i></span>
+                <span class="browser__url t-plate">{c.dominio}</span>
+              </div>
+              <div class="browser__view">
+                <img class="scrollshot" src={c.desk} alt={`Página de inicio de ${c.nombre}`} width="1440" height="2600" loading="lazy" data-scrollshot />
+              </div>
+            </div>
+            <div class="phone" aria-hidden="true">
+              <div class="phone__view">
+                <img class="scrollshot" src={c.movil} alt="" width="780" height="3200" loading="lazy" data-scrollshot />
+              </div>
+            </div>
+            <span class="caso__visit plate plate--sign plate--sm" aria-hidden="true">Ver el sitio <Icon name="arrow-ur" /></span>
+          </a>
+          <div class="caso__info">
+            <h3 class="caso__nombre">{c.nombre}</h3>
+            <p class="caso__texto">{c.texto}</p>
+            <dl class="caso__ficha">
+              <div><dt>Obra</dt><dd>{c.tipo}</dd></div>
+              <div><dt>Estado</dt><dd><span class="estado"><Icon name="check" />{c.estado}</span></dd></div>
+              <div><dt>Constructor</dt><dd>DukeNet</dd></div>
+              <div><dt>Sitio</dt><dd><a class="caso__link" href={c.url} target="_blank" rel="noopener">{c.dominio} <Icon name="arrow-ur" /></a></dd></div>
+            </dl>
+          </div>
+        </article>
+      ))}
+
+      <article class="caso caso--obra">
+        <div class="caso__stage caso__stage--obra">
+          <div class="obra-cerca">
+            <figure class="duo obra-cerca__img">
+              <img src="/fotos/convite.jpg" alt="Tetera de vidrio con té y flores amarillas sobre una mesa" width="1400" height="1000" loading="lazy" />
+            </figure>
+            <div class="obra-cerca__sign" aria-hidden="true">
+              <span class="bolt bolt--tl"></span><span class="bolt bolt--tr"></span>
+              <strong>En obra</strong>
+            </div>
+          </div>
+        </div>
+        <div class="caso__info">
+          <h3 class="caso__nombre">Convite</h3>
+          <p class="caso__texto">Plataforma de bodas: invitación digital, confirmación de asistencia, lista de regalos y todo el evento en un solo enlace para compartir.</p>
+          <dl class="caso__ficha">
+            <div><dt>Obra</dt><dd>Producto propio</dd></div>
+            <div><dt>Estado</dt><dd><span class="estado estado--obra">En construcción</span></dd></div>
+          </dl>
+        </div>
+      </article>
+    </div>
+
+    <div class="lote" data-rise>
+      <div class="lote__sign">
+        <p class="t-display lote__title">Tu marca aquí</p>
+        <p class="lote__txt">Lote disponible este mes. Tomamos pocos proyectos para acompañar cada uno de cerca.</p>
+      </div>
+      <a class="plate plate--sign" href={wa(WHATSAPP[0].tel, 'Hola DukeNet, quiero pedir el cupo del mes para la web de mi negocio.')} target="_blank" rel="noopener">
+        Pedir el cupo del mes <Icon name="arrow-ur" />
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .ent { background: var(--ink); padding-block: clamp(88px, 11vw, 170px); }
+  .ent__head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 24px 60px; }
+  .ent__title { font-size: clamp(2.6rem, 6.8vw, 7.2rem); }
+  .ent__intro { max-width: 30ch; font-size: clamp(1.02rem, 1.2vw, 1.2rem); color: color-mix(in srgb, var(--paper) 72%, transparent); }
+
+  .ent__list { margin-top: clamp(52px, 6vw, 96px); display: grid; gap: clamp(80px, 10vw, 150px); }
+
+  .caso { display: grid; grid-template-columns: minmax(0, 8fr) minmax(0, 4fr); gap: clamp(28px, 4vw, 64px); align-items: end; }
+  .caso--flip { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); }
+  .caso--flip .caso__stage { order: 2; }
+
+  .caso__stage {
+    position: relative; display: block; text-decoration: none;
+    padding: 0 clamp(40px, 7vw, 120px) clamp(28px, 4vw, 56px) 0;
+  }
+  .caso--flip .caso__stage { padding: 0 0 clamp(28px, 4vw, 56px) clamp(40px, 7vw, 120px); }
+
+  .browser {
+    background: var(--paper-2); border-radius: 6px; overflow: hidden;
+    box-shadow: 0 40px 80px -40px color-mix(in srgb, var(--sign) 55%, transparent);
+    border: 1px solid color-mix(in srgb, var(--paper) 20%, transparent);
+  }
+  .browser__bar { display: flex; align-items: center; gap: 14px; height: 38px; padding: 0 14px; background: var(--paper); color: var(--ink); }
+  .browser__dots { display: flex; gap: 6px; }
+  .browser__dots i { width: 10px; height: 10px; border-radius: 50%; background: var(--concrete-400); }
+  .browser__dots i:first-child { background: var(--sign); }
+  .browser__url { flex: 1; max-width: 360px; margin-inline: auto; text-align: center; background: var(--paper-2); padding: 4px 10px; font-size: 0.7rem; color: var(--concrete-700); text-transform: none; letter-spacing: 0.02em; }
+  .browser__view { position: relative; aspect-ratio: 16 / 10; overflow: hidden; background: #fff; }
+  .scrollshot { width: 100%; height: auto; will-change: transform; transition: transform 5.5s cubic-bezier(0.45, 0, 0.2, 1); }
+
+  .phone {
+    position: absolute; right: 0; bottom: 0;
+    width: clamp(110px, 17%, 220px);
+    padding: 7px; border-radius: 26px; background: var(--ink-3);
+    border: 1px solid color-mix(in srgb, var(--paper) 22%, transparent);
+    box-shadow: 0 30px 60px -20px color-mix(in srgb, #000 80%, transparent);
+  }
+  .caso--flip .phone { right: auto; left: 0; }
+  .phone__view { aspect-ratio: 390 / 844; border-radius: 20px; overflow: hidden; background: #fff; }
+
+  @media (hover: hover) {
+    .caso__stage:hover .browser .scrollshot { transform: translateY(calc(-100% + var(--view-h, 400px))); }
+    .caso__stage:hover .phone .scrollshot { transform: translateY(calc(-100% + var(--phone-h, 400px))); transition-duration: 4.5s; }
+  }
+
+  .caso__visit { position: absolute; left: 18px; top: 56px; opacity: 0; transform: translateY(8px); transition: opacity 0.4s, transform 0.5s var(--ease-out); pointer-events: none; }
+  .caso--flip .caso__visit { left: auto; right: 18px; }
+  .caso__stage:hover .caso__visit, .caso__stage:focus-visible .caso__visit { opacity: 1; transform: none; }
+
+  .caso__nombre { font-weight: 850; text-transform: uppercase; font-size: clamp(2.2rem, 4.2vw, 4.4rem); line-height: 0.92; letter-spacing: -0.035em; }
+  .caso__texto { margin-top: 16px; max-width: 42ch; color: color-mix(in srgb, var(--paper) 74%, transparent); }
+
+  .caso__ficha { margin: 24px 0 0; border-top: 2px solid var(--paper); }
+  .caso__ficha > div {
+    display: grid; grid-template-columns: 7.5rem 1fr; gap: 12px; align-items: center;
+    padding-block: 9px; border-bottom: 1px solid color-mix(in srgb, var(--paper) 16%, transparent);
+  }
+  .caso__ficha dt { font-family: var(--font-plate); font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; color: color-mix(in srgb, var(--paper) 62%, transparent); }
+  .caso__ficha dd { margin: 0; font-weight: 650; }
+  .estado { display: inline-flex; align-items: center; gap: 6px; background: var(--sign); color: var(--ink); padding: 3px 9px 2px; font-weight: 750; font-size: 0.86rem; text-transform: uppercase; letter-spacing: 0.03em; }
+  .estado :global(svg) { width: 14px; height: 14px; }
+  .estado--obra { background: var(--paper); box-shadow: inset 0 -3px 0 var(--sign); }
+  .caso__link {
+    display: inline-flex; align-items: center; gap: 8px;
+    font-family: var(--font-plate); font-size: 0.86rem; text-decoration: none;
+    border-bottom: 2px solid var(--sign); padding-bottom: 2px;
+    transition: color 0.3s;
+  }
+  .caso__link :global(svg) { width: 16px; height: 16px; }
+  .caso__link:hover { color: var(--sign-300); }
+
+  .caso__stage--obra { padding: 0; }
+  .obra-cerca { position: relative; overflow: hidden; border: 2px dashed color-mix(in srgb, var(--paper) 35%, transparent); }
+  .obra-cerca__img { aspect-ratio: 16 / 8; }
+  .obra-cerca__img::after { opacity: 0.95; }
+  .obra-cerca__sign {
+    position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%);
+    background: var(--paper); color: var(--ink); padding: 22px 40px 16px;
+    border-radius: 10px;
+    box-shadow: inset 0 0 0 5px var(--paper), inset 0 0 0 8px var(--ink), 0 16px 34px -12px color-mix(in srgb, #000 70%, transparent);
+  }
+  .obra-cerca__sign .bolt { top: 13px; }
+  .obra-cerca__sign .bolt--tl { left: 16px; }
+  .obra-cerca__sign .bolt--tr { right: 16px; left: auto; }
+  .obra-cerca__sign strong { display: block; font-family: var(--font-display); font-weight: 900; text-transform: uppercase; font-size: clamp(1.8rem, 3.4vw, 3rem); line-height: 1; letter-spacing: -0.02em; }
+
+  .lote {
+    margin-top: clamp(80px, 10vw, 150px);
+    display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 28px;
+    padding: clamp(28px, 4vw, 56px);
+    border: 2px dashed color-mix(in srgb, var(--sign-400) 70%, transparent);
+  }
+  .lote__title { font-size: clamp(2.6rem, 7vw, 7rem); color: transparent; -webkit-text-stroke: 2px var(--paper); }
+  .lote__txt { margin-top: 14px; color: color-mix(in srgb, var(--paper) 72%, transparent); }
+
+  @media (max-width: 960px) {
+    .caso, .caso--flip { grid-template-columns: 1fr; }
+    .caso--flip .caso__stage { order: 0; }
+  }
+  @media (max-width: 560px) {
+    .caso__stage, .caso--flip .caso__stage { padding: 0 44px 34px 0; }
+    .caso--flip .caso__stage { padding: 0 0 34px 44px; }
+    .phone { width: 108px; border-radius: 18px; padding: 5px; }
+    .phone__view { border-radius: 14px; }
+    .caso__visit { display: none; }
+    .obra-cerca__img { aspect-ratio: 4 / 3; }
+    .lote__title { -webkit-text-stroke-width: 1.5px; }
+  }
+</style>

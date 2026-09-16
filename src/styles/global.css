@@ -1,0 +1,184 @@
+@import '@fontsource-variable/overpass';
+@import '@fontsource-variable/overpass-mono';
+
+/* ── Tokens ─────────────────────────────────────────────────────────────── */
+:root {
+  /* Sign blue: the steel blue from the original design, as road-sign panels */
+  --sign-100: #eef6ff;
+  --sign-200: #d6ebff;
+  --sign-300: #b5d9fd;
+  --sign-400: #94bce3;
+  --sign-500: #749dc4;
+  --sign: #5980a6;
+  --sign-700: #416180;
+  --sign-800: #2c455d;
+  --sign-900: #1d2d3d;
+
+  /* Ink and plates */
+  --ink: #0c0d0e;
+  --ink-2: #141618;
+  --ink-3: #1d2023;
+  --paper: #f2f2f3;
+  --paper-2: #e7e7ea;
+
+  /* Concrete */
+  --concrete-300: #d4d4d7;
+  --concrete-400: #b7b7ba;
+  --concrete-500: #98989b;
+  --concrete-600: #7a7a7d;
+  --concrete-700: #5d5d60;
+  --concrete-800: #424244;
+
+  --font-display: 'Overpass Variable', 'Overpass', system-ui, sans-serif;
+  --font-body: 'Overpass Variable', 'Overpass', system-ui, sans-serif;
+  --font-plate: 'Overpass Mono Variable', 'Overpass Mono', ui-monospace, monospace;
+
+  --gutter: clamp(16px, 3.2vw, 44px);
+  --max: 1520px;
+  --radius-sign: clamp(12px, 1.4vw, 22px);
+  --radius-plate: 0px;
+
+  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
+
+  --stripe: repeating-linear-gradient(-45deg, var(--paper) 0 14px, var(--ink) 14px 28px);
+
+  color-scheme: dark;
+}
+
+/* ── Base ───────────────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
+html.lenis, html.lenis body { height: auto; }
+.lenis:not(.lenis-autoToggle).lenis-stopped { overflow: clip; }
+body {
+  margin: 0;
+  background: var(--ink);
+  color: var(--paper);
+  font-family: var(--font-body);
+  font-size: clamp(16px, 1.05vw, 18px);
+  line-height: 1.55;
+  font-weight: 400;
+  -webkit-font-smoothing: antialiased;
+  overflow-x: clip;
+  caret-color: var(--sign);
+}
+img, svg { display: block; max-width: 100%; }
+a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 0.22em; }
+button, input, select, textarea { font: inherit; color: inherit; }
+p { margin: 0; }
+h1, h2, h3, h4 { margin: 0; font-family: var(--font-display); text-wrap: balance; }
+figure { margin: 0; }
+
+::selection { background: var(--sign); color: var(--ink); }
+:focus-visible { outline: 3px solid var(--sign-300); outline-offset: 3px; border-radius: 2px; }
+
+html { scrollbar-color: var(--sign) var(--ink); }
+::-webkit-scrollbar { width: 12px; height: 12px; }
+::-webkit-scrollbar-track { background: var(--ink); }
+::-webkit-scrollbar-thumb { background: var(--sign-700); border: 3px solid var(--ink); border-radius: 6px; }
+::-webkit-scrollbar-thumb:hover { background: var(--sign); }
+
+.sr-only {
+  position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
+  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+}
+.skip {
+  position: fixed; left: 12px; top: -80px; z-index: 999;
+  background: var(--paper); color: var(--ink); padding: 12px 18px; font-weight: 700;
+  border-radius: var(--radius-plate);
+}
+.skip:focus { top: 12px; }
+
+.wrap { width: 100%; max-width: var(--max); margin-inline: auto; padding-inline: var(--gutter); }
+
+/* ── Type roles ─────────────────────────────────────────────────────────── */
+.t-display {
+  font-family: var(--font-display);
+  font-weight: 850;
+  text-transform: uppercase;
+  line-height: 0.88;
+  letter-spacing: -0.035em;
+}
+.t-plate {
+  font-family: var(--font-plate);
+  font-weight: 500;
+  font-size: 0.75rem;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  font-variant-numeric: tabular-nums;
+}
+.num { font-variant-numeric: tabular-nums; }
+
+/* ── Plates (buttons & links rebuilt as sign plates) ────────────────────── */
+.plate {
+  --plate-bg: var(--ink);
+  --plate-fg: var(--paper);
+  --plate-line: var(--ink);
+  position: relative;
+  display: inline-flex; align-items: center; gap: 0.9em;
+  min-height: 56px;
+  padding: 0 1.35em 0 1.4em;
+  background: var(--plate-bg);
+  color: var(--plate-fg);
+  border: 2px solid var(--plate-line);
+  border-radius: var(--radius-plate);
+  font-family: var(--font-display);
+  font-weight: 750;
+  font-size: 1rem;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  overflow: hidden;
+  isolation: isolate;
+  transition: color 0.45s var(--ease-out), border-color 0.45s var(--ease-out), transform 0.45s var(--ease-out);
+}
+.plate::before {
+  content: '';
+  position: absolute; inset: 0; z-index: -1;
+  background: var(--plate-hover-bg, var(--sign));
+  transform: translateY(101%);
+  transition: transform 0.5s var(--ease-out);
+}
+.plate svg { width: 1.15em; height: 1.15em; flex: none; transition: transform 0.5s var(--ease-out); }
+.plate:hover { color: var(--plate-hover-fg, var(--ink)); border-color: var(--plate-hover-bg, var(--sign)); }
+.plate:hover::before { transform: translateY(0); }
+.plate:hover svg { transform: translate(3px, -3px); }
+.plate:active { transform: translateY(1px); }
+.plate[disabled] { opacity: 0.5; cursor: not-allowed; }
+
+.plate--paper { --plate-bg: var(--paper); --plate-fg: var(--ink); --plate-line: var(--paper); --plate-hover-bg: var(--ink); --plate-hover-fg: var(--paper); }
+.plate--sign { --plate-bg: var(--sign); --plate-fg: var(--ink); --plate-line: var(--sign); --plate-hover-bg: var(--paper); --plate-hover-fg: var(--ink); }
+.plate--ghost-light { --plate-bg: transparent; --plate-fg: var(--paper); --plate-line: color-mix(in srgb, var(--paper) 55%, transparent); --plate-hover-bg: var(--paper); --plate-hover-fg: var(--ink); }
+.plate--ghost-dark { --plate-bg: transparent; --plate-fg: var(--ink); --plate-line: color-mix(in srgb, var(--ink) 70%, transparent); --plate-hover-bg: var(--ink); --plate-hover-fg: var(--paper); }
+.plate--sm { min-height: 42px; font-size: 0.85rem; padding: 0 1em; }
+
+/* Sign fixings */
+.bolt {
+  position: absolute; width: 11px; height: 11px; border-radius: 50%;
+  background: radial-gradient(circle at 35% 35%, var(--paper), var(--concrete-500) 60%, var(--concrete-700));
+  box-shadow: 0 1px 1px color-mix(in srgb, var(--ink) 45%, transparent);
+}
+.bolt::after { content: ''; position: absolute; left: 2px; right: 2px; top: 5px; height: 1px; background: var(--concrete-700); transform: rotate(-30deg); }
+.bolt--tl { top: clamp(22px, 2vw, 30px); left: clamp(22px, 2vw, 30px); }
+.bolt--tr { top: clamp(22px, 2vw, 30px); right: clamp(22px, 2vw, 30px); }
+.bolt--bl { bottom: clamp(22px, 2vw, 30px); left: clamp(22px, 2vw, 30px); }
+.bolt--br { bottom: clamp(22px, 2vw, 30px); right: clamp(22px, 2vw, 30px); }
+
+/* Barrier stripe rail */
+.rail { height: 14px; background: var(--stripe); background-size: 39.6px 39.6px; }
+
+/* Duotone photo in sign blue */
+.duo { position: relative; overflow: hidden; background: var(--sign-800); }
+.duo img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.08) brightness(1.02); }
+.duo::after {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background: var(--sign); mix-blend-mode: multiply; opacity: 0.92;
+}
+
+/* Motion guards: content is visible by default; JS opts elements into motion */
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
+}

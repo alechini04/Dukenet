@@ -1,0 +1,17 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "side-tab",
+        "value": "*",
+        "files": [
+          "src/components/Cronograma.astro"
+        ],
+        "createdAt": "2026-09-16T23:01:21.398Z",
+        "reason": "agent triage: .bar--open::after is a 10px clip-path arrowhead ending the open Gantt bar, not a card border"
+      }
+    ]
+  }
+}

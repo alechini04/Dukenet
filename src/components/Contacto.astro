@@ -1,0 +1,161 @@
+﻿---
+import Icon from './Icon.astro';
+import { WHATSAPP, wa, SERVICIOS } from '../data/site';
+const opciones = [...SERVICIOS.map((s) => ({ letra: s.letra, nombre: s.nombre })), { letra: 'E', nombre: 'Mejorar la que ya tengo' }, { letra: '?', nombre: 'Todavía no lo sé' }];
+---
+<section id="contacto" class="contacto" data-frente="contacto" aria-labelledby="contacto-title">
+  <div class="wrap">
+    <div class="valla-fin">
+      <span class="bolt bolt--tl" aria-hidden="true"></span>
+      <span class="bolt bolt--tr" aria-hidden="true"></span>
+      <span class="bolt bolt--bl" aria-hidden="true"></span>
+      <span class="bolt bolt--br" aria-hidden="true"></span>
+      <div class="contacto__grid">
+        <div class="contacto__copy">
+          <h2 id="contacto-title" class="t-display contacto__title" data-rise>Cotiza tu<br /><span>obra hoy</span></h2>
+          <p class="contacto__lead" data-rise>Cuéntanos de tu negocio y en una reunión te decimos qué necesitas, cuánto cuesta y cuándo queda listo. Tomamos pocos proyectos al mes.</p>
+          <ul class="tels" data-rise>
+            {WHATSAPP.map((w) => (
+              <li>
+                <a href={wa(w.tel, 'Hola DukeNet, quiero cotizar la web de mi negocio.')} target="_blank" rel="noopener">
+                  <span class="tels__num num">{w.label}</span>
+                  <span class="tels__tag t-plate"><Icon name="whatsapp" />WhatsApp</span>
+                </a>
+              </li>
+            ))}
+          </ul>
+        </div>
+
+        <form class="solicitud" data-form data-tel={WHATSAPP[0].tel} novalidate>
+          <header class="solicitud__head">
+            <span class="t-plate">Solicitud de obra</span>
+            <span class="t-plate solicitud__resp">Respuesta por WhatsApp</span>
+          </header>
+
+          <div class="field">
+            <label for="f-nombre">Tu nombre</label>
+            <input id="f-nombre" name="nombre" autocomplete="name" required placeholder="Cómo te llamamos" aria-describedby="e-nombre" />
+            <p class="field__error" id="e-nombre" data-error-for="nombre">Escribe tu nombre para saber a quién responder.</p>
+          </div>
+
+          <div class="field">
+            <label for="f-negocio">Tu negocio y ciudad</label>
+            <input id="f-negocio" name="negocio" autocomplete="organization" required placeholder="Nombre, a qué se dedica y dónde queda" aria-describedby="e-negocio" />
+            <p class="field__error" id="e-negocio" data-error-for="negocio">Cuéntanos el nombre del negocio y la ciudad.</p>
+          </div>
+
+          <fieldset class="field opciones">
+            <legend>¿Qué necesitas?</legend>
+            <div class="opciones__grid">
+              {opciones.map((o, i) => (
+                <label class="opcion">
+                  <input type="radio" name="plan" value={o.nombre} checked={i === 0} />
+                  <span class="opcion__letra" aria-hidden="true">{o.letra}</span>
+                  <span class="opcion__nombre">{o.nombre}</span>
+                </label>
+              ))}
+            </div>
+          </fieldset>
+
+          <div class="field">
+            <label for="f-detalle">Cuéntanos un poco más <span class="opt">(opcional)</span></label>
+            <textarea id="f-detalle" name="detalle" rows="3" placeholder="Qué vendes, cómo vendes hoy y qué te gustaría lograr"></textarea>
+          </div>
+
+          <div class="solicitud__foot">
+            <button type="submit" class="plate">Enviar por WhatsApp <Icon name="arrow-ur" /></button>
+            <p class="solicitud__status" role="status" data-status></p>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contacto { background: var(--ink); padding-block: clamp(12px, 1.6vw, 22px); }
+  .valla-fin {
+    position: relative; background: var(--sign); color: var(--ink);
+    border-radius: var(--radius-sign);
+    padding: clamp(56px, 7vw, 120px) clamp(24px, 4.4vw, 76px);
+    isolation: isolate;
+  }
+  .valla-fin::before {
+    content: ''; position: absolute; inset: clamp(8px, 0.8vw, 12px); z-index: -1;
+    border: clamp(3px, 0.32vw, 5px) solid var(--paper);
+    border-radius: calc(var(--radius-sign) - 6px);
+  }
+  .contacto__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(36px, 5vw, 90px); align-items: start; }
+  .contacto__title { font-size: clamp(3rem, 8vw, 8.6rem); color: var(--paper); }
+  .contacto__title span { color: var(--ink); }
+  .contacto__lead { margin-top: 26px; max-width: 42ch; font-size: clamp(1.05rem, 1.3vw, 1.3rem); font-weight: 450; }
+
+  .tels { list-style: none; margin: clamp(30px, 4vw, 52px) 0 0; padding: 0; }
+  .tels a {
+    display: flex; justify-content: space-between; align-items: center; gap: 18px;
+    padding-block: 16px; text-decoration: none;
+    border-top: 2px solid var(--ink);
+    transition: color 0.3s;
+  }
+  .tels li:last-child a { border-bottom: 2px solid var(--ink); }
+  .tels a:hover { color: var(--paper); }
+  .tels__num { transition: transform 0.5s var(--ease-out); }
+  .tels a:hover .tels__num { transform: translateX(10px); }
+  .tels__num { font-family: var(--font-display); font-weight: 850; font-size: clamp(1.9rem, 3.6vw, 3.4rem); line-height: 1; letter-spacing: -0.02em; }
+  .tels__tag { display: inline-flex; align-items: center; gap: 8px; }
+  .tels__tag :global(svg) { width: 20px; height: 20px; }
+
+  .solicitud {
+    background: var(--paper); color: var(--ink); border-radius: 0; position: relative;
+    padding: clamp(20px, 2.6vw, 38px);
+    box-shadow: 0 30px 60px -30px color-mix(in srgb, var(--sign-900) 80%, transparent);
+  }
+  .solicitud__head { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; padding-bottom: 14px; border-bottom: 2px solid var(--ink); }
+  .solicitud__head .t-plate:first-child { font-weight: 700; }
+  .solicitud__resp { color: var(--concrete-700); }
+
+  .field { margin-top: 22px; }
+  .field > label, .field legend {
+    display: block; font-family: var(--font-display); font-size: 0.8rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--sign-700);
+  }
+  .opt { color: var(--concrete-700); text-transform: none; letter-spacing: 0; }
+  .field input, .field textarea {
+    width: 100%; margin-top: 6px;
+    background: transparent; border: 0; border-bottom: 2px solid var(--concrete-400);
+    padding: 10px 0; font-size: 1.12rem; color: var(--ink); border-radius: 0;
+    transition: border-color 0.3s;
+  }
+  .field textarea { resize: vertical; min-height: 88px; }
+  .field input::placeholder, .field textarea::placeholder { color: var(--concrete-700); }
+  .field input:hover, .field textarea:hover { border-color: var(--concrete-600); }
+  .field input:focus, .field textarea:focus { outline: none; border-color: var(--sign); }
+  .field input:focus-visible, .field textarea:focus-visible { box-shadow: 0 2px 0 var(--sign); }
+  .field__error { display: none; margin-top: 6px; font-size: 0.86rem; font-weight: 650; color: var(--ink); }
+  .field.has-error input { border-color: var(--ink); border-bottom-style: dashed; }
+  .field.has-error .field__error { display: block; }
+
+  .opciones { border: 0; padding: 0; margin-inline: 0; }
+  .opciones__grid { margin-top: 10px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .opcion {
+    position: relative; display: flex; align-items: center; gap: 10px; cursor: pointer;
+    padding: 9px 10px; border: 1.5px dashed var(--concrete-500);
+    transition: background 0.35s, border-color 0.35s, color 0.35s;
+  }
+  .opcion input { position: absolute; opacity: 0; pointer-events: none; }
+  .opcion__letra { display: grid; place-items: center; width: 26px; height: 26px; flex: none; border: 1.5px solid currentColor; font-weight: 900; font-size: 0.9rem; padding-top: 2px; }
+  .opcion__nombre { font-weight: 650; font-size: 0.9rem; line-height: 1.2; }
+  .opcion:hover { border-color: var(--ink); }
+  .opcion:has(input:checked) { background: var(--ink); color: var(--paper); border-style: solid; border-color: var(--ink); }
+  .opcion:has(input:checked) .opcion__letra { background: var(--sign); border-color: var(--sign); color: var(--ink); }
+  .opcion:has(input:focus-visible) { outline: 3px solid var(--sign); outline-offset: 2px; }
+
+  .solicitud__foot { margin-top: 28px; display: flex; flex-wrap: wrap; align-items: center; gap: 14px 20px; }
+  .solicitud__status { font-size: 0.92rem; font-weight: 600; color: var(--sign-700); }
+
+  @media (max-width: 960px) { .contacto__grid { grid-template-columns: 1fr; } }
+  @media (max-width: 480px) {
+    .opciones__grid { grid-template-columns: 1fr; }
+    .solicitud__foot .plate { width: 100%; justify-content: space-between; }
+  }
+</style>

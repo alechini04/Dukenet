@@ -1,0 +1,162 @@
+﻿---
+import Icon from './Icon.astro';
+import { WHATSAPP, wa, FASES } from '../data/site';
+---
+<section id="inicio" class="hero" data-frente="inicio">
+  <div class="wrap hero__frame">
+    <div class="valla" data-valla>
+      <span class="bolt bolt--tl" aria-hidden="true"></span>
+      <span class="bolt bolt--tr" aria-hidden="true"></span>
+      <span class="bolt bolt--bl" aria-hidden="true"></span>
+      <span class="bolt bolt--br" aria-hidden="true"></span>
+
+      <h1 class="hero__title t-display" data-hero-title>
+        <span class="line"><span class="line__in">No hacemos</span></span>
+        <span class="line"><span class="line__in"><span class="tachado" data-tachado><span class="tw">páginas</span> <span class="tw">bonitas</span></span></span></span>
+        <span class="line"><span class="line__in hero__ink">hacemos ventas</span></span>
+      </h1>
+
+      <div class="hero__base">
+        <div class="hero__pitch" data-hero-pitch>
+          <p class="hero__lead">
+            Diseñamos y programamos desde cero la web de tu negocio (tienda, catálogo o landing) con estadísticas claras y acompañamiento mes a mes. <strong>Nada de plantillas.</strong>
+          </p>
+          <div class="hero__cta">
+            <a class="plate" href="#contacto">Cotizar mi obra <Icon name="arrow-ur" /></a>
+            <a class="plate plate--ghost-dark" href={wa(WHATSAPP[0].tel, 'Hola DukeNet, quiero información para la web de mi negocio.')} target="_blank" rel="noopener">
+              <Icon name="whatsapp" /> {WHATSAPP[0].label}
+            </a>
+          </div>
+        </div>
+
+        <aside class="ficha" aria-label="Ficha de obra" data-ficha>
+          <header class="ficha__head">
+            <span class="t-plate">Ficha de obra</span>
+            <span class="t-plate ficha__ref">DKN · web a medida</span>
+          </header>
+          <dl class="ficha__rows">
+            <div><dt>Proyecto</dt><dd>La web de tu negocio</dd></div>
+            <div><dt>Constructor</dt><dd>DukeNet, estudio de desarrollo web</dd></div>
+            <div><dt>Diseño</dt><dd>Propio, desde cero</dd></div>
+            <div><dt>Cobertura</dt><dd>Toda Colombia</dd></div>
+            <div><dt>Entrega</dt><dd>Fecha fija en la propuesta</dd></div>
+            <div><dt>Seguimiento</dt><dd>Reporte mes a mes</dd></div>
+          </dl>
+          <div class="etapas">
+            <span class="t-plate etapas__label">Etapas</span>
+            <ol class="etapas__track" data-etapas>
+              {FASES.map((f, i) => <li class={i === 0 ? 'is-on' : ''}><span class="etapas__dot" aria-hidden="true"></span>{f.nombre}</li>)}
+            </ol>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero { padding-top: calc(67px + clamp(12px, 1.6vw, 22px)); padding-bottom: clamp(12px, 1.6vw, 22px); background: var(--ink); }
+  .hero__frame { max-width: none; }
+
+  .valla {
+    position: relative;
+    min-height: calc(100svh - 67px - 2 * clamp(12px, 1.6vw, 22px));
+    display: grid; grid-template-rows: 1fr auto; gap: clamp(24px, 3vw, 44px);
+    padding: clamp(40px, min(4.4vw, 7svh), 76px) clamp(26px, 4.4vw, 76px) clamp(28px, min(3.4vw, 5.5svh), 56px);
+    background: var(--sign);
+    color: var(--paper);
+    border-radius: var(--radius-sign);
+    isolation: isolate;
+    overflow: hidden;
+  }
+  /* reflective inner border, as on an informative road sign */
+  .valla::before {
+    content: ''; position: absolute; inset: clamp(8px, 0.8vw, 12px); z-index: -1;
+    border: clamp(3px, 0.32vw, 5px) solid var(--paper);
+    border-radius: calc(var(--radius-sign) - 6px);
+    pointer-events: none;
+  }
+
+  .hero__title {
+    align-self: start;
+    font-size: clamp(3rem, min(8.8vw, 15.5svh), 9.4rem);
+    line-height: 0.86;
+  }
+  /* room above caps for Á and below for the crossing bar, without changing line rhythm */
+  .line { display: block; overflow: hidden; padding-block: 0.14em 0.04em; margin-block: -0.14em -0.04em; }
+  .line__in { display: block; }
+  .hero__ink { color: var(--ink); }
+
+  /* crossed out word by word, so the bar survives wrapping on phones */
+  .tachado { --tachado: 1; }
+  .tw { position: relative; display: inline-block; }
+  .tw::after {
+    content: ''; position: absolute; left: -0.03em; right: -0.03em; top: 40%;
+    height: 0.12em; background: var(--ink);
+    transform: scaleX(var(--tachado)); transform-origin: left center;
+  }
+
+  .hero__base {
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(320px, 470px);
+    gap: clamp(28px, 4vw, 72px); align-items: end;
+  }
+  .hero__lead {
+    max-width: 44ch; color: var(--ink);
+    font-size: clamp(1.08rem, 1.35vw, 1.35rem); line-height: 1.5; font-weight: 450;
+  }
+  .hero__lead strong { font-weight: 800; }
+  .hero__cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: clamp(22px, 2.4vw, 34px); }
+
+  .ficha {
+    background: var(--paper); color: var(--ink);
+    padding: 18px 20px 20px;
+    box-shadow: 0 18px 40px -18px color-mix(in srgb, var(--sign-900) 75%, transparent), 0 2px 0 color-mix(in srgb, var(--sign-900) 30%, transparent);
+  }
+  .ficha__head { display: flex; justify-content: space-between; gap: 12px; padding-bottom: 12px; border-bottom: 2px solid var(--ink); }
+  .ficha__head .t-plate:first-child { font-weight: 700; }
+  .ficha__ref { color: var(--concrete-700); }
+  .ficha__rows { margin: 0; display: grid; grid-template-columns: 1fr 1fr; column-gap: 20px; }
+  .ficha__rows > div {
+    display: grid; gap: 2px;
+    padding: 9px 0; border-bottom: 1px solid var(--concrete-300);
+  }
+  .ficha dt { font-family: var(--font-plate); font-size: 0.72rem; letter-spacing: 0.06em; text-transform: uppercase; color: var(--concrete-700); }
+  .ficha dd { margin: 0; font-weight: 650; font-size: 0.98rem; line-height: 1.3; }
+
+  .etapas { padding-top: 14px; }
+  .etapas__label { color: var(--concrete-700); font-size: 0.72rem; }
+  .etapas__track {
+    list-style: none; margin: 10px 0 0; padding: 0;
+    display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px;
+  }
+  .etapas__track li {
+    position: relative; padding-top: 14px;
+    font-size: 0.72rem; font-weight: 650; line-height: 1.15; color: var(--concrete-700);
+    transition: color 0.5s var(--ease-out);
+  }
+  .etapas__track li::before {
+    content: ''; position: absolute; left: 0; right: 0; top: 4px; height: 3px;
+    background: var(--concrete-300); transition: background 0.5s var(--ease-out);
+  }
+  .etapas__dot {
+    position: absolute; left: 0; top: 0; width: 11px; height: 11px; border-radius: 50%;
+    background: var(--paper); border: 2px solid var(--concrete-400);
+    transition: border-color 0.5s var(--ease-out), background 0.5s var(--ease-out);
+  }
+  .etapas__track li.is-done::before, .etapas__track li.is-on::before { background: var(--sign); }
+  .etapas__track li.is-on { color: var(--ink); }
+  .etapas__track li.is-on .etapas__dot { background: var(--sign); border-color: var(--ink); }
+  .etapas__track li.is-done .etapas__dot { border-color: var(--sign); }
+
+  @media (max-width: 980px) {
+    .hero__base { grid-template-columns: 1fr; align-items: start; }
+    .ficha { max-width: 560px; }
+  }
+  @media (max-width: 560px) {
+    .valla { min-height: auto; padding-top: 58px; }
+    .hero__title { font-size: clamp(2.7rem, 13.4vw, 4.6rem); }
+    .hero__cta .plate { width: 100%; justify-content: space-between; }
+    .etapas__track li { font-size: 0.62rem; }
+    .ficha__ref { display: none; }
+  }
+</style>

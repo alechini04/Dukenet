@@ -1,0 +1,38 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import Cinta from '../components/Cinta.astro';
+import Manifiesto from '../components/Manifiesto.astro';
+import Obras from '../components/Obras.astro';
+import Entregadas from '../components/Entregadas.astro';
+import Cronograma from '../components/Cronograma.astro';
+import Panel from '../components/Panel.astro';
+import Contacto from '../components/Contacto.astro';
+import Footer from '../components/Footer.astro';
+import Rail from '../components/Rail.astro';
+---
+<Base
+  title="DukeNet · Webs a medida que venden, en toda Colombia"
+  description="Diseñamos y programamos desde cero la web de tu negocio: tiendas en línea, páginas de negocio y landings, con estadísticas claras y acompañamiento mes a mes. Nada de plantillas."
+>
+  <Header />
+  <main id="contenido">
+    <Hero />
+    <Cinta />
+    <Manifiesto />
+    <Rail code="FR-03" name="Obras" />
+    <Obras />
+    <Rail code="FR-04" name="Entregadas" />
+    <Entregadas />
+    <Rail code="FR-05" name="Cronograma" />
+    <Cronograma />
+    <Rail code="FR-06" name="Panel" />
+    <Panel />
+    <Contacto />
+  </main>
+  <Footer />
+  <script>
+    import '../scripts/app';
+  </script>
+</Base>

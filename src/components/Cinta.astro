@@ -1,0 +1,55 @@
+---
+import { CIUDADES } from '../data/site';
+const obras = ['Tiendas en línea', 'Páginas de negocio', 'Landings de campaña', 'Paneles de datos'];
+---
+<div class="cinta" aria-label="Qué construimos y dónde">
+  <div class="rail"></div>
+  <div class="cinta__row cinta__row--big" data-marquee="1">
+    {[0, 1].map((k) => (
+      <ul class="cinta__set" aria-hidden={k === 1 ? 'true' : undefined}>
+        {obras.map((o) => (
+          <li>
+            <span>{o}</span>
+            <svg class="chev" viewBox="0 0 40 40" aria-hidden="true"><path d="M8 6h12l12 14-12 14H8l12-14z" /></svg>
+          </li>
+        ))}
+      </ul>
+    ))}
+  </div>
+  <div class="cinta__row cinta__row--small" data-marquee="-1">
+    {[0, 1].map((k) => (
+      <ul class="cinta__set" aria-hidden={k === 1 ? 'true' : undefined}>
+        <li class="t-plate cinta__lead">Cobertura</li>
+        {CIUDADES.map((c) => <li class="t-plate">{c}</li>)}
+        <li class="t-plate">y toda Colombia</li>
+      </ul>
+    ))}
+  </div>
+  <div class="rail"></div>
+</div>
+
+<style>
+  .cinta { background: var(--ink); overflow: hidden; }
+  .cinta__row { display: flex; width: max-content; }
+  .cinta__set { display: flex; align-items: center; list-style: none; margin: 0; padding: 0; flex: none; }
+  .cinta__row--big { padding-block: clamp(14px, 1.8vw, 26px) clamp(8px, 1vw, 14px); animation: cinta 38s linear infinite; }
+  .cinta__row--big li {
+    display: flex; align-items: center; gap: clamp(18px, 2.2vw, 34px); padding-right: clamp(18px, 2.2vw, 34px);
+    font-family: var(--font-display); font-weight: 850; text-transform: uppercase;
+    font-size: clamp(2.2rem, 5.4vw, 5.6rem); line-height: 1; letter-spacing: -0.03em;
+    white-space: nowrap;
+  }
+  .cinta__row--big li:nth-child(even) span { color: var(--sign-400); }
+  .chev { width: 0.62em; height: 0.62em; fill: var(--sign); }
+
+  .cinta__row--small {
+    padding-block: 10px clamp(14px, 1.6vw, 22px);
+    animation: cinta 52s linear infinite reverse;
+    border-top: 1px solid color-mix(in srgb, var(--paper) 12%, transparent);
+  }
+  .cinta__row--small li { padding-right: 34px; color: color-mix(in srgb, var(--paper) 62%, transparent); white-space: nowrap; font-size: 0.82rem; }
+  .cinta__row--small .cinta__lead { color: var(--sign-300); }
+
+  @keyframes cinta { to { transform: translateX(-50%); } }
+  @media (prefers-reduced-motion: reduce) { .cinta__row { animation: none; } }
+</style>

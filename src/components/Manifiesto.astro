@@ -1,0 +1,64 @@
+---
+const principios = [
+  { titulo: 'Primero entendemos cómo vendes', texto: 'Después dibujamos la página que tu negocio necesita. Y solo entonces se escribe una línea de código.' },
+  { titulo: 'Cada pantalla tiene un objetivo', texto: 'Que el visitante entienda, confíe y compre. Nada decorativo que no aporte.' },
+  { titulo: 'Salir al aire no es el final', texto: 'Medimos, ajustamos y te contamos qué cambió, mes a mes.' },
+];
+---
+<section id="manifiesto" class="mani" data-frente="manifiesto" aria-labelledby="mani-title">
+  <div class="wrap">
+    <h2 id="mani-title" class="mani__statement t-display" data-words>
+      Una plantilla te hace uno más. <span class="mani__hi">Nosotros te hacemos el único.</span>
+    </h2>
+
+    <div class="mani__grid">
+      <figure class="mani__photo duo" data-clip>
+        <img src="/fotos/diagnostico.jpg" alt="Reunión de diagnóstico alrededor de una mesa con libreta y tableta" loading="lazy" width="1400" height="1000" />
+        <figcaption class="t-plate">Diagnóstico · antes de diseñar</figcaption>
+      </figure>
+      <ol class="mani__list">
+        {principios.map((p) => (
+          <li data-rise>
+            <h3>{p.titulo}</h3>
+            <p>{p.texto}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </div>
+</section>
+
+<style>
+  .mani { background: var(--ink); padding-block: clamp(96px, 13vw, 200px) clamp(80px, 10vw, 160px); }
+  .mani__statement {
+    font-size: clamp(2.5rem, 6.6vw, 7rem);
+    line-height: 0.92; max-width: 15ch;
+    color: var(--paper);
+  }
+  .mani__hi { color: var(--sign-400); }
+  :global(.mani__statement .w) { display: inline-block; }
+
+  .mani__grid {
+    margin-top: clamp(64px, 8vw, 128px);
+    display: grid; grid-template-columns: minmax(0, 5fr) minmax(0, 6fr);
+    gap: clamp(32px, 6vw, 110px); align-items: start;
+  }
+  .mani__photo { aspect-ratio: 4 / 3; }
+  .mani__photo figcaption {
+    position: absolute; left: 0; bottom: 0; z-index: 2;
+    background: var(--ink); color: var(--paper); padding: 8px 12px;
+  }
+
+  .mani__list { list-style: none; margin: 0; padding: 0; }
+  .mani__list li {
+    padding-block: clamp(22px, 2.4vw, 34px);
+    border-top: 1px solid color-mix(in srgb, var(--paper) 18%, transparent);
+  }
+  .mani__list li:last-child { border-bottom: 1px solid color-mix(in srgb, var(--paper) 18%, transparent); }
+  .mani__list h3 { font-weight: 800; font-size: clamp(1.45rem, 2.2vw, 2.1rem); line-height: 1.08; letter-spacing: -0.015em; }
+  .mani__list p { margin-top: 10px; max-width: 48ch; color: color-mix(in srgb, var(--paper) 74%, transparent); font-size: clamp(1rem, 1.15vw, 1.15rem); }
+
+  @media (max-width: 860px) {
+    .mani__grid { grid-template-columns: 1fr; }
+  }
+</style>

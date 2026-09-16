@@ -1,0 +1,142 @@
+﻿---
+import Icon from './Icon.astro';
+import { FRENTES } from '../data/site';
+const nav = [
+  { href: '#obras', label: 'Obras' },
+  { href: '#entregadas', label: 'Entregadas' },
+  { href: '#cronograma', label: 'Cronograma' },
+  { href: '#panel', label: 'Panel' },
+];
+---
+<header class="hdr" data-hdr>
+  <div class="hdr__bar wrap">
+    <a href="#inicio" class="mark" aria-label="DukeNet, ir al inicio">
+      <span class="mark__duke">DUKE</span><span class="mark__net">NET</span>
+    </a>
+
+    <div class="frente t-plate" aria-hidden="true">
+      <span class="frente__code" data-frente-code>{FRENTES[0].code}</span>
+      <span class="frente__name" data-frente-name>{FRENTES[0].name}</span>
+    </div>
+
+    <nav class="hdr__nav" aria-label="Principal">
+      <ul>
+        {nav.map((n) => <li><a href={n.href} data-navlink={n.href.slice(1)}>{n.label}</a></li>)}
+      </ul>
+    </nav>
+
+    <div class="hdr__actions">
+      <a href="#contacto" class="plate plate--sign plate--sm hdr__cta">Cotizar <Icon name="arrow-ur" /></a>
+      <button class="hdr__toggle" type="button" aria-expanded="false" aria-controls="menu" data-menu-toggle>
+        <span class="sr-only" data-menu-label>Abrir menú</span>
+        <Icon name="menu" class="i-open" />
+        <Icon name="close" class="i-close" />
+      </button>
+    </div>
+  </div>
+
+  <div class="avance" aria-hidden="true">
+    <div class="avance__fill" data-avance></div>
+  </div>
+
+  <div class="menu" id="menu" data-menu hidden>
+    <nav aria-label="Menú móvil" class="wrap">
+      <ol>
+        {nav.map((n, i) => (
+          <li>
+            <a href={n.href} data-menu-link>
+              <span class="t-plate">FR-0{i + 3}</span>
+              <span class="menu__label">{n.label}</span>
+            </a>
+          </li>
+        ))}
+      </ol>
+      <a href="#contacto" class="plate plate--sign menu__cta" data-menu-link>Cotizar mi obra <Icon name="arrow-ur" /></a>
+    </nav>
+  </div>
+</header>
+
+<style>
+  .hdr {
+    position: fixed; inset: 0 0 auto 0; z-index: 100;
+    background: color-mix(in srgb, var(--ink) 92%, transparent);
+    backdrop-filter: blur(14px) saturate(1.2);
+    -webkit-backdrop-filter: blur(14px) saturate(1.2);
+    border-bottom: 1px solid color-mix(in srgb, var(--paper) 10%, transparent);
+  }
+  .hdr__bar { display: flex; align-items: center; gap: 24px; height: 64px; }
+
+  .mark {
+    display: inline-flex; align-items: center; gap: 3px;
+    font-family: var(--font-display); font-weight: 900; font-size: 1.45rem;
+    letter-spacing: -0.01em; text-decoration: none; line-height: 1;
+  }
+  .mark__net {
+    background: var(--sign); color: var(--ink);
+    padding: 0.2em 0.28em 0.08em; border-radius: 4px;
+    box-shadow: inset 0 0 0 1.5px var(--ink), inset 0 0 0 3px var(--paper);
+  }
+
+  .hdr__nav { margin-left: auto; }
+  .hdr__nav ul { display: flex; gap: clamp(18px, 2.4vw, 38px); list-style: none; margin: 0; padding: 0; }
+  .hdr__nav a {
+    position: relative; display: block; padding: 8px 0;
+    font-family: var(--font-display); font-weight: 650; font-size: 0.92rem; letter-spacing: 0.06em;
+    text-transform: uppercase; text-decoration: none;
+    color: color-mix(in srgb, var(--paper) 72%, transparent);
+    transition: color 0.3s var(--ease-out);
+  }
+  .hdr__nav a::after {
+    content: ''; position: absolute; left: 0; right: 0; bottom: 2px; height: 2px;
+    background: var(--sign); transform: scaleX(0); transform-origin: left;
+    transition: transform 0.5s var(--ease-out);
+  }
+  .hdr__nav a:hover, .hdr__nav a[aria-current='true'] { color: var(--paper); }
+  .hdr__nav a:hover::after, .hdr__nav a[aria-current='true']::after { transform: scaleX(1); }
+
+  .hdr__actions { display: flex; align-items: center; gap: 10px; }
+  .hdr__toggle {
+    display: none; width: 46px; height: 46px; place-items: center;
+    background: transparent; border: 1.5px solid color-mix(in srgb, var(--paper) 35%, transparent);
+    border-radius: var(--radius-plate); cursor: pointer;
+  }
+  .hdr__toggle :global(svg) { width: 22px; height: 22px; grid-area: 1 / 1; }
+  .hdr__toggle :global(.i-close) { opacity: 0; }
+  .hdr__toggle[aria-expanded='true'] :global(.i-open) { opacity: 0; }
+  .hdr__toggle[aria-expanded='true'] :global(.i-close) { opacity: 1; }
+
+  .avance { position: relative; height: 3px; background: color-mix(in srgb, var(--paper) 8%, transparent); }
+  .avance__fill { position: absolute; inset: 0; background: var(--sign); transform: scaleX(0); transform-origin: left; }
+  .frente {
+    display: flex; align-items: center; gap: 8px; margin-left: 10px;
+    padding-left: 18px; border-left: 1px solid color-mix(in srgb, var(--paper) 18%, transparent);
+    color: color-mix(in srgb, var(--paper) 70%, transparent); overflow: hidden; height: 22px;
+  }
+  .frente__code { color: var(--sign-300); border: 1px solid color-mix(in srgb, var(--sign) 60%, transparent); padding: 2px 6px 1px; }
+
+  .menu {
+    position: fixed; inset: 67px 0 0 0; background: var(--ink); overflow-y: auto;
+    padding-block: 28px 40px;
+  }
+  .menu ol { list-style: none; margin: 0; padding: 0; }
+  .menu li { border-bottom: 1px solid color-mix(in srgb, var(--paper) 14%, transparent); }
+  .menu li a { display: flex; align-items: baseline; gap: 16px; padding: 18px 0; text-decoration: none; }
+  .menu li .t-plate { color: var(--sign-400); }
+  .menu__label { font-family: var(--font-display); font-weight: 850; font-size: clamp(2.2rem, 11vw, 3.4rem); text-transform: uppercase; line-height: 0.95; letter-spacing: -0.03em; }
+  .menu__cta { margin-top: 32px; width: 100%; justify-content: space-between; }
+
+  @media (max-width: 860px) {
+    .hdr__nav { display: none; }
+    .hdr__actions { margin-left: auto; }
+    .hdr__toggle { display: grid; }
+  }
+  @media (max-width: 1060px) {
+    .frente__name { display: none; }
+  }
+  @media (max-width: 380px) {
+    .frente { display: none; }
+  }
+  @media (max-width: 420px) {
+    .hdr__cta { display: none; }
+  }
+</style>

@@ -1,0 +1,235 @@
+---
+import { FASES } from '../data/site';
+
+// Measured off public/obras/gato-galletero.jpg (1440 wide); the stage shows its first 900px.
+const W = 1440, H = 900;
+const wire = [
+  { id: 'hdr', x: 0, y: 0, w: 1440, h: 140, label: 'Encabezado' },
+  { id: 'cat', x: 0, y: 143, w: 1440, h: 65, label: 'Categorías' },
+  { id: 'hero', x: 0, y: 208, w: 1440, h: 502, label: 'Portada' },
+  { id: 'tit', x: 448, y: 318, w: 544, h: 137, label: 'Titular' },
+  { id: 'btn', x: 599, y: 550, w: 242, h: 48, label: 'Botón comprar' },
+  { id: 'catalogo', x: 0, y: 740, w: 1440, h: 160, label: 'Catálogo' },
+];
+const notas = [
+  { x: 6, y: 16, r: -3, t: 'Vende papelería y accesorios para amantes de los gatos' },
+  { x: 38, y: 44, r: 2, t: 'Cada compra apoya el rescate de gatos' },
+  { x: 66, y: 20, r: -1.5, t: 'Envíos a toda Colombia' },
+];
+---
+<section id="cronograma" class="crono" data-frente="cronograma" aria-labelledby="crono-title" data-crono>
+  <div class="wrap crono__head">
+    <h2 id="crono-title" class="t-display crono__title" data-rise>Cinco fases,<br />cero misterio</h2>
+    <p class="crono__intro" data-rise>Así avanza una obra, contada con la tienda de El Gato Galletero. Baja despacio: se construye contigo.</p>
+  </div>
+
+  <div class="crono__pin" data-crono-pin>
+    <div class="wrap crono__grid">
+      <div class="crono__left">
+        <ol class="track" aria-hidden="true">
+          {FASES.map((f, i) => (
+            <li data-track={i}><span class="track__fill"></span><span class="track__n t-plate">{f.n}</span></li>
+          ))}
+        </ol>
+        <ol class="fases" data-fases>
+          {FASES.map((f, i) => (
+            <li class={`fase ${i === 0 ? 'is-on' : ''}`} data-fase={i}>
+              <h3 class="fase__nombre">{f.nombre}</h3>
+              <p class="fase__texto">{f.texto}</p>
+              <p class="fase__entrega t-plate">Entregable · {f.entrega}</p>
+            </li>
+          ))}
+        </ol>
+      </div>
+
+      <figure class="obra" data-obra aria-label="Animación: una página web pasa de notas y planos a diseño y al sitio publicado de El Gato Galletero">
+        <div class="obra__bar" aria-hidden="true">
+          <span class="obra__dots"><i></i><i></i><i></i></span>
+          <span class="obra__url t-plate"><span data-url>borrador · diagnóstico</span><span class="obra__caret"></span></span>
+        </div>
+
+        <div class="obra__stage" aria-hidden="true">
+          <svg class="obra__svg" viewBox={`0 0 ${W} ${H}`} preserveAspectRatio="xMidYMin slice">
+            <defs>
+              <pattern id="obra-grid" width="48" height="48" patternUnits="userSpaceOnUse">
+                <path d="M48 0H0V48" fill="none" stroke="currentColor" stroke-width="1" />
+              </pattern>
+              <marker id="cota-a" viewBox="0 0 10 10" refX="5" refY="5" markerWidth="12" markerHeight="12" orient="auto-start-reverse">
+                <path d="M0 0 10 5 0 10" fill="none" stroke="currentColor" stroke-width="1.6" />
+              </marker>
+              <clipPath id="obra-reveal"><rect data-reveal-rect x="0" y="0" width="0" height={H} /></clipPath>
+            </defs>
+
+            <rect class="obra__grid" data-layer="grid" width={W} height={H} fill="url(#obra-grid)" />
+
+            <g class="skel" data-layer="skel">
+              <rect x="0" y="0" width="1440" height="140" class="s-light" />
+              <rect x="52" y="62" width="380" height="55" rx="27" class="s-mid" />
+              <rect x="646" y="58" width="160" height="66" class="s-dark" />
+              {[916, 1030, 1150].map((x) => <rect x={x} y="80" width="90" height="19" class="s-mid" />)}
+              <rect x="0" y="143" width="1440" height="65" class="s-light2" />
+              {[253, 390, 520, 660, 820, 980, 1100].map((x) => <rect x={x} y="160" width="96" height="32" rx="16" class="s-mid" />)}
+              <rect x="0" y="208" width="1440" height="502" class="s-hero" />
+              <rect x="448" y="318" width="544" height="58" class="s-ink" />
+              <rect x="520" y="396" width="400" height="58" class="s-ink" />
+              <rect x="457" y="480" width="526" height="14" class="s-mid" />
+              <rect x="520" y="506" width="400" height="14" class="s-mid" />
+              <rect x="599" y="550" width="242" height="48" rx="24" class="s-ink" />
+              {[439, 604, 790].map((x) => <rect x={x} y="625" width="150" height="37" rx="18" class="s-light" />)}
+              <rect x="0" y="710" width="1440" height="190" class="s-light2" />
+              <rect x="567" y="793" width="307" height="35" rx="17" class="s-light" />
+              <rect x="430" y="851" width="580" height="49" class="s-ink" />
+            </g>
+
+            <image data-layer="shot" href="/obras/gato-galletero.jpg" x="0" y="0" width="1440" height="2600" preserveAspectRatio="xMidYMin slice" clip-path="url(#obra-reveal)" />
+            <line class="obra__scan" data-scan x1="0" y1="0" x2="0" y2={H} />
+
+            <g class="wire" data-layer="wire">
+              {wire.map((b) => (
+                <g data-wire>
+                  <rect x={b.x + 6} y={b.y + 6} width={b.w - 12} height={b.h - 12} class="wire__box" pathLength="1" />
+                  <text x={b.x + 22} y={b.y + 38} class="wire__label">{b.label.toUpperCase()}</text>
+                </g>
+              ))}
+            </g>
+
+            <g class="cotas" data-layer="cotas">
+              <g data-cota>
+                <line x1="24" y1="20" x2="24" y2="134" marker-start="url(#cota-a)" marker-end="url(#cota-a)" pathLength="1" />
+                <text x="40" y="84" class="cota__t">140</text>
+              </g>
+              <g data-cota>
+                <line x1="599" y1="624" x2="841" y2="624" marker-start="url(#cota-a)" marker-end="url(#cota-a)" pathLength="1" />
+                <text x="720" y="660" class="cota__t" text-anchor="middle">242</text>
+              </g>
+              <g data-cota>
+                <line x1="30" y1="690" x2="1410" y2="690" marker-start="url(#cota-a)" marker-end="url(#cota-a)" pathLength="1" />
+                <text x="720" y="732" class="cota__t" text-anchor="middle">1440 · ANCHO DE PANTALLA</text>
+              </g>
+            </g>
+          </svg>
+
+          <div class="notas" data-layer="notas">
+            {notas.map((n) => (
+              <p class="nota" style={`left:${n.x}%;top:${n.y}%;--r:${n.r}deg`} data-nota>{n.t}</p>
+            ))}
+          </div>
+
+          <div class="sello" data-sello><span class="t-plate">elgatogalletero.com</span><strong>En línea</strong></div>
+
+          <div class="reporte" data-reporte>
+            <div class="reporte__head"><span>Reporte del mes</span><span class="t-plate">Ejemplo</span></div>
+            <div class="reporte__bars">
+              {[34, 46, 41, 62, 70, 88].map((v) => <i style={`--v:${v}%`} data-rbar></i>)}
+            </div>
+            <p class="reporte__foot t-plate">Qué subió · qué ajustamos</p>
+          </div>
+        </div>
+      </figure>
+    </div>
+  </div>
+</section>
+
+<style>
+  .crono { position: relative; background: var(--sign-900); color: var(--paper); padding-top: clamp(88px, 10vw, 150px); }
+  .crono__head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 20px 60px; }
+  .crono__title { font-size: clamp(2.5rem, 5.8vw, 6.2rem); }
+  .crono__intro { max-width: 32ch; font-size: clamp(1.02rem, 1.2vw, 1.2rem); color: color-mix(in srgb, var(--paper) 78%, transparent); }
+
+  .crono__pin { min-height: 100svh; display: flex; align-items: center; padding-block: 96px 48px; }
+  .crono__grid { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: clamp(28px, 4vw, 72px); align-items: center; }
+
+  .track { list-style: none; margin: 0 0 clamp(24px, 3vw, 40px); padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+  .track li { position: relative; height: 4px; background: color-mix(in srgb, var(--paper) 16%, transparent); }
+  .track__fill { position: absolute; inset: 0; background: var(--sign-300); transform-origin: left; transform: scaleX(1); }
+  :global(html.motion:not(.rm)) .track__fill { transform: scaleX(0); }
+  .track__n { position: absolute; left: 0; top: 12px; font-size: 0.68rem; color: color-mix(in srgb, var(--paper) 55%, transparent); }
+
+  .fases { list-style: none; margin: 34px 0 0; padding: 0; display: grid; gap: 28px; }
+  .fase__nombre { font-weight: 850; text-transform: uppercase; font-size: clamp(2rem, 3.2vw, 3.4rem); line-height: 0.92; letter-spacing: -0.03em; }
+  .fase__texto { margin-top: 14px; max-width: 40ch; color: color-mix(in srgb, var(--paper) 80%, transparent); font-size: clamp(1rem, 1.15vw, 1.15rem); }
+  .fase__entrega { margin-top: 16px; display: inline-block; background: var(--paper); color: var(--ink); padding: 5px 9px 4px; }
+  :global(html.motion:not(.rm)) .fases { display: grid; grid-template-areas: 'stack'; }
+  :global(html.motion:not(.rm)) .fase { grid-area: stack; opacity: 0; visibility: hidden; transform: translateY(18px); transition: opacity 0.45s var(--ease-out), transform 0.6s var(--ease-out), visibility 0s linear 0.45s; }
+  :global(html.motion:not(.rm)) .fase.is-on { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }
+
+  /* ── The build stage ── */
+  .obra {
+    background: var(--ink); border: 1px solid color-mix(in srgb, var(--sign-400) 35%, transparent);
+    box-shadow: 0 50px 100px -50px #000;
+  }
+  .obra__bar { display: flex; align-items: center; gap: 14px; height: 40px; padding: 0 14px; background: var(--ink-2); border-bottom: 1px solid color-mix(in srgb, var(--paper) 12%, transparent); }
+  .obra__dots { display: flex; gap: 6px; }
+  .obra__dots i { width: 9px; height: 9px; border-radius: 50%; background: var(--concrete-700); }
+  .obra__dots i:first-child { background: var(--sign); }
+  .obra__url {
+    flex: 1; max-width: 420px; margin-inline: auto; display: flex; align-items: center; justify-content: center; gap: 2px;
+    background: var(--ink-3); color: var(--sign-200); padding: 5px 10px; text-transform: none; letter-spacing: 0.03em; font-size: 0.74rem;
+  }
+  .obra__caret { width: 7px; height: 13px; background: var(--sign-300); animation: caret 1s steps(1) infinite; }
+  @keyframes caret { 50% { opacity: 0; } }
+
+  .obra__stage { position: relative; aspect-ratio: 16 / 10; overflow: hidden; background: var(--sign-900); }
+  .obra__svg { position: absolute; inset: 0; width: 100%; height: 100%; display: block; }
+  .obra__grid { color: color-mix(in srgb, var(--sign-400) 22%, transparent); }
+
+  .skel rect { transform-box: fill-box; transform-origin: left center; }
+  .s-light { fill: #e9e9ec; }
+  .s-light2 { fill: #dcdce2; }
+  .s-mid { fill: #b9bac2; }
+  .s-dark { fill: #6f7079; }
+  .s-ink { fill: #26272c; }
+  .s-hero { fill: #cfd0d8; }
+
+  .obra__scan { stroke: var(--sign-300); stroke-width: 4; opacity: 0; filter: drop-shadow(0 0 10px var(--sign-300)); }
+
+  .wire__box { fill: none; stroke: var(--sign-300); stroke-width: 2.5; }
+  .wire__label { font-family: var(--font-plate); font-size: 20px; letter-spacing: 2px; fill: var(--sign-200); }
+  .cotas { color: var(--paper); }
+  .cotas line { stroke: currentColor; stroke-width: 2; }
+  .cota__t { font-family: var(--font-plate); font-size: 22px; letter-spacing: 1px; fill: var(--paper); paint-order: stroke; stroke: var(--sign-900); stroke-width: 6px; }
+
+  .notas { position: absolute; inset: 0; pointer-events: none; }
+  .nota {
+    position: absolute; width: min(30%, 240px); padding: 12px 14px 16px;
+    background: var(--paper); color: var(--ink); transform: rotate(var(--r));
+    font-weight: 650; font-size: clamp(0.62rem, 1.05vw, 0.98rem); line-height: 1.25;
+    box-shadow: 0 14px 28px -10px color-mix(in srgb, #000 60%, transparent);
+  }
+  .nota::before { content: ''; position: absolute; left: 50%; top: -7px; width: 34%; height: 14px; transform: translateX(-50%) rotate(-2deg); background: color-mix(in srgb, var(--sign-300) 70%, transparent); }
+
+  .sello {
+    position: absolute; right: 4%; top: 7%; display: grid; justify-items: center; gap: 2px;
+    background: var(--sign); color: var(--ink); padding: 10px 18px 8px;
+    box-shadow: inset 0 0 0 3px var(--sign), inset 0 0 0 5px var(--ink), 0 18px 30px -12px #000;
+    border-radius: 8px;
+  }
+  .sello strong { font-family: var(--font-display); font-weight: 900; text-transform: uppercase; font-size: clamp(1rem, 2.2vw, 1.9rem); line-height: 1; }
+  .sello .t-plate { font-size: clamp(0.5rem, 0.8vw, 0.68rem); text-transform: none; }
+
+  .reporte {
+    position: absolute; right: 4%; bottom: 6%; width: min(40%, 300px);
+    background: var(--ink); color: var(--paper); padding: 12px 14px;
+    border: 1px solid color-mix(in srgb, var(--sign-300) 40%, transparent);
+    box-shadow: 0 24px 40px -14px #000;
+  }
+  .reporte__head { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-family: var(--font-display); font-weight: 750; text-transform: uppercase; font-size: clamp(0.62rem, 1vw, 0.9rem); }
+  .reporte__head .t-plate { background: var(--sign); color: var(--ink); padding: 2px 6px 1px; font-size: 0.6rem; }
+  .reporte__bars { margin-top: 10px; height: clamp(40px, 7vw, 90px); display: grid; grid-template-columns: repeat(6, 1fr); gap: 5px; align-items: end; }
+  .reporte__bars i { display: block; height: var(--v); background: var(--sign-700); transform-origin: bottom; }
+  .reporte__bars i:last-child { background: var(--sign-300); }
+  .reporte__foot { margin-top: 8px; font-size: 0.58rem; color: color-mix(in srgb, var(--paper) 60%, transparent); }
+
+  /* Without scroll-driven motion the stage rests on the finished site */
+  :global(html:not(.motion)) .notas, :global(html:not(.motion)) .wire, :global(html:not(.motion)) .cotas { display: none; }
+
+  @media (max-width: 960px) {
+    .crono__grid { grid-template-columns: 1fr; gap: 22px; }
+    .crono__left { order: 2; }
+    .crono__pin { padding-block: 76px 24px; align-items: flex-start; }
+    .fases { margin-top: 26px; }
+    .fase__nombre { font-size: 1.7rem; }
+    .fase__texto { font-size: 0.98rem; }
+    .track { margin-bottom: 8px; }
+  }
+</style>

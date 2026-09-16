@@ -1,0 +1,30 @@
+---
+// One stroke system for every glyph: 24px grid, 1.75 stroke, square caps.
+interface Props { name: 'arrow-ur' | 'arrow-r' | 'arrow-d' | 'whatsapp' | 'menu' | 'close' | 'check'; class?: string; label?: string }
+const { name, class: cls, label } = Astro.props;
+---
+<svg
+  class={cls}
+  viewBox="0 0 24 24"
+  fill="none"
+  stroke="currentColor"
+  stroke-width="1.75"
+  stroke-linecap="square"
+  stroke-linejoin="miter"
+  role={label ? 'img' : undefined}
+  aria-label={label}
+  aria-hidden={label ? undefined : 'true'}
+>
+  {name === 'arrow-ur' && <path d="M7 17 17 7M9 7h8v8" />}
+  {name === 'arrow-r' && <path d="M4 12h15M13 6l6 6-6 6" />}
+  {name === 'arrow-d' && <path d="M12 4v15M6 13l6 6 6-6" />}
+  {name === 'menu' && <path d="M3 7h18M3 12h18M3 17h12" />}
+  {name === 'close' && <path d="M5 5l14 14M19 5 5 19" />}
+  {name === 'check' && <path d="m4.5 12.5 4.5 4.5L19.5 6.5" />}
+  {name === 'whatsapp' && (
+    <>
+      <path d="M4.2 20l1.1-4A8.3 8.3 0 1 1 8.3 19z" stroke-linejoin="round" stroke-linecap="round" />
+      <path d="M9.1 8.4c.2-.4.5-.5.8-.5h.5l.9 2.1-.7.9c.4.9 1.3 1.8 2.3 2.3l.9-.7 2.1.9v.5c0 .3-.1.6-.5.8-.6.4-1.3.4-2 .1a8 8 0 0 1-4.3-4.3c-.3-.7-.3-1.4 0-2.1z" stroke-width="1.4" stroke-linejoin="round" />
+    </>
+  )}
+</svg>

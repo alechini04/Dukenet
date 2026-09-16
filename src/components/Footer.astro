@@ -1,0 +1,87 @@
+﻿---
+import Icon from './Icon.astro';
+import { WHATSAPP, wa } from '../data/site';
+---
+<footer class="pie">
+  <div class="wrap">
+    <p class="pie__mark" aria-label="DukeNet">
+      <span aria-hidden="true">DUKE</span><span class="pie__net" aria-hidden="true">NET</span>
+    </p>
+    <div class="pie__grid">
+      <p class="pie__claim">Desarrollo web a medida para negocios de toda Colombia.</p>
+      <nav aria-label="Contacto y obras" class="pie__cols">
+        <div>
+          <span class="t-plate">WhatsApp</span>
+          <ul>
+            {WHATSAPP.map((w) => <li><a href={wa(w.tel)} target="_blank" rel="noopener">{w.label}</a></li>)}
+          </ul>
+        </div>
+        <div>
+          <span class="t-plate">Obras entregadas</span>
+          <ul>
+            <li><a href="https://www.elgatogalletero.com/" target="_blank" rel="noopener">elgatogalletero.com</a></li>
+            <li><a href="https://suue.shop/" target="_blank" rel="noopener">suue.shop</a></li>
+          </ul>
+        </div>
+        <div>
+          <span class="t-plate">Sitio</span>
+          <ul>
+            <li><a href="#obras">Obras</a></li>
+            <li><a href="#cronograma">Cronograma</a></li>
+            <li><a href="#contacto">Cotizar</a></li>
+          </ul>
+        </div>
+      </nav>
+    </div>
+    <div class="pie__base">
+      <span class="t-plate">© 2026 DukeNet</span>
+      <a href="#inicio" class="t-plate pie__top">Volver arriba <Icon name="arrow-ur" /></a>
+    </div>
+  </div>
+</footer>
+
+<a class="flota plate plate--sign is-hidden" href={wa(WHATSAPP[0].tel, 'Hola DukeNet, quiero información para la web de mi negocio.')} target="_blank" rel="noopener" data-flota aria-label="Escríbenos por WhatsApp">
+  <Icon name="whatsapp" /><span>Escríbenos</span>
+</a>
+
+<style>
+  .pie { background: var(--ink); padding-block: clamp(80px, 10vw, 150px) 28px; }
+  .pie__mark {
+    display: flex; align-items: center; gap: 0.04em;
+    font-family: var(--font-display); font-weight: 900; line-height: 0.8;
+    font-size: clamp(4rem, 17.5vw, 19rem); letter-spacing: -0.045em;
+  }
+  .pie__net {
+    background: var(--sign); color: var(--ink); border-radius: 0.07em;
+    padding: 0.17em 0.09em 0.03em; margin-left: 0.05em; line-height: 0.76;
+    box-shadow: inset 0 0 0 0.018em var(--ink), inset 0 0 0 0.036em var(--paper);
+  }
+  .pie__grid { margin-top: clamp(40px, 5vw, 70px); display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 36px; padding-top: 28px; border-top: 1px solid color-mix(in srgb, var(--paper) 16%, transparent); }
+  .pie__claim { max-width: 26ch; font-size: clamp(1.2rem, 1.8vw, 1.7rem); font-weight: 700; line-height: 1.2; }
+  .pie__cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+  .pie__cols .t-plate { color: var(--sign-400); }
+  .pie__cols ul { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 8px; }
+  .pie__cols a { text-decoration: none; color: color-mix(in srgb, var(--paper) 80%, transparent); transition: color 0.3s; }
+  .pie__cols a:hover { color: var(--paper); text-decoration: underline; text-decoration-color: var(--sign); }
+  .pie__base { margin-top: 56px; display: flex; justify-content: space-between; gap: 16px; color: color-mix(in srgb, var(--paper) 55%, transparent); }
+  .pie__top { display: inline-flex; align-items: center; gap: 6px; text-decoration: none; }
+  .pie__top :global(svg) { width: 14px; height: 14px; transform: rotate(-45deg); }
+  .pie__top:hover { color: var(--paper); }
+
+  .flota {
+    position: fixed; right: clamp(14px, 2vw, 26px); bottom: clamp(14px, 2vw, 26px); z-index: 90;
+    box-shadow: 0 16px 34px -10px color-mix(in srgb, #000 70%, transparent);
+    transition: opacity 0.4s, transform 0.5s var(--ease-out), color 0.45s var(--ease-out), border-color 0.45s;
+  }
+  .flota.is-hidden { opacity: 0; transform: translateY(20px); pointer-events: none; }
+  .flota :global(svg) { width: 1.3em; height: 1.3em; }
+
+  @media (max-width: 760px) {
+    .pie__grid { grid-template-columns: 1fr; }
+    .pie__cols { grid-template-columns: 1fr 1fr; }
+  }
+  @media (max-width: 480px) {
+    .flota { min-height: 52px; padding: 0 16px; }
+    .flota span { display: none; }
+  }
+</style>
