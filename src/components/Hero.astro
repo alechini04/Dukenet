@@ -23,9 +23,11 @@ import { WHATSAPP, wa, FASES } from '../data/site';
           </p>
           <div class="hero__cta">
             <a class="plate" href="#contacto">Cotizar mi obra <Icon name="arrow-ur" /></a>
-            <a class="plate plate--ghost-dark" href={wa(WHATSAPP[0].tel, 'Hola DukeNet, quiero información para la web de mi negocio.')} target="_blank" rel="noopener">
-              <Icon name="whatsapp" /> {WHATSAPP[0].label}
-            </a>
+            {WHATSAPP.map((w) => (
+              <a class="plate plate--ghost-dark" href={wa(w.tel, 'Hola DukeNet, quiero información para la web de mi negocio.')} target="_blank" rel="noopener">
+                <Icon name="whatsapp" /> {w.label}
+              </a>
+            ))}
           </div>
         </div>
 
