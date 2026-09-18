@@ -33,6 +33,14 @@
   --font-body: 'Overpass Variable', 'Overpass', system-ui, sans-serif;
   --font-plate: 'Overpass Mono Variable', 'Overpass Mono', ui-monospace, monospace;
 
+  /* Small-text ramp. Fluid display sizes stay per component; everything under 1rem uses these. */
+  --fs-micro: 0.62rem;  /* chart days, stage captions */
+  --fs-mini: 0.7rem;    /* dashboard labels, frente codes */
+  --fs-plate: 0.74rem;  /* .t-plate: ficha terms, plate codes */
+  --fs-small: 0.85rem;  /* secondary copy, small plates, links */
+  --fs-note: 0.92rem;   /* nav, form status, compact titles */
+  --fs-base: 1rem;      /* plates, ficha values */
+
   --gutter: clamp(16px, 3.2vw, 44px);
   --max: 1520px;
   --radius-sign: clamp(12px, 1.4vw, 22px);
@@ -103,7 +111,7 @@ html { scrollbar-color: var(--sign) var(--ink); }
 .t-plate {
   font-family: var(--font-plate);
   font-weight: 500;
-  font-size: 0.75rem;
+  font-size: var(--fs-plate);
   letter-spacing: 0.08em;
   text-transform: uppercase;
   font-variant-numeric: tabular-nums;
@@ -125,7 +133,7 @@ html { scrollbar-color: var(--sign) var(--ink); }
   border-radius: var(--radius-plate);
   font-family: var(--font-display);
   font-weight: 750;
-  font-size: 1rem;
+  font-size: var(--fs-base);
   letter-spacing: 0.04em;
   text-transform: uppercase;
   text-decoration: none;
@@ -153,7 +161,7 @@ html { scrollbar-color: var(--sign) var(--ink); }
 .plate--sign { --plate-bg: var(--sign); --plate-fg: var(--ink); --plate-line: var(--sign); --plate-hover-bg: var(--paper); --plate-hover-fg: var(--ink); }
 .plate--ghost-light { --plate-bg: transparent; --plate-fg: var(--paper); --plate-line: color-mix(in srgb, var(--paper) 55%, transparent); --plate-hover-bg: var(--paper); --plate-hover-fg: var(--ink); }
 .plate--ghost-dark { --plate-bg: transparent; --plate-fg: var(--ink); --plate-line: color-mix(in srgb, var(--ink) 70%, transparent); --plate-hover-bg: var(--ink); --plate-hover-fg: var(--paper); }
-.plate--sm { min-height: 42px; font-size: 0.85rem; padding: 0 1em; }
+.plate--sm { min-height: 42px; font-size: var(--fs-small); padding: 0 1em; }
 
 /* Sign fixings */
 .bolt {

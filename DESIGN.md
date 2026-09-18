@@ -183,6 +183,31 @@ A three-material palette: blue sign panel, black ink ground, reflective white pl
 - **Button** (750, 1rem, 0.04em, uppercase): plates and nav (nav at 650, 0.92rem, 0.06em).
 - **Label** (Mono 500, 0.75rem, 0.08em, uppercase, tabular numerals): plate codes, ficha terms (0.72rem, 0.06em), captions, chart axes. Header labels in ficha heads step to 700.
 
+### Scale reference (as built)
+Everything under 1rem comes from six tokens in `global.css`; a new small size means picking the nearest step, not inventing one.
+
+| Token | Size | Used for |
+| --- | --- | --- |
+| `--fs-micro` | 0.62rem | chart day labels, stage captions, the smallest legends |
+| `--fs-mini` | 0.7rem | dashboard block labels, frente codes, KPI terms |
+| `--fs-plate` | 0.74rem | `.t-plate`: ficha terms, plate codes, form labels |
+| `--fs-small` | 0.85rem | secondary copy, ticker cities, small plates, case links |
+| `--fs-note` | 0.92rem | nav items, form status, compact titles |
+| `--fs-base` | 1rem | plates, ficha values |
+
+Display and headline sizes stay per component as `clamp()` pairs, because each one is tuned to its own container: hero `clamp(3rem, min(8.8vw, 15.5svh), 9.4rem)`, section headlines `clamp(2.5–2.6rem, 5.8–6.8vw, 6.2–7.2rem)`, object titles `clamp(1.8–2.2rem, 3.2–4.2vw, 3–4.4rem)`, leads `clamp(1.02–1.08rem, 1.2–1.35vw, 1.2–1.35rem)`, footer wordmark `clamp(4rem, 17.5vw, 19rem)`. Inside the Cronograma stage, type is set in the SVG's own 1440×900 units (20–22px), so it scales with the frame.
+
+### Corner reference (as built)
+Square is the default (`--radius-plate: 0`). The only non-zero radii, and the one reason each is allowed:
+
+| Value | Where | Why |
+| --- | --- | --- |
+| `--radius-sign` clamp(12px, 1.4vw, 22px) | hero valla, closing sign | it is a road sign |
+| 8–10px | "En línea" stamp, "En obra" sign | small signs, with the same inset border |
+| 4px | wordmark NET badge | the sign at wordmark scale |
+| 6px / 14–26px / 50% | browser window, phone frame, bolts and dots | depicted physical objects |
+| 2px / 6px | focus ring, scrollbar thumb | browser chrome themed from the palette |
+
 ### Named Rules
 **The Plate Code Rule.** Mono labels name data, objects and frentes (terms, codes, captions, legends). They never sit as eyebrows above section headlines.
 

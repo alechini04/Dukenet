@@ -90,35 +90,35 @@ const embudo = [
   .dash { background: var(--ink); color: var(--paper); padding: clamp(20px, 2.4vw, 34px); box-shadow: 0 50px 90px -50px color-mix(in srgb, var(--sign-800) 90%, transparent); }
   .dash__head { display: flex; justify-content: space-between; align-items: center; padding-bottom: 16px; border-bottom: 1px solid color-mix(in srgb, var(--paper) 14%, transparent); }
   .dash__title { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; font-family: var(--font-display); font-weight: 750; text-transform: uppercase; letter-spacing: 0.02em; }
-  .dash__title .t-plate { color: color-mix(in srgb, var(--paper) 55%, transparent); font-size: 0.7rem; }
+  .dash__title .t-plate { color: color-mix(in srgb, var(--paper) 55%, transparent); font-size: var(--fs-mini); }
   .dash__ejemplo { background: var(--sign); color: var(--ink); padding: 4px 8px 3px; font-weight: 700; }
 
   .dash__kpis { margin: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
   .kpi { padding: 20px 14px 18px 0; }
   .kpi + .kpi { padding-left: 16px; border-left: 1px solid color-mix(in srgb, var(--paper) 12%, transparent); }
-  .kpi dt { color: var(--sign-300); font-size: 0.7rem; }
+  .kpi dt { color: var(--sign-300); font-size: var(--fs-mini); }
   .kpi__val { margin: 8px 0 0; font-family: var(--font-display); font-weight: 850; font-size: clamp(1.6rem, 2.7vw, 2.8rem); line-height: 1; letter-spacing: -0.03em; white-space: nowrap; }
-  .kpi__trend { margin: 10px 0 0; display: flex; flex-wrap: wrap; align-items: center; gap: 4px; color: var(--sign-300); font-size: 0.68rem; text-transform: none; letter-spacing: 0.02em; }
+  .kpi__trend { margin: 10px 0 0; display: flex; flex-wrap: wrap; align-items: center; gap: 4px; color: var(--sign-300); font-size: var(--fs-mini); text-transform: none; letter-spacing: 0.02em; }
   .kpi__trend svg { width: 11px; height: 11px; fill: none; stroke: currentColor; stroke-width: 2; }
   .kpi__trend span { color: color-mix(in srgb, var(--paper) 50%, transparent); }
 
   .dash__cols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 16px; margin-top: 6px; }
   .dash__block { background: var(--ink-2); border: 1px solid color-mix(in srgb, var(--paper) 10%, transparent); padding: 16px; }
-  .dash__label { color: color-mix(in srgb, var(--paper) 62%, transparent); font-size: 0.7rem; }
+  .dash__label { color: color-mix(in srgb, var(--paper) 62%, transparent); font-size: var(--fs-mini); }
 
   .chart { margin-top: 14px; height: 170px; display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; align-items: end; }
   .chart__col { display: grid; grid-template-rows: 1fr auto; height: 100%; gap: 6px; }
   .chart__bar { align-self: end; height: var(--h); background: var(--sign-700); transform-origin: bottom; }
   .chart__bar.is-top { background: var(--sign-300); }
-  .chart__d { text-align: center; font-size: 0.62rem; color: color-mix(in srgb, var(--paper) 50%, transparent); }
+  .chart__d { text-align: center; font-size: var(--fs-micro); color: color-mix(in srgb, var(--paper) 50%, transparent); }
 
   .embudo { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 13px; }
-  .embudo__txt { display: flex; justify-content: space-between; gap: 10px; font-size: 0.86rem; }
+  .embudo__txt { display: flex; justify-content: space-between; gap: 10px; font-size: var(--fs-small); }
   .embudo__txt .num { font-family: var(--font-plate); color: var(--sign-300); }
   .embudo__track { margin-top: 6px; height: 10px; background: color-mix(in srgb, var(--paper) 8%, transparent); overflow: hidden; }
   .embudo__fill { height: 100%; width: var(--w); background: var(--sign); transform-origin: left; }
 
-  .dash__cap { margin-top: 14px; font-size: 0.82rem; color: color-mix(in srgb, var(--paper) 58%, transparent); }
+  .dash__cap { margin-top: 14px; font-size: var(--fs-small); color: color-mix(in srgb, var(--paper) 58%, transparent); }
 
   @media (max-width: 1100px) {
     .panel-sec__grid { grid-template-columns: 1fr; }

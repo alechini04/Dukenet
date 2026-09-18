@@ -1,9 +1,25 @@
 ---
 import '../styles/global.css';
+import { WHATSAPP, CIUDADES } from '../data/site';
 
 interface Props { title: string; description: string }
 const { title, description } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
+
+// Only facts the page already states: no prices, ratings or review counts.
+const negocio = {
+  '@context': 'https://schema.org',
+  '@type': 'ProfessionalService',
+  name: 'DukeNet',
+  description,
+  url: Astro.site?.href,
+  image: new URL('/og.png', Astro.site).href,
+  inLanguage: 'es-CO',
+  telephone: WHATSAPP.map((w) => `+${w.tel}`),
+  areaServed: [{ '@type': 'Country', name: 'Colombia' }, ...CIUDADES.map((c) => ({ '@type': 'City', name: c }))],
+  serviceType: ['Tienda en línea', 'Página de negocio', 'Landing de campaña', 'Datos y acompañamiento'],
+  knowsLanguage: 'es-CO',
+};
 ---
 <!doctype html>
 <html lang="es-CO">
@@ -20,8 +36,11 @@ const canonical = new URL(Astro.url.pathname, Astro.site);
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content="DukeNet" />
     <meta property="og:image" content={new URL('/og.png', Astro.site)} />
+    <meta property="og:image:alt" content="Valla de DukeNet: no hacemos páginas bonitas, hacemos ventas" />
     <meta name="twitter:card" content="summary_large_image" />
+    <script type="application/ld+json" set:html={JSON.stringify(negocio)} />
     <script is:inline>
       // Motion opts in only when JS runs. With reduced motion requested, the page keeps fades and
       // count-ups but drops smooth scroll, pinning, parallax and travel.

@@ -143,7 +143,7 @@ const notas = [
   .track li { position: relative; height: 4px; background: color-mix(in srgb, var(--paper) 16%, transparent); }
   .track__fill { position: absolute; inset: 0; background: var(--sign-300); transform-origin: left; transform: scaleX(1); }
   :global(html.motion:not(.rm)) .track__fill { transform: scaleX(0); }
-  .track__n { position: absolute; left: 0; top: 12px; font-size: 0.68rem; color: color-mix(in srgb, var(--paper) 55%, transparent); }
+  .track__n { position: absolute; left: 0; top: 12px; font-size: var(--fs-mini); color: color-mix(in srgb, var(--paper) 55%, transparent); }
 
   .fases { list-style: none; margin: 34px 0 0; padding: 0; display: grid; gap: 28px; }
   .fase__nombre { font-weight: 850; text-transform: uppercase; font-size: clamp(2rem, 3.2vw, 3.4rem); line-height: 0.92; letter-spacing: -0.03em; }
@@ -164,7 +164,7 @@ const notas = [
   .obra__dots i:first-child { background: var(--sign); }
   .obra__url {
     flex: 1; max-width: 420px; margin-inline: auto; display: flex; align-items: center; justify-content: center; gap: 2px;
-    background: var(--ink-3); color: var(--sign-200); padding: 5px 10px; text-transform: none; letter-spacing: 0.03em; font-size: 0.74rem;
+    background: var(--ink-3); color: var(--sign-200); padding: 5px 10px; text-transform: none; letter-spacing: 0.03em; font-size: var(--fs-plate);
   }
   .obra__caret { width: 7px; height: 13px; background: var(--sign-300); animation: caret 1s steps(1) infinite; }
   @keyframes caret { 50% { opacity: 0; } }
@@ -214,11 +214,11 @@ const notas = [
     box-shadow: 0 24px 40px -14px #000;
   }
   .reporte__head { display: flex; justify-content: space-between; align-items: center; gap: 8px; font-family: var(--font-display); font-weight: 750; text-transform: uppercase; font-size: clamp(0.62rem, 1vw, 0.9rem); }
-  .reporte__head .t-plate { background: var(--sign); color: var(--ink); padding: 2px 6px 1px; font-size: 0.6rem; }
+  .reporte__head .t-plate { background: var(--sign); color: var(--ink); padding: 2px 6px 1px; font-size: var(--fs-micro); }
   .reporte__bars { margin-top: 10px; height: clamp(40px, 7vw, 90px); display: grid; grid-template-columns: repeat(6, 1fr); gap: 5px; align-items: end; }
   .reporte__bars i { display: block; height: var(--v); background: var(--sign-700); transform-origin: bottom; }
   .reporte__bars i:last-child { background: var(--sign-300); }
-  .reporte__foot { margin-top: 8px; font-size: 0.58rem; color: color-mix(in srgb, var(--paper) 60%, transparent); }
+  .reporte__foot { margin-top: 8px; font-size: var(--fs-micro); color: color-mix(in srgb, var(--paper) 60%, transparent); }
 
   /* Without scroll-driven motion the stage rests on the finished site */
   :global(html:not(.motion)) .notas, :global(html:not(.motion)) .wire, :global(html:not(.motion)) .cotas { display: none; }
@@ -229,7 +229,7 @@ const notas = [
     .crono__pin { padding-block: 76px 24px; align-items: flex-start; }
     .fases { margin-top: 26px; }
     .fase__nombre { font-size: 1.7rem; }
-    .fase__texto { font-size: 0.98rem; }
+    .fase__texto { font-size: var(--fs-base); }
     .track { margin-bottom: 8px; }
   }
 </style>

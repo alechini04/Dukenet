@@ -116,7 +116,7 @@ const opciones = [...SERVICIOS.map((s) => ({ letra: s.letra, nombre: s.nombre })
 
   .field { margin-top: 22px; }
   .field > label, .field legend {
-    display: block; font-family: var(--font-display); font-size: 0.8rem; font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
+    display: block; font-family: var(--font-display); font-size: var(--fs-small); font-weight: 700; letter-spacing: 0.08em; text-transform: uppercase;
     color: var(--sign-700);
   }
   .opt { color: var(--concrete-700); text-transform: none; letter-spacing: 0; }
@@ -131,7 +131,7 @@ const opciones = [...SERVICIOS.map((s) => ({ letra: s.letra, nombre: s.nombre })
   .field input:hover, .field textarea:hover { border-color: var(--concrete-600); }
   .field input:focus, .field textarea:focus { outline: none; border-color: var(--sign); }
   .field input:focus-visible, .field textarea:focus-visible { box-shadow: 0 2px 0 var(--sign); }
-  .field__error { display: none; margin-top: 6px; font-size: 0.86rem; font-weight: 650; color: var(--ink); }
+  .field__error { display: none; margin-top: 6px; font-size: var(--fs-small); font-weight: 650; color: var(--ink); }
   .field.has-error input { border-color: var(--ink); border-bottom-style: dashed; }
   .field.has-error .field__error { display: block; }
 
@@ -143,15 +143,15 @@ const opciones = [...SERVICIOS.map((s) => ({ letra: s.letra, nombre: s.nombre })
     transition: background 0.35s, border-color 0.35s, color 0.35s;
   }
   .opcion input { position: absolute; opacity: 0; pointer-events: none; }
-  .opcion__letra { display: grid; place-items: center; width: 26px; height: 26px; flex: none; border: 1.5px solid currentColor; font-weight: 900; font-size: 0.9rem; padding-top: 2px; }
-  .opcion__nombre { font-weight: 650; font-size: 0.9rem; line-height: 1.2; }
+  .opcion__letra { display: grid; place-items: center; width: 26px; height: 26px; flex: none; border: 1.5px solid currentColor; font-weight: 900; font-size: var(--fs-note); padding-top: 2px; }
+  .opcion__nombre { font-weight: 650; font-size: var(--fs-note); line-height: 1.2; }
   .opcion:hover { border-color: var(--ink); }
   .opcion:has(input:checked) { background: var(--ink); color: var(--paper); border-style: solid; border-color: var(--ink); }
   .opcion:has(input:checked) .opcion__letra { background: var(--sign); border-color: var(--sign); color: var(--ink); }
   .opcion:has(input:focus-visible) { outline: 3px solid var(--sign); outline-offset: 2px; }
 
   .solicitud__foot { margin-top: 28px; display: flex; flex-wrap: wrap; align-items: center; gap: 14px 20px; }
-  .solicitud__status { font-size: 0.92rem; font-weight: 600; color: var(--sign-700); }
+  .solicitud__status { font-size: var(--fs-note); font-weight: 600; color: var(--sign-700); }
 
   @media (max-width: 960px) { .contacto__grid { grid-template-columns: 1fr; } }
   @media (max-width: 480px) {

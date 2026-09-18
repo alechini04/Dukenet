@@ -71,9 +71,10 @@ import { WHATSAPP, wa } from '../data/site';
   .flota {
     position: fixed; right: clamp(14px, 2vw, 26px); bottom: clamp(14px, 2vw, 26px); z-index: 90;
     box-shadow: 0 16px 34px -10px color-mix(in srgb, #000 70%, transparent);
-    transition: opacity 0.4s, transform 0.5s var(--ease-out), color 0.45s var(--ease-out), border-color 0.45s;
+    transition: opacity 0.4s, visibility 0s linear 0.4s, transform 0.5s var(--ease-out), color 0.45s var(--ease-out), border-color 0.45s;
   }
-  .flota.is-hidden { opacity: 0; transform: translateY(20px); pointer-events: none; }
+  /* visibility, not just opacity: hidden also takes it out of the tab order and off screen readers */
+  .flota.is-hidden { opacity: 0; visibility: hidden; transform: translateY(20px); pointer-events: none; }
   .flota :global(svg) { width: 1.3em; height: 1.3em; }
 
   @media (max-width: 760px) {
