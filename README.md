@@ -17,6 +17,7 @@ npm run preview  # sirve dist/
 ## Estructura
 
 - `src/pages/index.astro`: arma la página con las secciones.
+- `src/pages/404.astro`: página de ruta no encontrada, con desvíos a cada sección.
 - `src/components/`: una sección por archivo (Hero, Obras, Entregadas, Cronograma, Panel, Contacto…).
 - `src/data/site.ts`: textos editables (WhatsApp, servicios, fases, ciudades).
 - `src/scripts/app.ts`: menú, pestañas, formulario → WhatsApp y todas las animaciones.
@@ -26,7 +27,7 @@ npm run preview  # sirve dist/
 
 El dominio de producción es `https://dukenet.co` y está declarado en `astro.config.mjs` (`site`) y en `public/robots.txt`. Si cambia el dominio hay que actualizar esos dos archivos: de ahí salen el enlace canónico, el sitemap, las etiquetas para redes y los datos estructurados.
 
-Ya incluidos: `robots.txt`, `sitemap-index.xml`, canónico, Open Graph y Twitter con imagen `og.png` (1200×630), datos estructurados de tipo `ProfessionalService`, favicon y `apple-touch-icon`.
+Ya incluidos: `robots.txt`, `sitemap-index.xml`, canónico, Open Graph y Twitter con imagen `og.png` (1200×630), datos estructurados de tipo `ProfessionalService`, favicon, `apple-touch-icon` y página de error (`src/pages/404.astro` → `dist/404.html`, marcada `noindex` y fuera del sitemap). Casi todos los hostings la sirven solos; en algunos hay que indicarla en su configuración.
 
 Después de publicar: dar de alta el dominio en [Google Search Console](https://search.google.com/search-console), enviar `https://dukenet.co/sitemap-index.xml` y crear el perfil de Google Business para aparecer en búsquedas locales.
 

@@ -1,0 +1,127 @@
+---
+import Base from '../layouts/Base.astro';
+import Icon from '../components/Icon.astro';
+import Rail from '../components/Rail.astro';
+import { FRENTES, WHATSAPP, wa } from '../data/site';
+
+// Every frente except the home one: from here, "inicio" is the Volver plate.
+const desvios = FRENTES.filter((f) => f.id !== 'inicio');
+---
+<Base
+  title="Esta ruta no existe · DukeNet"
+  description="La página que buscabas se movió o nunca se construyó. Vuelve al inicio o escríbenos por WhatsApp."
+  robots="noindex, follow"
+>
+  <main id="contenido" class="desvio">
+    <div class="wrap desvio__frame">
+      <a class="mark" href="/" aria-label="DukeNet, ir al inicio">
+        <span class="mark__duke">DUKE</span><span class="mark__net">NET</span>
+      </a>
+
+      <div class="valla">
+        <span class="bolt bolt--tl" aria-hidden="true"></span>
+        <span class="bolt bolt--tr" aria-hidden="true"></span>
+        <span class="bolt bolt--bl" aria-hidden="true"></span>
+        <span class="bolt bolt--br" aria-hidden="true"></span>
+
+        <span class="codigo t-plate">Error 404 · vía cerrada</span>
+        <h1 class="valla__title t-display">Esta ruta<br />no existe</h1>
+        <p class="valla__lead">
+          La página que buscabas se movió o nunca se construyó. Te devolvemos a la obra: abajo están los frentes abiertos.
+        </p>
+        <div class="valla__cta">
+          <a class="plate" href="/">Volver al inicio <Icon name="arrow-ur" /></a>
+          {WHATSAPP.map((w) => (
+            <a class="plate plate--ghost-dark" href={wa(w.tel, 'Hola DukeNet, quiero información para la web de mi negocio.')} target="_blank" rel="noopener">
+              <Icon name="whatsapp" /> {w.label}
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <Rail code="FR-00" name="Desvíos" />
+
+    <nav class="rutas" aria-label="Secciones del sitio">
+      <div class="wrap">
+        <ul>
+          {desvios.map((f) => (
+            <li>
+              <a href={`/#${f.id}`}>
+                <span class="t-plate rutas__code">{f.code}</span>
+                <span class="rutas__name">{f.name}</span>
+                <Icon name="arrow-ur" class="rutas__arrow" />
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </nav>
+  </main>
+</Base>
+
+<style>
+  .desvio { display: flex; flex-direction: column; min-height: 100svh; }
+  .desvio__frame { max-width: none; padding-block: clamp(20px, 2.4vw, 32px); display: grid; gap: clamp(20px, 2.4vw, 32px); }
+
+  .mark {
+    justify-self: start;
+    display: inline-flex; align-items: center; gap: 3px;
+    font-family: var(--font-display); font-weight: 900; font-size: 1.45rem;
+    letter-spacing: -0.01em; text-decoration: none; line-height: 1;
+  }
+  .mark__net {
+    background: var(--sign); color: var(--ink);
+    padding: 0.2em 0.28em 0.08em; border-radius: 4px;
+    box-shadow: inset 0 0 0 1.5px var(--ink), inset 0 0 0 3px var(--paper);
+  }
+
+  .valla {
+    position: relative;
+    display: grid; align-content: center; gap: clamp(14px, 1.6vw, 22px);
+    padding: clamp(46px, 6vw, 92px) clamp(26px, 4.4vw, 76px);
+    background: var(--sign); color: var(--ink);
+    border-radius: var(--radius-sign);
+    isolation: isolate; overflow: hidden;
+  }
+  /* same reflective inner border as the home sign */
+  .valla::before {
+    content: ''; position: absolute; inset: clamp(8px, 0.8vw, 12px); z-index: -1;
+    border: clamp(3px, 0.32vw, 5px) solid var(--paper);
+    border-radius: calc(var(--radius-sign) - 6px);
+    pointer-events: none;
+  }
+  .codigo {
+    justify-self: start;
+    background: var(--ink); color: var(--paper); padding: 6px 10px 5px;
+  }
+  .valla__title { font-size: clamp(3rem, 11vw, 9rem); line-height: 0.86; }
+  .valla__lead { max-width: 46ch; font-size: clamp(1.02rem, 1.25vw, 1.25rem); line-height: 1.5; font-weight: 450; }
+  .valla__cta { display: flex; flex-wrap: wrap; gap: 12px; margin-top: clamp(8px, 1vw, 14px); }
+
+  .rutas { background: var(--ink); padding-block: clamp(26px, 3vw, 44px) clamp(40px, 5vw, 72px); }
+  .rutas ul {
+    list-style: none; margin: 0; padding: 0;
+    display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px;
+  }
+  .rutas a {
+    display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 12px;
+    padding: 16px 16px 16px 14px; text-decoration: none;
+    border: 2px dashed color-mix(in srgb, var(--paper) 30%, transparent);
+    transition: background 0.45s var(--ease-out), border-color 0.45s var(--ease-out), color 0.45s var(--ease-out);
+  }
+  .rutas__code { color: var(--sign-300); white-space: nowrap; transition: color 0.45s var(--ease-out); }
+  .rutas__name { font-family: var(--font-display); font-weight: 800; font-size: 1.1rem; text-transform: uppercase; letter-spacing: -0.005em; }
+  .rutas :global(.rutas__arrow) { width: 20px; height: 20px; opacity: 0.55; transition: transform 0.5s var(--ease-out), opacity 0.4s; }
+  .rutas a:hover { background: var(--paper); color: var(--ink); border-style: solid; border-color: var(--paper); }
+  .rutas a:hover .rutas__code { color: var(--sign-800); }
+  .rutas a:hover :global(.rutas__arrow) { opacity: 1; transform: translate(3px, -3px); }
+
+  @media (max-width: 1000px) {
+    .rutas ul { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 560px) {
+    .valla__cta .plate { width: 100%; justify-content: space-between; }
+    .rutas ul { grid-template-columns: 1fr; }
+  }
+</style>

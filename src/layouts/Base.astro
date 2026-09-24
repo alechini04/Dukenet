@@ -2,9 +2,10 @@
 import '../styles/global.css';
 import { WHATSAPP, CIUDADES } from '../data/site';
 
-interface Props { title: string; description: string }
-const { title, description } = Astro.props;
+interface Props { title: string; description: string; robots?: string }
+const { title, description, robots = 'index, follow, max-image-preview:large, max-snippet:-1' } = Astro.props;
 const canonical = new URL(Astro.url.pathname, Astro.site);
+const indexable = !robots.includes('noindex');
 
 // Only facts the page already states: no prices, ratings or review counts.
 const negocio = {
@@ -32,7 +33,7 @@ const negocio = {
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="theme-color" content="#0c0d0e" />
-    <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1" />
+    <meta name="robots" content={robots} />
     <meta name="geo.region" content="CO" />
     <meta property="og:type" content="website" />
     <meta property="og:locale" content="es_CO" />
@@ -50,7 +51,7 @@ const negocio = {
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={new URL('/og.png', Astro.site)} />
     <meta name="twitter:image:alt" content="Valla de DukeNet: no hacemos páginas bonitas, hacemos ventas" />
-    <script type="application/ld+json" set:html={JSON.stringify(negocio)} />
+    {indexable && <script type="application/ld+json" set:html={JSON.stringify(negocio)} />}
     <script is:inline>
       // Motion opts in only when JS runs. With reduced motion requested, the page keeps fades and
       // count-ups but drops smooth scroll, pinning, parallax and travel.
