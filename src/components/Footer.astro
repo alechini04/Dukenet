@@ -60,11 +60,12 @@ import { WHATSAPP, wa } from '../data/site';
   .pie__claim { max-width: 26ch; font-size: clamp(1.2rem, 1.8vw, 1.7rem); font-weight: 700; line-height: 1.2; }
   .pie__cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
   .pie__cols .t-plate { color: var(--sign-400); }
-  .pie__cols ul { list-style: none; margin: 12px 0 0; padding: 0; display: grid; gap: 8px; }
-  .pie__cols a { text-decoration: none; color: color-mix(in srgb, var(--paper) 80%, transparent); transition: color 0.3s; }
+  .pie__cols ul { list-style: none; margin: 7px 0 0; padding: 0; display: grid; }
+  /* padding on the link, not gap on the list: the tap target clears 24px (WCAG 2.5.8) with the same rhythm */
+  .pie__cols a { display: inline-block; padding-block: 5px; text-decoration: none; color: color-mix(in srgb, var(--paper) 80%, transparent); transition: color 0.3s; }
   .pie__cols a:hover { color: var(--paper); text-decoration: underline; text-decoration-color: var(--sign); }
   .pie__base { margin-top: 56px; display: flex; justify-content: space-between; gap: 16px; color: color-mix(in srgb, var(--paper) 55%, transparent); }
-  .pie__top { display: inline-flex; align-items: center; gap: 6px; text-decoration: none; }
+  .pie__top { display: inline-flex; align-items: center; gap: 6px; padding-block: 5px; margin-block: -5px; text-decoration: none; }
   .pie__top :global(svg) { width: 14px; height: 14px; transform: rotate(-45deg); }
   .pie__top:hover { color: var(--paper); }
 

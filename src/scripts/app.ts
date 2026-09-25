@@ -304,7 +304,8 @@ function initMotion() {
     function build() {
       const tl = gsap.timeline({ defaults: { ease: 'expo.out' }, paused: true });
       tl.addLabel('diagnostico', PHASES[0])
-        .fromTo($('[data-layer="grid"]', obra), { opacity: 0 }, { opacity: 1, duration: 0.8 }, 0)
+        // starts drawn, not blank: arriving from a menu link parks you here, and an empty box reads as broken
+        .fromTo($('[data-layer="grid"]', obra), { opacity: 0.4 }, { opacity: 1, duration: 0.8 }, 0)
         .fromTo($$('[data-nota]', obra), { autoAlpha: 0, y: Y(40), rotate: 0 }, { autoAlpha: 1, y: 0, rotate: (i, el) => getComputedStyle(el).getPropertyValue('--r'), duration: 1, stagger: 0.35, ease: 'back.out(1.6)' }, 0.3)
 
         .addLabel('propuesta', PHASES[1])
