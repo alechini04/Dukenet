@@ -106,7 +106,7 @@ const casos = [
   .ent__title { font-size: clamp(2.6rem, 6.8vw, 7.2rem); }
   .ent__intro { max-width: 30ch; font-size: clamp(1.02rem, 1.2vw, 1.2rem); color: color-mix(in srgb, var(--paper) 72%, transparent); }
 
-  .ent__list { margin-top: clamp(52px, 6vw, 96px); display: grid; gap: clamp(80px, 10vw, 150px); }
+  .ent__list { margin-top: clamp(52px, 6vw, 96px); display: grid; grid-template-columns: minmax(0, 1fr); gap: clamp(80px, 10vw, 150px); }
 
   .caso { display: grid; grid-template-columns: minmax(0, 8fr) minmax(0, 4fr); gap: clamp(28px, 4vw, 64px); align-items: end; }
   .caso--flip { grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); }
@@ -197,8 +197,11 @@ const casos = [
   .lote__txt { margin-top: 14px; color: color-mix(in srgb, var(--paper) 72%, transparent); }
 
   @media (max-width: 960px) {
-    .caso, .caso--flip { grid-template-columns: 1fr; }
+    .caso, .caso--flip { grid-template-columns: minmax(0, 1fr); }
     .caso--flip .caso__stage { order: 0; }
+  }
+  @media (max-width: 420px) {
+    .caso__ficha > div { grid-template-columns: 1fr; gap: 2px; }
   }
   @media (max-width: 560px) {
     .caso__stage, .caso--flip .caso__stage { padding: 0 44px 34px 0; }

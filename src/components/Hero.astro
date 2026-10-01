@@ -47,7 +47,7 @@ import { WHATSAPP, wa, FASES } from '../data/site';
           <div class="etapas">
             <span class="t-plate etapas__label">Etapas</span>
             <ol class="etapas__track" data-etapas>
-              {FASES.map((f, i) => <li class={i === 0 ? 'is-on' : ''}><span class="etapas__dot" aria-hidden="true"></span>{f.nombre}</li>)}
+              {FASES.map((f, i) => <li class={i === 0 ? 'is-on' : ''}><span class="etapas__dot" aria-hidden="true"></span><span class="etapas__txt">{f.nombre}</span></li>)}
             </ol>
           </div>
         </aside>
@@ -129,7 +129,7 @@ import { WHATSAPP, wa, FASES } from '../data/site';
   .etapas__label { color: var(--concrete-700); font-size: var(--fs-plate); }
   .etapas__track {
     list-style: none; margin: 10px 0 0; padding: 0;
-    display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px;
+    display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 4px;
   }
   .etapas__track li {
     position: relative; padding-top: 14px;
@@ -151,8 +151,22 @@ import { WHATSAPP, wa, FASES } from '../data/site';
   .etapas__track li.is-done .etapas__dot { border-color: var(--sign); }
 
   @media (max-width: 980px) {
-    .hero__base { grid-template-columns: 1fr; align-items: start; }
+    .hero__base { grid-template-columns: minmax(0, 1fr); align-items: start; }
     .ficha { max-width: 560px; }
+  }
+  /* Narrow phones: the ficha goes to one column and the stage names are allowed to hyphenate */
+  @media (max-width: 480px) {
+    .etapas__track li { hyphens: auto; }
+  }
+  /* Narrow phones: one column in the ficha, and the stage track keeps its five dots
+     while the names, which no longer fit in 36px, stay only for screen readers. */
+  @media (max-width: 420px) {
+    .ficha__rows { grid-template-columns: 1fr; }
+    .etapas__txt {
+      position: absolute; width: 1px; height: 1px; overflow: hidden;
+      clip-path: inset(50%); white-space: nowrap;
+    }
+    .etapas__track li { padding-top: 8px; }
   }
   @media (max-width: 560px) {
     .valla { min-height: auto; padding-top: 58px; }

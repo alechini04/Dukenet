@@ -58,9 +58,10 @@ casi siempre hay otro proceso ocupando el puerto. Ciérralo o usa
 ## Antes de dar por bueno un cambio
 
 1. `npm run build` sin errores.
-2. Míralo en tres anchos: escritorio (1440), tableta/portátil (1100) y celular
-   (390). La mayoría de los problemas salen entre 860 y 1100 px, que es donde
-   cambian las rejillas.
+2. Míralo en cuatro anchos: escritorio (1440), tableta/portátil (1100), celular
+   (390) y celular pequeño (320). La mayoría de los problemas salen entre 860 y
+   1100 px, donde cambian las rejillas, y por debajo de 430 px, donde los
+   botones y las rejillas de dos columnas dejan de caber.
 3. Consola del navegador sin errores.
 4. Recorre la página entera de arriba abajo **y de vuelta hacia arriba**: el
    cronograma tiene que verse bien en los dos sentidos.
@@ -78,6 +79,10 @@ Revisado sobre la página compilada, en escritorio y en celular:
 - Enlaces y botones con nombre accesible; ningún enlace vacío ni ancla rota.
 - Contraste suficiente en todos los textos.
 - Todas las zonas para tocar llegan a 24 px (WCAG 2.5.8).
+- Ningún ancho entre 320 y 1920 px produce desplazamiento horizontal ni recorta
+  contenido. Si agregas un bloque, evita que un hijo de rejilla quede con
+  `1fr` a secas: usa `minmax(0, 1fr)`, o el contenido más ancho impondrá el
+  tamaño mínimo de toda la página.
 - Enlace para saltar al contenido, visible al tabular.
 - Las pestañas de Obras se manejan con flechas, `Inicio` y `Fin`; el menú de
   celular se cierra con `Esc`.

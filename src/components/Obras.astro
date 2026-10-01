@@ -122,11 +122,11 @@ import { SERVICIOS } from '../data/site';
   .panel__incluye + .panel__cta { margin-top: 30px; }
 
   @media (max-width: 1100px) {
-    .panel { grid-template-columns: 1fr; }
+    .panel { grid-template-columns: minmax(0, 1fr); }
     .panel__photo { aspect-ratio: 16 / 9; min-height: 0; }
   }
   @media (max-width: 860px) {
-    .obras__body { grid-template-columns: 1fr; }
+    .obras__body { grid-template-columns: minmax(0, 1fr); }
     .obras__tabs { position: static; grid-template-columns: repeat(2, minmax(0, 1fr)); }
     .tab { grid-template-columns: auto 1fr; padding: 12px; gap: 12px; }
     :global(.tab__arrow), .tab__corto { display: none; }

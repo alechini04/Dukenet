@@ -163,6 +163,12 @@ html { scrollbar-color: var(--sign) var(--ink); }
 .plate--ghost-dark { --plate-bg: transparent; --plate-fg: var(--ink); --plate-line: color-mix(in srgb, var(--ink) 70%, transparent); --plate-hover-bg: var(--ink); --plate-hover-fg: var(--paper); }
 .plate--sm { min-height: 42px; font-size: var(--fs-small); padding: 0 1em; }
 
+/* Phones (<=430px covers every current model): these uppercase labels stop fitting
+   a plate on one line, so the type steps down and, if it still does not fit, it wraps. */
+@media (max-width: 430px) {
+  .plate { font-size: var(--fs-small); letter-spacing: 0.03em; gap: 0.7em; padding: 10px 1em; white-space: normal; }
+}
+
 /* Sign fixings */
 .bolt {
   position: absolute; width: 11px; height: 11px; border-radius: 50%;
