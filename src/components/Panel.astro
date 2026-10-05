@@ -19,7 +19,7 @@ const embudo = [
 ];
 ---
 <section id="panel" class="panel-sec" data-frente="panel" aria-labelledby="panel-title">
-  <div class="wrap panel-sec__grid">
+  <div class="wrap panel-sec__grid escena">
     <div class="panel-sec__copy">
       <h2 id="panel-title" class="t-display panel-sec__title" data-rise>Dejas de<br />adivinar</h2>
       <p class="panel-sec__lead" data-rise>Un panel en español, sin tecnicismos: de dónde llega la gente, qué mira, qué compra y en qué paso se va. Más un reporte mensual con lo que hicimos y lo que sigue.</p>
@@ -30,7 +30,8 @@ const embudo = [
       </ul>
     </div>
 
-    <figure class="dash" data-dash>
+    <figure class="dash" data-dash data-tilt="1.6">
+      <span class="barrido" aria-hidden="true" data-barrido></span>
       <div class="dash__head">
         <span class="dash__title">Panel de ventas <span class="t-plate">Últimos 30 días</span></span>
         <span class="t-plate dash__ejemplo">Ejemplo</span>
@@ -87,7 +88,12 @@ const embudo = [
   .panel-sec__list li { display: flex; align-items: center; gap: 14px; padding-block: 13px; border-top: 1px solid var(--concrete-300); font-weight: 650; }
   .panel-sec__list li::before { content: ''; width: 10px; height: 10px; background: var(--sign); flex: none; }
 
-  .dash { background: var(--ink); color: var(--paper); padding: clamp(20px, 2.4vw, 34px); box-shadow: 0 50px 90px -50px color-mix(in srgb, var(--sign-800) 90%, transparent); }
+  .dash { position: relative; overflow: hidden; background: var(--ink); color: var(--paper); padding: clamp(20px, 2.4vw, 34px); box-shadow: 0 50px 90px -50px color-mix(in srgb, var(--sign-800) 90%, transparent); }
+  /* the reading pass: one light crosses the panel while the figures count up */
+  .barrido {
+    position: absolute; inset: 0; z-index: 3; pointer-events: none; opacity: 0;
+    background: linear-gradient(100deg, transparent 40%, color-mix(in srgb, var(--sign-300) 26%, transparent) 50%, transparent 60%);
+  }
   .dash__head { display: flex; justify-content: space-between; align-items: center; padding-bottom: 16px; border-bottom: 1px solid color-mix(in srgb, var(--paper) 14%, transparent); }
   .dash__title { display: flex; flex-wrap: wrap; align-items: baseline; gap: 4px 12px; font-family: var(--font-display); font-weight: 750; text-transform: uppercase; letter-spacing: 0.02em; }
   .dash__title .t-plate { color: color-mix(in srgb, var(--paper) 55%, transparent); font-size: var(--fs-mini); }

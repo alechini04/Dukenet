@@ -284,6 +284,23 @@ Tactile sign plates that get painted on hover.
 ### Pinned Schedule (signature)
 **Obra en vivo (signature).** Cronograma pins at every width and scrubs one GSAP timeline on a sign-900 ground: a browser frame builds the El Gato Galletero home in five phases. Diagnóstico pins paper notes (taped with sign-300) on a drafting grid; Propuesta draws labeled wireframe boxes and dimension lines (cotas) in sign-300/paper; Diseño grows a grey skeleton block by block; Lanzamiento types the domain in the URL bar while a sign-300 scan line wipes the real screenshot in, then a bolted "En línea" sign stamps on; Crecer raises an ink "Reporte del mes · Ejemplo" plate whose bars settle elastically. A five-segment track and the swapping phase text follow the timeline's time, so scrubbing backwards restores every state. With reduced motion the stage does not pin; the same timeline plays once, faster, when it enters view. Stage geometry is measured from `public/obras/gato-galletero.jpg`; changing that capture means re-measuring the skeleton and wire boxes.
 
+### Night-Site Light (signature)
+The ground is a construction site at night, so the page is lit rather than flat. One
+work lamp follows the pointer: `.luz`, an absolute layer at z-index -1 inside each
+dark region (hero, manifiesto, entregadas, cronograma, contacto, footer), carrying a
+42vmax radial of sign-300 at 11% positioned by `--lx`/`--ly` (the pointer's position
+inside that region). Sign panels answer to it in two ways: they lean up to 1.2 deg
+toward it (`.escena` sets the perspective, `[data-tilt]` the lean, `[data-paralaje]`
+parts inner layers by a couple of percent), and their reflective inner border catches
+a travelling highlight (`.glint`, a masked bordered box whose `--gx`/`--gy` follow the
+pointer and whose `--glint` fades with distance). The sheeting also flares once as the
+hero sign is raised, and the NET plate takes a sweep (`.net-sheet`) on hover and once
+on arrival. Devices glow into the room: each case stage carries a blurred sign-400
+halo (`.brillo`) that strengthens on hover, the Cronograma stage raises its own light
+when the client's site goes live, and the dashboard takes a single reading pass while
+its figures count up. Every one of these is pointer-driven, desktop-only
+(`hover: hover and pointer: fine`), and absent under reduced motion.
+
 ### Motion
 GSAP with Lenis smooth scroll (lerp 0.1). Easing is expo.out / expo.inOut (CSS ease-out cubic-bezier(0.16, 1, 0.3, 1), ease-in-out cubic-bezier(0.76, 0, 0.24, 1)); durations 0.5–1.3s. Entrance grammar: the sign rises by clip-path from below, headline lines unmask upward, the refused words are struck through word by word, the ficha drops in with a slight rotation, bolts spin in. Photos reveal by clip-path with a scale settle. Numbers count up with damped expo easing; chart bars settle with a soft elastic. Reduced motion keeps fades and count-ups and drops smooth scroll, pinning, parallax, scale and travel.
 
@@ -298,6 +315,9 @@ GSAP with Lenis smooth scroll (lerp 0.1). Easing is expo.out / expo.inOut (CSS e
 - **Do** use dashed strokes for pending or unselected and solid for done or selected.
 - **Do** duotone every photo into sign blue (grayscale image under a sign multiply layer on sign-800).
 - **Do** keep reduced motion to fades and count-ups.
+- **Do** let light land on the sign's reflective border and on the ground around it; the
+  panel face stays an even blue, because paper lettering on sign blue is only 3.6:1 and
+  any wash across the field drops it under the large-text minimum.
 
 ### Don't:
 - **Don't** use yellow, orange or any hazard colour; construction is blue, ink, paper and stripes.
@@ -306,4 +326,6 @@ GSAP with Lenis smooth scroll (lerp 0.1). Easing is expo.out / expo.inOut (CSS e
 - **Don't** show unprocessed or moody full-colour photography.
 - **Don't** set mono plate labels as eyebrows above headlines.
 - **Don't** put shadows on sign panels or in-flow plates.
+- **Don't** wash the lamp across a sign's face, and don't light anything with a hue
+  outside the sign ramp; light here is white sheeting and sign blue, never a glow colour.
 - **Don't** show a progress percentage or metric that is not real; show real phases instead.

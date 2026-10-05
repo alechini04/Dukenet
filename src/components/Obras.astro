@@ -43,6 +43,7 @@ import { SERVICIOS } from '../data/site';
           >
             <figure class="panel__photo duo">
               <img src={s.foto} alt={s.alt} width="1200" height="857" loading="lazy" decoding="async" />
+              <span class="panel__scan" aria-hidden="true" data-scan-obra></span>
               <span class="panel__tag t-plate">Obra tipo {s.letra}</span>
             </figure>
             <div class="panel__info">
@@ -109,6 +110,12 @@ import { SERVICIOS } from '../data/site';
   .panel__photo { min-height: 320px; }
   .panel__photo img { position: absolute; inset: 0; }
   .panel__tag { position: absolute; top: 14px; left: 14px; z-index: 2; background: var(--paper); color: var(--ink); padding: 6px 10px; }
+  /* the light that leads the reveal when you change obra */
+  .panel__scan {
+    position: absolute; top: 0; bottom: 0; left: 0; width: 3px; z-index: 3; opacity: 0; pointer-events: none;
+    background: var(--sign-200);
+    box-shadow: 0 0 22px 6px color-mix(in srgb, var(--sign-300) 70%, transparent);
+  }
 
   .panel__info { display: flex; flex-direction: column; padding: clamp(26px, 3vw, 48px); }
   .panel__nombre { font-weight: 850; text-transform: uppercase; font-size: clamp(2rem, 3.4vw, 3.4rem); line-height: 0.95; letter-spacing: -0.03em; }

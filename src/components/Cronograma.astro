@@ -18,6 +18,7 @@ const notas = [
 ];
 ---
 <section id="cronograma" class="crono" data-frente="cronograma" aria-labelledby="crono-title" data-crono>
+  <span class="luz" aria-hidden="true"></span>
   <div class="wrap crono__head">
     <h2 id="crono-title" class="t-display crono__title" data-rise>Cinco fases,<br />cero misterio</h2>
     <p class="crono__intro" data-rise>Así avanza una obra, contada con la tienda de El Gato Galletero. Baja despacio: se construye contigo.</p>
@@ -42,6 +43,7 @@ const notas = [
         </ol>
       </div>
 
+      <span class="obra__luz" aria-hidden="true" data-obra-luz></span>
       <figure class="obra" data-obra aria-label="Animación: una página web pasa de notas y planos a diseño y al sitio publicado de El Gato Galletero">
         <div class="obra__bar" aria-hidden="true">
           <span class="obra__dots"><i></i><i></i><i></i></span>
@@ -131,13 +133,13 @@ const notas = [
 </section>
 
 <style>
-  .crono { position: relative; background: var(--sign-900); color: var(--paper); padding-top: clamp(88px, 10vw, 150px); }
+  .crono { position: relative; isolation: isolate; background: var(--sign-900); color: var(--paper); padding-top: clamp(88px, 10vw, 150px); }
   .crono__head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 20px 60px; }
   .crono__title { font-size: clamp(2.5rem, 5.8vw, 6.2rem); }
   .crono__intro { max-width: 32ch; font-size: clamp(1.02rem, 1.2vw, 1.2rem); color: color-mix(in srgb, var(--paper) 78%, transparent); }
 
   .crono__pin { min-height: 100svh; display: flex; align-items: center; padding-block: 96px 48px; }
-  .crono__grid { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: clamp(28px, 4vw, 72px); align-items: center; }
+  .crono__grid { position: relative; isolation: isolate; display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: clamp(28px, 4vw, 72px); align-items: center; }
 
   .track { list-style: none; margin: 0 0 clamp(24px, 3vw, 40px); padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
   .track li { position: relative; height: 4px; background: color-mix(in srgb, var(--paper) 16%, transparent); }
@@ -154,6 +156,13 @@ const notas = [
   :global(html.motion:not(.rm)) .fase.is-on { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }
 
   /* ── The build stage ── */
+  /* the screen's own light on the room, raised when the site goes live */
+  /* absolutely positioned, so it is not a grid item and does not disturb the two columns */
+  .obra__luz {
+    position: absolute; z-index: -1; left: 32%; right: 0; top: 4%; bottom: 8%; pointer-events: none;
+    background: radial-gradient(58% 54% at 50% 50%, color-mix(in srgb, var(--sign-400) 65%, transparent), transparent 70%);
+    filter: blur(60px);
+  }
   .obra {
     background: var(--ink); border: 1px solid color-mix(in srgb, var(--sign-400) 35%, transparent);
     box-shadow: 0 50px 100px -50px #000;
@@ -225,6 +234,7 @@ const notas = [
 
   @media (max-width: 960px) {
     .crono__grid { grid-template-columns: 1fr; gap: 22px; }
+    .obra__luz { left: 0; top: 40%; }
     .crono__left { order: 2; }
     .crono__pin { padding-block: 76px 24px; align-items: flex-start; }
     .fases { margin-top: 26px; }

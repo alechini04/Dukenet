@@ -121,10 +121,17 @@ function selectTab(i: number, focus = false) {
     if (on && p.hidden) {
       p.hidden = false;
       if (motion) {
+        const foto = $('.panel__photo', p)!;
+        const scan = $('[data-scan-obra]', p);
         const tl = gsap.timeline();
-        tl.fromTo($('.panel__photo', p), { clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0% 0 0)', duration: 0.9, ease: 'expo.inOut' })
+        tl.fromTo(foto, { clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0% 0 0)', duration: 0.9, ease: 'expo.inOut' })
           .fromTo($('.panel__photo img', p), { scale: rm ? 1 : 1.18 }, { scale: 1, duration: 1.3, ease: 'expo.out' }, 0)
           .fromTo($$('.panel__info > *', p), { y: Y(26), autoAlpha: 0 }, { y: 0, autoAlpha: 1, stagger: 0.06, duration: 0.8, ease: 'expo.out' }, 0.15);
+        // a light runs ahead of the reveal, like a scanner laying the image down
+        if (scan && !rm) tl.fromTo(scan, { x: 0, autoAlpha: 1 }, {
+          x: () => foto.clientWidth, duration: 0.9, ease: 'expo.inOut',
+          onComplete: () => gsap.set(scan, { autoAlpha: 0 }),
+        }, 0);
       }
     } else if (!on) p.hidden = true;
   });
@@ -204,11 +211,101 @@ if (motion && etapas.length) {
   }, 1900);
 }
 
+/* A sweep of light across a NET plate; the class drives a one-shot CSS animation */
+const destella = (el: Element | null) => {
+  if (!el || rm) return;
+  el.classList.remove('destella');
+  void (el as HTMLElement).offsetWidth;
+  el.classList.add('destella');
+  setTimeout(() => el.classList.remove('destella'), 1200);
+};
+
 /* ══ Motion ══════════════════════════════════════════════════════════════ */
 if (motion) document.fonts.ready.then(initMotion);
 
 function initMotion() {
   const mm = gsap.matchMedia();
+
+  /* ── The lamp ──────────────────────────────────────────────────────────────
+     One work light in the room. It follows the pointer, the sign sheets catch it
+     as a glint, and the panels lean a couple of degrees toward it so the page
+     reads as objects in a space instead of boxes on a plane. Fine pointers only:
+     there is no lamp to follow with a finger, and none of it runs with reduced
+     motion. Everything here writes transforms and custom properties only. */
+  const fino = matchMedia('(hover: hover) and (pointer: fine)');
+  if (!rm && fino.matches) {
+    const root = document.documentElement;
+    const paneles = $$('[data-glint]');
+    const zonas = $$('.luz').map((el) => el.parentElement!).filter(Boolean);
+    const tilts = $$('[data-tilt]').map((el) => ({
+      el,
+      g: parseFloat(el.dataset.tilt || '1.2'),
+      rx: gsap.quickTo(el, 'rotationX', { duration: 1, ease: 'power3' }),
+      ry: gsap.quickTo(el, 'rotationY', { duration: 1, ease: 'power3' }),
+    }));
+    const planos = $$('[data-paralaje]').map((el) => ({
+      f: parseFloat(el.dataset.paralaje || '1'),
+      x: gsap.quickTo(el, 'xPercent', { duration: 1.1, ease: 'power3' }),
+      y: gsap.quickTo(el, 'yPercent', { duration: 1.1, ease: 'power3' }),
+    }));
+
+    let tx = innerWidth * 0.5, ty = innerHeight * 0.24;
+    let cx = tx, cy = ty, raf = 0;
+
+    const marco = () => {
+      cx += (tx - cx) * 0.085;
+      cy += (ty - cy) * 0.085;
+      root.style.setProperty('--mx', `${((cx / innerWidth) * 100).toFixed(2)}%`);
+      root.style.setProperty('--my', `${((cy / innerHeight) * 100).toFixed(2)}%`);
+
+      // every rect first, then every write: reading and writing in turns would
+      // force a layout per element on each frame
+      const rz = zonas.map((z) => z.getBoundingClientRect());
+      const rp = paneles.map((p) => p.getBoundingClientRect());
+      const rt = tilts.map((t) => t.el.getBoundingClientRect());
+
+      zonas.forEach((z, i) => {
+        const b = rz[i];
+        if (b.bottom < -300 || b.top > innerHeight + 300 || !b.width) return;
+        z.style.setProperty('--lx', `${(((cx - b.left) / b.width) * 100).toFixed(1)}%`);
+        z.style.setProperty('--ly', `${(((cy - b.top) / b.height) * 100).toFixed(1)}%`);
+      });
+
+      paneles.forEach((p, i) => {
+        const b = rp[i];
+        if (b.bottom < -160 || b.top > innerHeight + 160 || !b.width) return;
+        const gx = ((cx - b.left) / b.width) * 100;
+        const gy = ((cy - b.top) / b.height) * 100;
+        p.style.setProperty('--gx', `${gx.toFixed(1)}%`);
+        p.style.setProperty('--gy', `${gy.toFixed(1)}%`);
+        // the sheet only flares while the lamp is near it
+        const d = Math.hypot(gx - 50, gy - 50) / 100;
+        p.style.setProperty('--glint', gsap.utils.clamp(0, 1, 1.3 - d * 1.5).toFixed(3));
+      });
+
+      tilts.forEach((t, i) => {
+        const b = rt[i];
+        if (b.bottom < -160 || b.top > innerHeight + 160 || !b.width) return;
+        const nx = gsap.utils.clamp(-1, 1, (cx - (b.left + b.width / 2)) / (b.width / 2));
+        const ny = gsap.utils.clamp(-1, 1, (cy - (b.top + b.height / 2)) / (b.height / 2));
+        t.ry(nx * t.g);
+        t.rx(-ny * t.g * 0.7);
+      });
+
+      const px = gsap.utils.clamp(-1, 1, (cx / innerWidth - 0.5) * 2);
+      const py = gsap.utils.clamp(-1, 1, (cy / innerHeight - 0.5) * 2);
+      for (const pl of planos) { pl.x(px * pl.f); pl.y(py * pl.f * 0.6); }
+
+      raf = Math.abs(tx - cx) > 0.4 || Math.abs(ty - cy) > 0.4 ? requestAnimationFrame(marco) : 0;
+    };
+
+    addEventListener('pointermove', (e) => {
+      if (e.pointerType !== 'mouse') return;
+      tx = e.clientX; ty = e.clientY;
+      if (!raf) raf = requestAnimationFrame(marco);
+    }, { passive: true });
+    marco();
+  }
 
   /* Hero: the sign is raised, then lettered, then the old promise is crossed out */
   const valla = $('[data-valla]');
@@ -222,6 +319,11 @@ function initMotion() {
       .fromTo($('[data-ficha]'), { y: Y(60), autoAlpha: 0, rotate: rm ? 0 : 1.5 }, { y: 0, autoAlpha: 1, rotate: 0, duration: 1.2 }, 1.05)
       .fromTo($$('.ficha__rows > div'), { x: Y(-14), autoAlpha: 0 }, { x: 0, autoAlpha: 1, duration: 0.7, stagger: 0.05 }, 1.3);
     $$('.bolt', valla).forEach((b, i) => tl.fromTo(b, { scale: 0, rotate: -180 }, { scale: 1, rotate: 0, duration: 0.6, ease: 'back.out(2)' }, 1.0 + i * 0.05));
+    // a light runs along the new sheeting once it is up
+    tl.fromTo(valla, { '--gx': '-15%', '--gy': '40%', '--glint': 0 }, { '--gx': '115%', duration: 1.6, ease: 'power1.inOut' }, 0.9)
+      .to(valla, { '--glint': 0.95, duration: 0.5 }, 0.9)
+      .to(valla, { '--glint': 0, duration: 0.7 }, 1.9)
+      .call(() => destella($('[data-net]')), undefined, 1.6);
 
     // The sign recedes as you leave it
     if (!rm) gsap.to(valla, { scale: 0.94, yPercent: 4, ease: 'none', scrollTrigger: { trigger: '#inicio', start: 'top top', end: 'bottom top', scrub: true } });
@@ -290,6 +392,7 @@ function initMotion() {
     const url = $('[data-url]', obra)!;
     const revealRect = $<SVGRectElement>('[data-reveal-rect]', obra)!;
     const scan = $<SVGLineElement>('[data-scan]', obra)!;
+    const luzObra = $('[data-obra-luz]', crono);
     const PHASES = [0, 2.2, 4.6, 7.2, 10.2];
     const END = 12.8;
 
@@ -328,6 +431,8 @@ function initMotion() {
         .fromTo(scan, { attr: { x1: 0, x2: 0 } }, { attr: { x1: 1440, x2: 1440 }, duration: 1.6, ease: 'power3.inOut' }, PHASES[3] + 0.5)
         .set(scan, { opacity: 0 }, PHASES[3] + 2.1)
         .fromTo($('[data-sello]', obra), { autoAlpha: 0, scale: rm ? 1 : 1.8, rotate: rm ? 0 : -8 }, { autoAlpha: 1, scale: 1, rotate: -4, duration: 0.7, ease: 'back.out(2.2)' }, PHASES[3] + 2)
+        // the screen turns on and lights the room
+        .fromTo(luzObra, { opacity: 0 }, { opacity: 1, duration: 1.8, ease: 'power2.out' }, PHASES[3] + 0.5)
 
         .addLabel('crecer', PHASES[4])
         .fromTo($('[data-reporte]', obra), { autoAlpha: 0, y: Y(50) }, { autoAlpha: 1, y: 0, duration: 1 }, PHASES[4] + 0.2)
@@ -339,6 +444,7 @@ function initMotion() {
       gsap.set($$('[data-layer="skel"] rect', obra), { scaleX: 0 });
       gsap.set($$('.wire__label, [data-cota] text', obra), { opacity: 0 });
       gsap.set($$('.wire__box, [data-cota] line', obra), { strokeDasharray: 1, strokeDashoffset: 1 });
+      gsap.set(luzObra, { opacity: 0 });
       gsap.set($('[data-layer="cotas"]', obra), { opacity: 0 });
       revealRect.setAttribute('width', '0');
       tl.eventCallback('onUpdate', () => setPhase(tl.time()));
@@ -389,6 +495,8 @@ function initMotion() {
     ScrollTrigger.create({
       trigger: dash, start: 'top 75%', once: true,
       onEnter: () => {
+        const barrido = $('[data-barrido]', dash);
+        if (barrido && !rm) gsap.fromTo(barrido, { xPercent: -110, opacity: 1 }, { xPercent: 110, duration: 1.5, ease: 'power2.inOut', onComplete: () => gsap.set(barrido, { opacity: 0 }) });
         counters.forEach((c) => {
           const o = { v: 0 };
           gsap.to(o, { v: parseFloat(c.dataset.count!), duration: 2.2, ease: 'expo.out', onUpdate: () => (c.textContent = fmt(o.v, c.dataset.format!)) });
@@ -403,9 +511,21 @@ function initMotion() {
   const fin = $('.valla-fin');
   if (fin && !rm) gsap.fromTo(fin, { clipPath: 'inset(18% 4% 0% 4% round 22px)' }, { clipPath: 'inset(0% 0% 0% 0% round 22px)', ease: 'none', scrollTrigger: { trigger: fin, start: 'top bottom', end: 'top 30%', scrub: true } });
 
-  /* Footer wordmark */
+  /* Barrier tape drifts as you pass each threshold */
+  if (!rm) $$('.rail').forEach((r) => {
+    gsap.fromTo(r, { backgroundPosition: '0px 0px' }, {
+      backgroundPosition: '-396px 0px', ease: 'none',
+      scrollTrigger: { trigger: r, start: 'top bottom', end: 'bottom top', scrub: 1 },
+    });
+  });
+
+  /* Footer wordmark: it rises and its plate catches the light once */
   const mark = $('.pie__mark');
-  if (mark) gsap.fromTo(mark.children, { yPercent: Y(40), autoAlpha: 0 }, { yPercent: 0, autoAlpha: 1, stagger: 0.1, duration: 1.3, ease: 'expo.out', scrollTrigger: { trigger: mark, start: 'top 92%', once: true } });
+  if (mark) gsap.fromTo(mark.children, { yPercent: Y(40), autoAlpha: 0 }, {
+    yPercent: 0, autoAlpha: 1, stagger: 0.1, duration: 1.3, ease: 'expo.out',
+    scrollTrigger: { trigger: mark, start: 'top 92%', once: true },
+    onComplete: () => destella($('.pie__net')),
+  });
 
   addEventListener('load', () => ScrollTrigger.refresh());
   $$('img').forEach((img) => !img.complete && img.addEventListener('load', () => ScrollTrigger.refresh(), { once: true }));

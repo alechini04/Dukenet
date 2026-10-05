@@ -41,6 +41,37 @@ En el código eso se ve así:
 - El cronograma se reparte en dos con `gsap.matchMedia()`: anclado y ligado al
   scroll si hay movimiento; reproducido una vez, más rápido, si no.
 
+## La luz
+
+El sitio es una obra de noche, así que está iluminado, no plano. Hay **una sola
+lámpara** que sigue al puntero y a la que responden todas las superficies:
+
+- **El suelo.** Cada zona oscura lleva una capa `.luz` (un `<span>` dentro de la
+  sección) con un degradado radial azul muy bajo. La capa es absoluta y el motor
+  le pasa a cada sección dónde está el puntero dentro de ella (`--lx`, `--ly`),
+  así que se lee como una lámpara que camina por la página. Si la capa fuera
+  `fixed`, Chrome la compone por encima de los carteles y los lava.
+- **El cartel.** No se ilumina la cara: se ilumina su **borde reflectante**, que
+  es la parte que en una valla real lleva la lámina. Eso no es un capricho: el
+  texto blanco sobre azul va a 3,6:1, y cualquier aclarado de la cara lo baja del
+  mínimo. El brillo es `.glint`, un marco enmascarado con un radial en `--gx` /
+  `--gy` y una intensidad `--glint` que baja con la distancia.
+- **La profundidad.** Los paneles se inclinan como máximo 1,2°, puestos sobre un
+  contenedor con `.escena` (la perspectiva) y marcados con `data-tilt`. Dentro del
+  cartel, el titular y la ficha se separan un par de puntos porcentuales con
+  `data-paralaje` (no se usa `translateZ` porque `overflow: hidden` aplana el 3D).
+- **Las pantallas.** Cada caso entregado tiene un halo `.brillo` detrás del
+  dispositivo que sube al pasar el mouse; el cronograma enciende su propia luz
+  cuando el sitio sale al aire; el panel de datos recibe un barrido de lectura
+  mientras cuentan las cifras.
+- **La marca.** La placa NET recibe un destello al pasar el mouse y una vez al
+  llegar (clase `.net-sheet` más `.destella`).
+
+Todo esto corre **solo con puntero fino** (`hover: hover and pointer: fine`), solo
+con `motion` y nunca con movimiento reducido. El bucle se despierta al mover el
+mouse y se duerme solo; cada cuadro lee primero todas las medidas y después
+escribe, para no forzar un reflujo por elemento.
+
 ## Qué se mueve en cada sección
 
 | Sección | Qué pasa |

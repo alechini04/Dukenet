@@ -26,6 +26,7 @@ const casos = [
 ];
 ---
 <section id="entregadas" class="ent" data-frente="entregadas" aria-labelledby="ent-title">
+  <span class="luz" aria-hidden="true"></span>
   <div class="wrap">
     <div class="ent__head">
       <h2 id="ent-title" class="t-display ent__title" data-rise>Obras<br />entregadas</h2>
@@ -36,7 +37,8 @@ const casos = [
       {casos.map((c, i) => (
         <article class={`caso ${i % 2 ? 'caso--flip' : ''}`}>
           <a class="caso__stage" href={c.url} target="_blank" rel="noopener" aria-label={`Abrir ${c.dominio} en una pestaña nueva`} data-caso>
-            <div class="browser">
+            <span class="brillo" aria-hidden="true"></span>
+            <div class="browser" data-tilt="2.4">
               <div class="browser__bar" aria-hidden="true">
                 <span class="browser__dots"><i></i><i></i><i></i></span>
                 <span class="browser__url t-plate">{c.dominio}</span>
@@ -45,7 +47,7 @@ const casos = [
                 <img class="scrollshot" src={c.desk} alt={`Página de inicio de ${c.nombre}`} width="1200" height="2167" loading="lazy" decoding="async" data-scrollshot />
               </div>
             </div>
-            <div class="phone" aria-hidden="true">
+            <div class="phone" aria-hidden="true" data-tilt="3.6">
               <div class="phone__view">
                 <img class="scrollshot" src={c.movil} alt="" width="560" height="2297" loading="lazy" decoding="async" data-scrollshot />
               </div>
@@ -101,7 +103,7 @@ const casos = [
 </section>
 
 <style>
-  .ent { background: var(--ink); padding-block: clamp(88px, 11vw, 170px); }
+  .ent { position: relative; isolation: isolate; background: var(--ink); padding-block: clamp(88px, 11vw, 170px); }
   .ent__head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 24px 60px; }
   .ent__title { font-size: clamp(2.6rem, 6.8vw, 7.2rem); }
   .ent__intro { max-width: 30ch; font-size: clamp(1.02rem, 1.2vw, 1.2rem); color: color-mix(in srgb, var(--paper) 72%, transparent); }
@@ -115,7 +117,19 @@ const casos = [
   .caso__stage {
     position: relative; display: block; text-decoration: none;
     padding: 0 clamp(40px, 7vw, 120px) clamp(28px, 4vw, 56px) 0;
+    perspective: 1500px; isolation: isolate;
   }
+  /* the screen spilling light into the room: it is what you actually see at night */
+  /* inset 0 on purpose: a negative inset would widen the page, while the blur
+     spills past the box as ink overflow and costs nothing in layout */
+  .brillo {
+    position: absolute; inset: 0; z-index: -1; pointer-events: none;
+    background: radial-gradient(54% 50% at 42% 46%, color-mix(in srgb, var(--sign-400) 92%, transparent), transparent 68%);
+    filter: blur(60px); opacity: 0.32;
+    transition: opacity 0.7s var(--ease-out);
+  }
+  .caso--flip .brillo { background: radial-gradient(56% 52% at 58% 46%, color-mix(in srgb, var(--sign-400) 90%, transparent), transparent 70%); }
+  .caso__stage:hover .brillo, .caso__stage:focus-visible .brillo { opacity: 0.6; }
   .caso--flip .caso__stage { padding: 0 0 clamp(28px, 4vw, 56px) clamp(40px, 7vw, 120px); }
 
   .browser {

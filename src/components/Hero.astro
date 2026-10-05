@@ -3,14 +3,16 @@ import Icon from './Icon.astro';
 import { WHATSAPP, wa, FASES } from '../data/site';
 ---
 <section id="inicio" class="hero" data-frente="inicio">
-  <div class="wrap hero__frame">
-    <div class="valla" data-valla>
+  <span class="luz" aria-hidden="true"></span>
+  <div class="wrap hero__frame escena">
+    <div class="valla" data-valla data-tilt data-glint>
+      <span class="glint" aria-hidden="true"></span>
       <span class="bolt bolt--tl" aria-hidden="true"></span>
       <span class="bolt bolt--tr" aria-hidden="true"></span>
       <span class="bolt bolt--bl" aria-hidden="true"></span>
       <span class="bolt bolt--br" aria-hidden="true"></span>
 
-      <h1 class="hero__title t-display" data-hero-title>
+      <h1 class="hero__title t-display" data-hero-title data-paralaje="-0.7">
         <span class="line"><span class="line__in">No hacemos</span></span>
         <span class="line"><span class="line__in"><span class="tachado" data-tachado><span class="tw">páginas</span> <span class="tw">bonitas</span></span></span></span>
         <span class="line"><span class="line__in hero__ink">hacemos ventas</span></span>
@@ -31,7 +33,7 @@ import { WHATSAPP, wa, FASES } from '../data/site';
           </div>
         </div>
 
-        <aside class="ficha" aria-label="Ficha de obra" data-ficha>
+        <aside class="ficha" aria-label="Ficha de obra" data-ficha data-paralaje="1.6">
           <header class="ficha__head">
             <span class="t-plate">Ficha de obra</span>
             <span class="t-plate ficha__ref">DKN · web a medida</span>
@@ -57,11 +59,11 @@ import { WHATSAPP, wa, FASES } from '../data/site';
 </section>
 
 <style>
-  .hero { padding-top: calc(67px + clamp(12px, 1.6vw, 22px)); padding-bottom: clamp(12px, 1.6vw, 22px); background: var(--ink); }
+  .hero { position: relative; isolation: isolate; padding-top: calc(67px + clamp(12px, 1.6vw, 22px)); padding-bottom: clamp(12px, 1.6vw, 22px); background: var(--ink); }
   .hero__frame { max-width: none; }
 
   .valla {
-    position: relative;
+    position: relative; z-index: 1;
     min-height: calc(100svh - 67px - 2 * clamp(12px, 1.6vw, 22px));
     display: grid; grid-template-rows: 1fr auto; gap: clamp(24px, 3vw, 44px);
     padding: clamp(40px, min(4.4vw, 7svh), 76px) clamp(26px, 4.4vw, 76px) clamp(28px, min(3.4vw, 5.5svh), 56px);

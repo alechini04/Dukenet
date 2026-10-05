@@ -3,9 +3,10 @@ import Icon from './Icon.astro';
 import { WHATSAPP, wa } from '../data/site';
 ---
 <footer class="pie">
+  <span class="luz" aria-hidden="true"></span>
   <div class="wrap">
     <p class="pie__mark" aria-label="DukeNet">
-      <span aria-hidden="true">DUKE</span><span class="pie__net" aria-hidden="true">NET</span>
+      <span aria-hidden="true">DUKE</span><span class="pie__net net-sheet" aria-hidden="true" data-net>NET</span>
     </p>
     <div class="pie__grid">
       <p class="pie__claim">Desarrollo web a medida para negocios de toda Colombia.</p>
@@ -45,7 +46,7 @@ import { WHATSAPP, wa } from '../data/site';
 </a>
 
 <style>
-  .pie { background: var(--ink); padding-block: clamp(80px, 10vw, 150px) 28px; }
+  .pie { position: relative; isolation: isolate; background: var(--ink); padding-block: clamp(80px, 10vw, 150px) 28px; }
   .pie__mark {
     display: flex; align-items: center; gap: 0.04em;
     font-family: var(--font-display); font-weight: 900; line-height: 0.8;
