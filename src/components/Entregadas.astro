@@ -26,16 +26,15 @@ const casos = [
 ];
 ---
 <section id="entregadas" class="ent" data-frente="entregadas" aria-labelledby="ent-title">
-  <span class="luz" aria-hidden="true"></span>
   <div class="wrap">
     <div class="ent__head">
       <h2 id="ent-title" class="t-display ent__title" data-rise>Obras<br />entregadas</h2>
       <p class="ent__intro" data-rise>Ninguna se parece a la otra. Ese es justamente el punto.</p>
     </div>
 
-    <div class="ent__list">
+    <div class="ent__list escena">
       {casos.map((c, i) => (
-        <article class={`caso ${i % 2 ? 'caso--flip' : ''}`}>
+        <article class={`caso ${i % 2 ? 'caso--flip' : ''}`} data-vuelo>
           <a class="caso__stage" href={c.url} target="_blank" rel="noopener" aria-label={`Abrir ${c.dominio} en una pestaña nueva`} data-caso>
             <span class="brillo" aria-hidden="true"></span>
             <div class="browser" data-tilt="2.4">
@@ -67,7 +66,7 @@ const casos = [
         </article>
       ))}
 
-      <article class="caso caso--obra">
+      <article class="caso caso--obra" data-vuelo>
         <div class="caso__stage caso__stage--obra">
           <div class="obra-cerca">
             <figure class="duo obra-cerca__img">
@@ -103,7 +102,7 @@ const casos = [
 </section>
 
 <style>
-  .ent { position: relative; isolation: isolate; background: var(--ink); padding-block: clamp(88px, 11vw, 170px); }
+  .ent { position: relative; padding-block: clamp(88px, 11vw, 170px); }
   .ent__head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 24px 60px; }
   .ent__title { font-size: clamp(2.6rem, 6.8vw, 7.2rem); }
   .ent__intro { max-width: 30ch; font-size: clamp(1.02rem, 1.2vw, 1.2rem); color: color-mix(in srgb, var(--paper) 72%, transparent); }
@@ -180,7 +179,7 @@ const casos = [
   .caso__link {
     display: inline-flex; align-items: center; gap: 8px;
     font-family: var(--font-plate); font-size: var(--fs-small); text-decoration: none;
-    border-bottom: 2px solid var(--sign); padding-bottom: 2px;
+    border-bottom: 2px solid var(--sign); padding: 3px 0 4px;
     transition: color 0.3s;
   }
   .caso__link :global(svg) { width: 16px; height: 16px; }

@@ -1,0 +1,14 @@
+---
+// The room a frente stands in: a perspective floor receding to a horizon, the
+// glow sitting on it, a cone of work light, and the lamp that follows the pointer.
+// Purely decorative; it never carries content and is hidden from assistive tech.
+interface Props { piso?: boolean; haz?: 'izq' | 'der' | 'none' }
+const { piso = true, haz = 'der' } = Astro.props;
+---
+<div class="sala" aria-hidden="true">
+  <span class="sala__horizonte"></span>
+  {piso && <span class="sala__piso" data-piso></span>}
+  {haz !== 'none' && <span class={`sala__haz sala__haz--${haz}`}></span>}
+  <canvas class="sala__polvo" data-polvo></canvas>
+  <span class="luz"></span>
+</div>

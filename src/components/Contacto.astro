@@ -4,9 +4,8 @@ import { WHATSAPP, wa, SERVICIOS } from '../data/site';
 const opciones = [...SERVICIOS.map((s) => ({ letra: s.letra, nombre: s.nombre })), { letra: 'E', nombre: 'Mejorar la que ya tengo' }, { letra: '?', nombre: 'Todavía no lo sé' }];
 ---
 <section id="contacto" class="contacto" data-frente="contacto" aria-labelledby="contacto-title">
-  <span class="luz" aria-hidden="true"></span>
   <div class="wrap escena">
-    <div class="valla-fin" data-tilt data-glint>
+    <div class="valla-fin" data-tilt data-glint data-vuelo>
       <span class="glint" aria-hidden="true"></span>
       <span class="bolt bolt--tl" aria-hidden="true"></span>
       <span class="bolt bolt--tr" aria-hidden="true"></span>
@@ -82,7 +81,7 @@ const opciones = [...SERVICIOS.map((s) => ({ letra: s.letra, nombre: s.nombre })
 </section>
 
 <style>
-  .contacto { position: relative; isolation: isolate; background: var(--ink); padding-block: clamp(12px, 1.6vw, 22px); }
+  .contacto { position: relative; padding-block: clamp(12px, 1.6vw, 22px); }
   .valla-fin {
     position: relative; z-index: 1; background: var(--sign); color: var(--ink);
     border-radius: var(--radius-sign);

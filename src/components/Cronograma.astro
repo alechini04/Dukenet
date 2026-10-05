@@ -18,7 +18,6 @@ const notas = [
 ];
 ---
 <section id="cronograma" class="crono" data-frente="cronograma" aria-labelledby="crono-title" data-crono>
-  <span class="luz" aria-hidden="true"></span>
   <div class="wrap crono__head">
     <h2 id="crono-title" class="t-display crono__title" data-rise>Cinco fases,<br />cero misterio</h2>
     <p class="crono__intro" data-rise>Así avanza una obra, contada con la tienda de El Gato Galletero. Baja despacio: se construye contigo.</p>
@@ -133,7 +132,7 @@ const notas = [
 </section>
 
 <style>
-  .crono { position: relative; isolation: isolate; background: var(--sign-900); color: var(--paper); padding-top: clamp(88px, 10vw, 150px); }
+  .crono { position: relative; background: color-mix(in srgb, var(--sign-900) 86%, transparent); color: var(--paper); padding-top: clamp(88px, 10vw, 150px); }
   .crono__head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 20px 60px; }
   .crono__title { font-size: clamp(2.5rem, 5.8vw, 6.2rem); }
   .crono__intro { max-width: 32ch; font-size: clamp(1.02rem, 1.2vw, 1.2rem); color: color-mix(in srgb, var(--paper) 78%, transparent); }

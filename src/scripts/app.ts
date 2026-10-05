@@ -83,6 +83,9 @@ const setFrente = (id: string) => {
   const f = FR[id]; if (!f || !code || !name) return;
   if (code.textContent === f[0]) return;
   code.textContent = f[0]; name.textContent = f[1];
+  frenteActivo = $(`#${id}`);
+  if (hudCode && hudName) { hudCode.textContent = f[0]; hudName.textContent = f[1]; }
+  if (marco && motion && !rm) gsap.fromTo(marco, { opacity: 0.25 }, { opacity: 1, duration: 0.5, ease: 'power2.out' });
   $$('[data-navlink]').forEach((l) => l.setAttribute('aria-current', String(l.dataset.navlink === id)));
   if (motion) gsap.fromTo([code, name], { yPercent: Y(60), autoAlpha: 0 }, { yPercent: 0, autoAlpha: 1, duration: 0.5, stagger: 0.05, ease: 'expo.out' });
 };
@@ -96,6 +99,38 @@ ScrollTrigger.create({
   start: 0, end: 'max',
   onUpdate: (self) => { if (fill) fill.style.transform = `scaleX(${self.progress.toFixed(4)})`; },
 });
+/* ── Survey overlay ────────────────────────────────────────────────────────
+   The HUD reads the page like an instrument: the frame locks onto the frente in
+   view and tracks it while it moves, the readout reports viewport and progress.
+   Decorative, desktop-only and off with reduced motion. */
+const hud = $('[data-hud]');
+const marco = $('[data-hud-marco]');
+const hudCode = $('[data-hud-code]');
+const hudName = $('[data-hud-name]');
+const lectura = $('[data-hud-lectura]');
+let frenteActivo: HTMLElement | null = null;
+if (hud && marco && motion && !rm) {
+  const setL = gsap.quickSetter(marco, 'left', 'px');
+  const setT = gsap.quickSetter(marco, 'top', 'px');
+  const setW = gsap.quickSetter(marco, 'width', 'px');
+  const setH = gsap.quickSetter(marco, 'height', 'px');
+  const M = 26;
+  const seguirMarco = (p = 0) => {
+    const sec = frenteActivo || $('#inicio');
+    if (!sec) return;
+    const b = sec.getBoundingClientRect();
+    const top = Math.max(79 + M, b.top + M);
+    const bottom = Math.min(innerHeight - M, b.bottom - M);
+    const left = Math.max(M, b.left + M);
+    const right = Math.min(innerWidth - M, b.right - M);
+    setL(left); setT(top); setW(Math.max(0, right - left)); setH(Math.max(0, bottom - top));
+    if (lectura) lectura.textContent = `${innerWidth}×${innerHeight} · obra ${Math.round(p * 100)}%`;
+  };
+  ScrollTrigger.create({ start: 0, end: 'max', onUpdate: (self) => seguirMarco(self.progress), onRefresh: (self) => seguirMarco(self.progress) });
+  addEventListener('resize', () => seguirMarco());
+  seguirMarco();
+}
+
 const flota = $('[data-flota]');
 const contacto = $('#contacto');
 if (flota && contacto) {
@@ -249,10 +284,14 @@ function initMotion() {
       y: gsap.quickTo(el, 'yPercent', { duration: 1.1, ease: 'power3' }),
     }));
 
+    const mira = $('[data-hud-mira]');
+    const miraX = mira ? gsap.quickTo(mira, 'x', { duration: 0.45, ease: 'power3' }) : null;
+    const miraY = mira ? gsap.quickTo(mira, 'y', { duration: 0.45, ease: 'power3' }) : null;
+
     let tx = innerWidth * 0.5, ty = innerHeight * 0.24;
     let cx = tx, cy = ty, raf = 0;
 
-    const marco = () => {
+    const cuadro = () => {
       cx += (tx - cx) * 0.085;
       cy += (ty - cy) * 0.085;
       root.style.setProperty('--mx', `${((cx / innerWidth) * 100).toFixed(2)}%`);
@@ -296,15 +335,17 @@ function initMotion() {
       const py = gsap.utils.clamp(-1, 1, (cy / innerHeight - 0.5) * 2);
       for (const pl of planos) { pl.x(px * pl.f); pl.y(py * pl.f * 0.6); }
 
-      raf = Math.abs(tx - cx) > 0.4 || Math.abs(ty - cy) > 0.4 ? requestAnimationFrame(marco) : 0;
+      miraX?.(tx); miraY?.(ty);
+
+      raf = Math.abs(tx - cx) > 0.4 || Math.abs(ty - cy) > 0.4 ? requestAnimationFrame(cuadro) : 0;
     };
 
     addEventListener('pointermove', (e) => {
       if (e.pointerType !== 'mouse') return;
       tx = e.clientX; ty = e.clientY;
-      if (!raf) raf = requestAnimationFrame(marco);
+      if (!raf) raf = requestAnimationFrame(cuadro);
     }, { passive: true });
-    marco();
+    cuadro();
   }
 
   /* Hero: the sign is raised, then lettered, then the old promise is crossed out */
@@ -507,9 +548,57 @@ function initMotion() {
     });
   }
 
-  /* Closing sign: rises into place like the first one */
-  const fin = $('.valla-fin');
-  if (fin && !rm) gsap.fromTo(fin, { clipPath: 'inset(18% 4% 0% 4% round 22px)' }, { clipPath: 'inset(0% 0% 0% 0% round 22px)', ease: 'none', scrollTrigger: { trigger: fin, start: 'top bottom', end: 'top 30%', scrub: true } });
+  /* The closing sign arrives from depth like everything else in the room (data-vuelo) */
+
+  /* The instrument acquires the first frente: the frame comes in wide and locks on */
+  if (hud && marco && !rm) {
+    gsap.fromTo(hud, { autoAlpha: 0 }, { autoAlpha: 1, duration: 0.8, ease: 'power2.out', delay: 0.9 });
+    gsap.fromTo(marco, { scale: 1.08, transformOrigin: '50% 50%' }, { scale: 1, duration: 1.1, ease: 'expo.out', delay: 0.9 });
+  }
+
+  /* Dust hanging in the work light: a thin field of motes drifting upward.
+     It is what makes a beam of light look like a beam and not a gradient. */
+  const lienzo = $<HTMLCanvasElement>('[data-polvo]');
+  if (lienzo && !rm && innerWidth >= 900) {
+    const ctx = lienzo.getContext('2d');
+    if (ctx) {
+      const dpr = Math.min(devicePixelRatio || 1, 1.5);
+      let w = 0, h = 0;
+      const motas = Array.from({ length: 70 }, () => ({
+        x: Math.random(), y: Math.random(), z: 0.3 + Math.random() * 0.7,
+        s: 0.5 + Math.random() * 1.5, v: 0.015 + Math.random() * 0.05,
+      }));
+      const medir = () => { w = lienzo.width = Math.round(innerWidth * dpr); h = lienzo.height = Math.round(innerHeight * dpr); };
+      medir();
+      addEventListener('resize', medir);
+      const pintar = () => {
+        if (!document.hidden) {
+          ctx.clearRect(0, 0, w, h);
+          ctx.fillStyle = '#b5d9fd';
+          for (const m of motas) {
+            m.y -= m.v / 120;
+            if (m.y < -0.02) { m.y = 1.02; m.x = Math.random(); }
+            m.x += Math.sin((m.y + m.z) * 6) * 0.00018;
+            ctx.globalAlpha = 0.06 + m.z * 0.15;
+            ctx.beginPath();
+            ctx.arc(m.x * w, m.y * h, m.s * m.z * dpr, 0, Math.PI * 2);
+            ctx.fill();
+          }
+        }
+        requestAnimationFrame(pintar);
+      };
+      pintar();
+    }
+  }
+
+  /* Things arrive from depth: the camera is in the room, so objects come toward
+     you instead of sliding up a page. Scrubbed, so going back puts them away. */
+  if (!rm) $$('[data-vuelo]').forEach((el) => {
+    gsap.fromTo(el, { z: -340, rotationX: 6, autoAlpha: 0.35 }, {
+      z: 0, rotationX: 0, autoAlpha: 1, ease: 'none',
+      scrollTrigger: { trigger: el, start: 'top bottom', end: 'top 58%', scrub: 0.7 },
+    });
+  });
 
   /* Barrier tape drifts as you pass each threshold */
   if (!rm) $$('.rail').forEach((r) => {

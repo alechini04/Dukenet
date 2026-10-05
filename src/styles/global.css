@@ -198,6 +198,47 @@ html { scrollbar-color: var(--sign) var(--ink); }
   background: var(--sign); mix-blend-mode: multiply; opacity: 0.92;
 }
 
+/* ── Sala: every dark frente is a room, not a flat band ─────────────────── */
+/* A floor in perspective running to a horizon, the bloom that sits on it and a
+   cone of work light. Absolute and z-index -1 inside an isolated section, so it
+   lies above the ground and under every piece of content. */
+.sala { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+/* the page itself floats above the room */
+header, main, footer { position: relative; z-index: 1; }
+
+.sala__piso {
+  position: absolute; left: -30%; right: -30%; bottom: -1px; height: 52vh;
+  transform-origin: 50% 100%;
+  transform: perspective(520px) rotateX(76deg);
+  background-image:
+    linear-gradient(to right, color-mix(in srgb, var(--sign-400) 30%, transparent) 1px, transparent 1px),
+    linear-gradient(to bottom, color-mix(in srgb, var(--sign-400) 30%, transparent) 1px, transparent 1px);
+  background-size: 92px 92px;
+  background-position: var(--piso-x, 0px) var(--piso-y, 0px);
+  -webkit-mask-image: linear-gradient(to top, #000 0%, rgba(0, 0, 0, 0.55) 32%, transparent 82%);
+  mask-image: linear-gradient(to top, #000 0%, rgba(0, 0, 0, 0.55) 32%, transparent 82%);
+  opacity: 0.9;
+}
+
+.sala__horizonte {
+  position: absolute; left: 50%; bottom: 38%; width: 130%; height: 34vh;
+  transform: translateX(-50%);
+  background: radial-gradient(50% 52% at 50% 100%, color-mix(in srgb, var(--sign) 34%, transparent), transparent 72%);
+  filter: blur(28px);
+}
+
+.sala__haz {
+  position: absolute; top: -14%; width: 46vmax; height: 108%;
+  background: linear-gradient(to bottom, color-mix(in srgb, var(--sign-300) 16%, transparent), transparent 74%);
+  filter: blur(26px);
+  clip-path: polygon(46% 0, 54% 0, 100% 100%, 0 100%);
+}
+.sala__polvo { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 1.4s var(--ease-out); }
+html.motion:not(.rm) .sala__polvo { opacity: 1; }
+
+.sala__haz--der { right: -6vmax; transform: rotate(7deg); }
+.sala__haz--izq { left: -6vmax; transform: rotate(-7deg); }
+
 /* ── Night-site light ───────────────────────────────────────────────────── */
 /* One work lamp follows the pointer and lights the ground of each dark region.
    The layer is absolute (a fixed one gets composited above the panels in Chrome)
@@ -205,9 +246,9 @@ html { scrollbar-color: var(--sign) var(--ink); }
    still reads as a single lamp walking across the page. z-index -1 inside an
    isolated parent keeps it above the section's ground and under its content. */
 .luz {
-  position: absolute; inset: 0; z-index: -1; pointer-events: none;
+  position: absolute; inset: 0; pointer-events: none;
   opacity: 0;
-  background: radial-gradient(42vmax 36vmax at var(--lx, 50%) var(--ly, 18%), color-mix(in srgb, var(--sign-300) 11%, transparent), transparent 68%);
+  background: radial-gradient(40vmax 34vmax at var(--mx) var(--my), color-mix(in srgb, var(--sign-300) 13%, transparent), transparent 66%);
   transition: opacity 0.9s var(--ease-out);
 }
 html.motion:not(.rm) .luz { opacity: 1; }

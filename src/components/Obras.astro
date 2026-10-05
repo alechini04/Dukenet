@@ -31,10 +31,11 @@ import { SERVICIOS } from '../data/site';
         ))}
       </div>
 
-      <div class="obras__panels">
+      <div class="obras__panels escena">
         {SERVICIOS.map((s, i) => (
           <div
             class="panel"
+            data-vuelo
             role="tabpanel"
             id={`panel-${s.id}`}
             aria-labelledby={`tab-${s.id}`}
@@ -65,10 +66,10 @@ import { SERVICIOS } from '../data/site';
 </section>
 
 <style>
-  .obras { background: var(--paper); color: var(--ink); padding-block: clamp(88px, 11vw, 170px); }
+  .obras { position: relative; color: var(--paper); padding-block: clamp(88px, 11vw, 170px); }
   .obras__head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: end; gap: 24px 60px; }
   .obras__title { font-size: clamp(2.6rem, 6.8vw, 7.2rem); }
-  .obras__intro { max-width: 34ch; font-size: clamp(1.02rem, 1.2vw, 1.2rem); color: var(--concrete-800); }
+  .obras__intro { max-width: 34ch; font-size: clamp(1.02rem, 1.2vw, 1.2rem); color: color-mix(in srgb, var(--paper) 72%, transparent); }
 
   .obras__body {
     margin-top: clamp(44px, 5.5vw, 84px);
@@ -81,11 +82,13 @@ import { SERVICIOS } from '../data/site';
     display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 16px;
     width: 100%; text-align: left; cursor: pointer;
     padding: 16px 18px 16px 14px;
-    background: transparent; color: var(--ink);
-    border: 2px dashed color-mix(in srgb, var(--ink) 38%, transparent);
+    background: color-mix(in srgb, var(--ink) 55%, transparent);
+    -webkit-backdrop-filter: blur(10px); backdrop-filter: blur(10px);
+    color: var(--paper);
+    border: 2px dashed color-mix(in srgb, var(--paper) 32%, transparent);
     transition: background 0.5s var(--ease-out), border-color 0.5s var(--ease-out), color 0.5s var(--ease-out);
   }
-  .tab:hover { border-color: var(--ink); }
+  .tab:hover { border-color: color-mix(in srgb, var(--sign-300) 75%, transparent); }
   .tab__letra {
     display: grid; place-items: center; width: 46px; height: 46px;
     font-family: var(--font-display); font-weight: 900; font-size: 1.5rem; line-height: 1;
@@ -93,17 +96,21 @@ import { SERVICIOS } from '../data/site';
     padding-top: 3px;
   }
   .tab__nombre { display: block; font-family: var(--font-display); font-weight: 800; font-size: clamp(1.1rem, 1.5vw, 1.4rem); line-height: 1.1; text-transform: uppercase; letter-spacing: -0.005em; }
-  .tab__corto { display: block; margin-top: 3px; font-size: var(--fs-note); color: var(--concrete-700); transition: color 0.5s var(--ease-out); }
+  .tab__corto { display: block; margin-top: 3px; font-size: var(--fs-note); color: color-mix(in srgb, var(--paper) 60%, transparent); transition: color 0.5s var(--ease-out); }
   .tab :global(.tab__arrow) { width: 22px; height: 22px; opacity: 0; transform: translateX(-8px); transition: opacity 0.4s, transform 0.5s var(--ease-out); }
 
-  .tab[aria-selected='true'] { background: var(--ink); color: var(--paper); border-style: solid; border-color: var(--ink); }
-  .tab[aria-selected='true'] .tab__letra { background: var(--sign); color: var(--ink); border-color: var(--sign); }
-  .tab[aria-selected='true'] .tab__corto { color: var(--concrete-400); }
-  .tab[aria-selected='true'] :global(.tab__arrow) { opacity: 1; transform: none; color: var(--sign-400); }
+  .tab[aria-selected='true'] { background: var(--sign); color: var(--ink); border-style: solid; border-color: var(--sign-300); }
+  .tab[aria-selected='true'] .tab__letra { background: var(--ink); color: var(--sign-200); border-color: var(--ink); }
+  /* solid ink, not a mix: on sign blue a 72% mix falls to 3.4:1 */
+  .tab[aria-selected='true'] .tab__corto { color: var(--ink); }
+  .tab[aria-selected='true'] :global(.tab__arrow) { opacity: 1; transform: none; color: var(--ink); }
 
   .panel {
     display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
-    background: var(--ink); color: var(--paper);
+    background: color-mix(in srgb, var(--ink) 78%, transparent);
+    -webkit-backdrop-filter: blur(14px) saturate(1.2); backdrop-filter: blur(14px) saturate(1.2);
+    border: 1px solid color-mix(in srgb, var(--sign-300) 28%, transparent);
+    color: var(--paper);
     overflow: hidden; min-height: 520px;
   }
   .panel[hidden] { display: none; }

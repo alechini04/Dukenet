@@ -30,7 +30,7 @@ const embudo = [
       </ul>
     </div>
 
-    <figure class="dash" data-dash data-tilt="1.6">
+    <figure class="dash" data-dash data-tilt="1.6" data-vuelo>
       <span class="barrido" aria-hidden="true" data-barrido></span>
       <div class="dash__head">
         <span class="dash__title">Panel de ventas <span class="t-plate">Últimos 30 días</span></span>
@@ -80,15 +80,22 @@ const embudo = [
 </section>
 
 <style>
-  .panel-sec { background: var(--paper); color: var(--ink); padding-block: clamp(88px, 11vw, 170px); }
+  .panel-sec { position: relative; color: var(--paper); padding-block: clamp(88px, 11vw, 170px); }
   .panel-sec__grid { display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 7fr); gap: clamp(36px, 5vw, 90px); align-items: center; }
   .panel-sec__title { font-size: clamp(2.6rem, 6vw, 6.4rem); }
-  .panel-sec__lead { margin-top: 24px; max-width: 44ch; font-size: clamp(1.05rem, 1.25vw, 1.25rem); color: var(--concrete-800); }
+  .panel-sec__lead { margin-top: 24px; max-width: 44ch; font-size: clamp(1.05rem, 1.25vw, 1.25rem); color: color-mix(in srgb, var(--paper) 76%, transparent); }
   .panel-sec__list { list-style: none; margin: 28px 0 0; padding: 0; display: grid; gap: 0; }
-  .panel-sec__list li { display: flex; align-items: center; gap: 14px; padding-block: 13px; border-top: 1px solid var(--concrete-300); font-weight: 650; }
+  .panel-sec__list li { display: flex; align-items: center; gap: 14px; padding-block: 13px; border-top: 1px solid color-mix(in srgb, var(--paper) 18%, transparent); font-weight: 650; }
   .panel-sec__list li::before { content: ''; width: 10px; height: 10px; background: var(--sign); flex: none; }
 
-  .dash { position: relative; overflow: hidden; background: var(--ink); color: var(--paper); padding: clamp(20px, 2.4vw, 34px); box-shadow: 0 50px 90px -50px color-mix(in srgb, var(--sign-800) 90%, transparent); }
+  .dash {
+    position: relative; overflow: hidden; color: var(--paper);
+    padding: clamp(20px, 2.4vw, 34px);
+    background: color-mix(in srgb, var(--ink) 74%, transparent);
+    -webkit-backdrop-filter: blur(16px) saturate(1.25); backdrop-filter: blur(16px) saturate(1.25);
+    border: 1px solid color-mix(in srgb, var(--sign-300) 34%, transparent);
+    box-shadow: 0 50px 90px -50px #000;
+  }
   /* the reading pass: one light crosses the panel while the figures count up */
   .barrido {
     position: absolute; inset: 0; z-index: 3; pointer-events: none; opacity: 0;

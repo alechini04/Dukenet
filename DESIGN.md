@@ -131,15 +131,18 @@ components:
 
 ## Overview
 
-**Creative North Star: "Valla de obra"**
+**Creative North Star: "Valla de obra", seen inside the site at night**
 
-Every DukeNet surface is a municipal construction-site license sign and the paperwork that travels with it. The sign is a steel-blue informative road-sign panel with a reflective white inner border and four bolts; around it lies the night-site ground in near-black ink, with off-white plates carrying actions, and concrete greys for secondary text and rules. Black-and-white barrier stripes mark the threshold between one frente (work front) and the next, each carrying its FR-0x plate code. Data is laid out as a ficha técnica: monospace terms, heavy values, hairline rules.
+Every DukeNet surface is a municipal construction-site license sign and the paperwork that travels with it, and since 2026-10-05 the page is no longer a stack of flat bands: it is one dark room that the whole page floats in. A perspective floor runs to a horizon behind every frente, a cone of work light falls across it, dust drifts in the beam and a survey overlay locks onto whatever frente you are reading. The sign is a steel-blue informative road-sign panel with a reflective white inner border and four bolts; around it lies the night-site ground in near-black ink, with off-white plates carrying actions, and concrete greys for secondary text and rules. Black-and-white barrier stripes mark the threshold between one frente (work front) and the next, each carrying its FR-0x plate code. Data is laid out as a ficha técnica: monospace terms, heavy values, hairline rules.
 
 The world is dense and declarative. Headlines are highway-sign lettering at heavy weights, uppercase and tightly set; body copy is plain Overpass at a comfortable measure. Photography is never shown raw; it is duotoned into sign blue. State is shown the way a site schedule shows it: dashed is pending or not selected, solid is done or selected. Motion builds things: the sign rises, lines are unmasked, a promise is struck through, and a client site is built in front of you as you scroll. Copy is Spanish (es-CO), direct, in tuteo.
 
 Rejected: the dark-agency hero with condensed giant type and moody unprocessed photos, and any yellow or orange "construction" cliché. Construction is carried by blue sign, black ink, white plates and stripes only.
 
 **Key Characteristics:**
+- One room (`Sala.astro`) behind the entire page: floor grid, horizon bloom, light cone, dust and the pointer lamp. Frentes paint no ground of their own, so the room runs through all of them.
+- A survey overlay (`Hud.astro`) locks a corner frame onto the frente in view, labels it FR-0x and reports viewport and progress; the reticle follows the pointer.
+- Panels that carry data float in the room as glass: the hero ficha, the obra cards and the dashboard are translucent ink with a sign-300 edge, blurred backdrop and depth parallax. The quote form stays a solid paper sheet: it is the one document you fill in.
 - Steel-blue sign panels drench whole regions; ink ground everywhere else.
 - Sign panels alone are rounded; every other surface is square.
 - Buttons are plates with a fill wipe from below on hover.
@@ -301,6 +304,14 @@ when the client's site goes live, and the dashboard takes a single reading pass 
 its figures count up. Every one of these is pointer-driven, desktop-only
 (`hover: hover and pointer: fine`), and absent under reduced motion.
 
+### Depth (signature)
+Objects arrive from depth instead of sliding up the page: anything marked `[data-vuelo]`
+(each case, the obra card, the dashboard, the closing sign) is scrubbed from
+`z: -340px, rotateX: 6deg, autoAlpha: .35` to rest as it enters, inside a parent carrying
+`.escena` (perspective 1700px). Going back up puts it away again. The hero sign and the
+ficha lean toward the lamp and part by a couple of percent, so the first viewport reads as
+two planes at different distances rather than one card.
+
 ### Motion
 GSAP with Lenis smooth scroll (lerp 0.1). Easing is expo.out / expo.inOut (CSS ease-out cubic-bezier(0.16, 1, 0.3, 1), ease-in-out cubic-bezier(0.76, 0, 0.24, 1)); durations 0.5–1.3s. Entrance grammar: the sign rises by clip-path from below, headline lines unmask upward, the refused words are struck through word by word, the ficha drops in with a slight rotation, bolts spin in. Photos reveal by clip-path with a scale settle. Numbers count up with damped expo easing; chart bars settle with a soft elastic. Reduced motion keeps fades and count-ups and drops smooth scroll, pinning, parallax, scale and travel.
 
@@ -314,7 +325,11 @@ GSAP with Lenis smooth scroll (lerp 0.1). Easing is expo.out / expo.inOut (CSS e
 - **Do** present facts as a ficha técnica: Overpass Mono terms, heavy values, hairline rows.
 - **Do** use dashed strokes for pending or unselected and solid for done or selected.
 - **Do** duotone every photo into sign blue (grayscale image under a sign multiply layer on sign-800).
-- **Do** keep reduced motion to fades and count-ups.
+- **Do** keep reduced motion to fades and count-ups; the room itself (floor, horizon, beam,
+  glass) is static design, so it stays — only the lamp, the dust, the HUD and the depth
+  flights drop out.
+- **Do** keep one solid paper sheet in the page (the quote form) as the anchor the eye
+  trusts; everything else that carries data is glass.
 - **Do** let light land on the sign's reflective border and on the ground around it; the
   panel face stays an even blue, because paper lettering on sign blue is only 3.6:1 and
   any wash across the field drops it under the large-text minimum.

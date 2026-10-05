@@ -41,6 +41,25 @@ En el código eso se ve así:
 - El cronograma se reparte en dos con `gsap.matchMedia()`: anclado y ligado al
   scroll si hay movimiento; reproducido una vez, más rápido, si no.
 
+## La sala
+
+Desde el 5 de octubre de 2026 la página no es una pila de franjas: es **una sola
+sala oscura** y todo flota dentro. El componente `Sala.astro` se monta una vez en
+`Base.astro` y queda fijo detrás de la página:
+
+- **Piso en perspectiva** con una cuadrícula que corre hasta un horizonte.
+- **Resplandor del horizonte** y un **cono de luz de obra** en diagonal.
+- **Polvo** en el haz: 70 motas en un canvas, muy tenues, que suben despacio.
+- **La lámpara** que sigue al puntero.
+
+Para que la sala se vea, las secciones oscuras dejaron de pintar su propio fondo.
+Si agregas una sección nueva y le pones `background`, tapas la sala.
+
+`Hud.astro` es el **instrumento**: un marco de esquinas que se engancha al frente
+que estás leyendo y lo sigue mientras se mueve, con su placa `FR-0x`, una mira que
+sigue al puntero y una lectura con el tamaño de pantalla y el avance. Es
+decorativo, solo aparece en pantallas anchas y se apaga con movimiento reducido.
+
 ## La luz
 
 El sitio es una obra de noche, así que está iluminado, no plano. Hay **una sola

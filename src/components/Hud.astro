@@ -1,0 +1,61 @@
+---
+// Survey overlay: the page read through an instrument. A frame locks onto the
+// frente in view, the reticle follows the pointer and the readout reports what
+// the instrument sees. Decorative: no content lives here.
+---
+<div class="hud" aria-hidden="true" data-hud>
+  <div class="hud__marco" data-hud-marco>
+    <span class="hud__esq hud__esq--tl"></span>
+    <span class="hud__esq hud__esq--tr"></span>
+    <span class="hud__esq hud__esq--bl"></span>
+    <span class="hud__esq hud__esq--br"></span>
+    <span class="hud__etiqueta t-plate"><b data-hud-code>FR-01</b><i data-hud-name>Inicio</i></span>
+  </div>
+
+  <span class="hud__mira" data-hud-mira>
+    <span class="hud__mira-v"></span>
+    <span class="hud__mira-h"></span>
+    <span class="hud__mira-anillo"></span>
+  </span>
+
+  <span class="hud__lectura t-plate" data-hud-lectura></span>
+</div>
+
+<style>
+  .hud {
+    position: fixed; inset: 0; z-index: 50; pointer-events: none;
+    opacity: 0; transition: opacity 0.8s var(--ease-out);
+    color: var(--sign-300);
+  }
+  :global(html.motion:not(.rm)) .hud { opacity: 1; }
+
+  .hud__marco { position: absolute; left: 0; top: 0; width: 0; height: 0; }
+  .hud__esq { position: absolute; width: 22px; height: 22px; opacity: 0.55; }
+  .hud__esq--tl { left: 0; top: 0; border-left: 1px solid currentColor; border-top: 1px solid currentColor; }
+  .hud__esq--tr { right: 0; top: 0; border-right: 1px solid currentColor; border-top: 1px solid currentColor; }
+  .hud__esq--bl { left: 0; bottom: 0; border-left: 1px solid currentColor; border-bottom: 1px solid currentColor; }
+  .hud__esq--br { right: 0; bottom: 0; border-right: 1px solid currentColor; border-bottom: 1px solid currentColor; }
+
+  .hud__etiqueta {
+    position: absolute; left: 0; top: -22px;
+    display: flex; align-items: center; gap: 7px;
+    font-size: var(--fs-micro); opacity: 0.8;
+  }
+  .hud__etiqueta b { font-weight: 500; border: 1px solid color-mix(in srgb, var(--sign-300) 45%, transparent); padding: 1px 5px; }
+  .hud__etiqueta i { font-style: normal; color: color-mix(in srgb, var(--paper) 55%, transparent); }
+
+  .hud__mira { position: absolute; left: 0; top: 0; width: 0; height: 0; opacity: 0.6; }
+  .hud__mira-v { position: absolute; left: 0; top: -13px; width: 1px; height: 26px; background: currentColor; }
+  .hud__mira-h { position: absolute; top: 0; left: -13px; height: 1px; width: 26px; background: currentColor; }
+  .hud__mira-anillo {
+    position: absolute; left: -17px; top: -17px; width: 34px; height: 34px;
+    border: 1px solid color-mix(in srgb, var(--sign-300) 40%, transparent); border-radius: 50%;
+  }
+
+  .hud__lectura {
+    position: absolute; right: 18px; bottom: 16px;
+    font-size: var(--fs-micro); opacity: 0.5; letter-spacing: 0.1em;
+  }
+
+  @media (max-width: 1100px) { .hud { display: none; } }
+</style>

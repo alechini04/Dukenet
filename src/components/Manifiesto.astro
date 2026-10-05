@@ -6,13 +6,12 @@ const principios = [
 ];
 ---
 <section id="manifiesto" class="mani" data-frente="manifiesto" aria-labelledby="mani-title">
-  <span class="luz" aria-hidden="true"></span>
   <div class="wrap">
     <h2 id="mani-title" class="mani__statement t-display" data-words>
       Una plantilla te hace uno más. <span class="mani__hi">Nosotros te hacemos el único.</span>
     </h2>
 
-    <div class="mani__grid escena">
+    <div class="mani__grid escena" data-vuelo-hijos>
       <figure class="mani__photo duo" data-clip data-tilt="1.4">
         <img src="/fotos/diagnostico.jpg" alt="Reunión de diagnóstico alrededor de una mesa con libreta y tableta" loading="lazy" decoding="async" width="1200" height="857" />
         <figcaption class="t-plate">Diagnóstico · antes de diseñar</figcaption>
@@ -30,7 +29,7 @@ const principios = [
 </section>
 
 <style>
-  .mani { position: relative; isolation: isolate; background: var(--ink); padding-block: clamp(96px, 13vw, 200px) clamp(80px, 10vw, 160px); }
+  .mani { position: relative; padding-block: clamp(96px, 13vw, 200px) clamp(80px, 10vw, 160px); }
   .mani__statement {
     font-size: clamp(2.5rem, 6.6vw, 7rem);
     line-height: 0.92; max-width: 15ch;
