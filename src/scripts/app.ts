@@ -342,6 +342,8 @@ function initMotion() {
       gsap.set($('[data-layer="cotas"]', obra), { opacity: 0 });
       revealRect.setAttribute('width', '0');
       tl.eventCallback('onUpdate', () => setPhase(tl.time()));
+      // the markup carries the finished obra for the no-JS case; wind it back to phase one
+      setPhase(0);
       return tl;
     }
 

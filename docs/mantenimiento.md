@@ -66,6 +66,9 @@ casi siempre hay otro proceso ocupando el puerto. Ciérralo o usa
 4. Recorre la página entera de arriba abajo **y de vuelta hacia arriba**: el
    cronograma tiene que verse bien en los dos sentidos.
 5. Si tocaste algo con movimiento, míralo también con movimiento reducido.
+6. Si tocaste el formulario, el encabezado o el cronograma, míralo además con
+   JavaScript desactivado: esas tres piezas tienen una versión propia para ese
+   caso (ver [animaciones.md](animaciones.md)).
 
 ## Estado de accesibilidad
 

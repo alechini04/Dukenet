@@ -65,6 +65,13 @@ const opciones = [...SERVICIOS.map((s) => ({ letra: s.letra, nombre: s.nombre })
           <div class="solicitud__foot">
             <button type="submit" class="plate">Enviar por WhatsApp <Icon name="arrow-ur" /></button>
             <p class="solicitud__status" role="status" data-status></p>
+            <p class="solicitud__nojs">
+              Este formulario abre WhatsApp con tu mensaje ya escrito, y para eso necesita JavaScript.
+              Tu navegador lo tiene desactivado, así que escríbenos directo al{' '}
+              {WHATSAPP.map((w, i) => (
+                <>{i > 0 && <>{' '}o al{' '}</>}<a href={wa(w.tel, 'Hola DukeNet, quiero cotizar la web de mi negocio.')} target="_blank" rel="noopener">{w.label}</a></>
+              ))}.
+            </p>
           </div>
         </form>
       </div>
@@ -152,6 +159,13 @@ const opciones = [...SERVICIOS.map((s) => ({ letra: s.letra, nombre: s.nombre })
 
   .solicitud__foot { margin-top: 28px; display: flex; flex-wrap: wrap; align-items: center; gap: 14px 20px; }
   .solicitud__status { font-size: var(--fs-note); font-weight: 600; color: var(--sign-700); }
+
+  /* Without JavaScript the submit button cannot compose the message, so it steps aside
+     and the two numbers take its place. */
+  .solicitud__nojs { display: none; }
+  :global(html:not(.motion)) .solicitud__nojs { display: block; font-size: var(--fs-note); line-height: 1.45; }
+  :global(html:not(.motion)) .solicitud__nojs a { font-weight: 750; text-decoration-color: var(--sign); }
+  :global(html:not(.motion)) .solicitud__foot .plate { display: none; }
 
   @media (max-width: 960px) { .contacto__grid { grid-template-columns: minmax(0, 1fr); } }
   @media (max-width: 480px) {

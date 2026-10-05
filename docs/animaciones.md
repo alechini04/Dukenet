@@ -23,6 +23,13 @@ if (matchMedia('(prefers-reduced-motion: reduce)').matches)
   y quieta: nada arranca escondido esperando una animación que no va a llegar.
 - **`rm`** se agrega si el sistema del visitante pide menos movimiento.
 
+Sin JavaScript la página queda completa y quieta, y además cambia lo que no
+tendría sentido: el botón de menú (que no podría abrir nada) deja su lugar al
+de cotizar, el botón de enviar del formulario se reemplaza por los dos números
+de WhatsApp, y el cronograma muestra la obra terminada —la tienda real, el
+sello y el reporte— en vez de quedarse a medio construir. Esas reglas se
+escriben con `:global(html:not(.motion))`.
+
 Con `rm` la página **no se queda sin vida**: conserva las apariciones suaves y
 el conteo de cifras, pero se van el desplazamiento suave, el anclaje del
 cronograma, los desplazamientos en paralaje, los zooms y los recorridos largos.

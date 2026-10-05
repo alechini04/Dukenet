@@ -142,4 +142,8 @@ const nav = [
   @media (max-width: 420px) {
     .hdr__cta { display: none; }
   }
+
+  /* Without JavaScript the menu button has nothing to open, so the quote plate stays instead */
+  :global(html:not(.motion)) .hdr__toggle { display: none; }
+  :global(html:not(.motion)) .hdr__cta { display: inline-flex; }
 </style>
