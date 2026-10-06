@@ -11,6 +11,7 @@ para un cliente.
 | [animaciones.md](animaciones.md) | Cómo funciona el movimiento, cómo se ajusta y cómo se prueba con movimiento reducido. |
 | [publicar.md](publicar.md) | Compilar, publicar, dominio, SEO y qué hacer después de salir al aire. |
 | [mantenimiento.md](mantenimiento.md) | Comandos, dependencias, trampas conocidas y cómo verificar que algo no se rompió. |
+| [legal.md](legal.md) | Las tres páginas legales, qué exige la ley colombiana y qué falta completar. |
 
 Documentos que ya existían y siguen siendo la fuente de verdad de otra cosa:
 
@@ -32,6 +33,7 @@ Documentos que ya existían y siguen siendo la fuente de verdad de otra cosa:
 | Agregar o editar un caso entregado | [`src/components/Entregadas.astro`](../src/components/Entregadas.astro) |
 | Cambiar las cifras del panel de ejemplo | [`src/components/Panel.astro`](../src/components/Panel.astro) |
 | Cambiar el título de la pestaña o la descripción para Google | [`src/pages/index.astro`](../src/pages/index.astro) |
+| Completar NIT, domicilio o correo legal | [`src/data/legal.ts`](../src/data/legal.ts) |
 | Cambiar el dominio | [`astro.config.mjs`](../astro.config.mjs) y [`public/robots.txt`](../public/robots.txt) |
 | Cambiar colores, tipografía o botones | [`src/styles/global.css`](../src/styles/global.css) |
 | Ajustar o apagar una animación | [`src/scripts/app.ts`](../src/scripts/app.ts) |

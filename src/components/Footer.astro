@@ -25,16 +25,29 @@ const MSG = 'Hola DukeNet, quiero información para la web de mi negocio.';
         <div>
           <span class="pie__lab">Sitio</span>
           <ul>
-            <li><a href="#obras">Qué hacemos</a></li>
-            <li><a href="#montaje">Cómo</a></li>
-            <li><a href="#contacto">Cotizar</a></li>
+            <li><a href="/#obras">Qué hacemos</a></li>
+            <li><a href="/#montaje">Cómo</a></li>
+            <li><a href="/#contacto">Cotizar</a></li>
+          </ul>
+        </div>
+        <div>
+          <span class="pie__lab">Legal</span>
+          <ul>
+            <li><a href="/privacidad">Tratamiento de datos</a></li>
+            <li><a href="/cookies">Cookies</a></li>
+            <li><a href="/terminos">Términos y condiciones</a></li>
           </ul>
         </div>
       </nav>
     </div>
     <div class="pie__base">
-      <span>© 2026 DukeNet</span>
-      <a href="#inicio" class="pie__arriba">Volver arriba <Icon name="arrow-ur" /></a>
+      <span>© 2026 DukeNet · Colombia</span>
+      <span class="pie__legal">
+        <a href="/privacidad">Datos personales</a>
+        <a href="/cookies">Cookies</a>
+        <a href="/terminos">Términos</a>
+      </span>
+      <a href="/#inicio" class="pie__arriba">Volver arriba <Icon name="arrow-ur" /></a>
     </div>
   </div>
 </footer>
@@ -49,12 +62,12 @@ const MSG = 'Hola DukeNet, quiero información para la web de mi negocio.';
   .pie__net { color: var(--azul-300); }
   .pie__grid { margin-top: clamp(36px, 5vw, 64px); display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 32px; padding-top: 26px; border-top: 1px solid color-mix(in srgb, var(--papel) 13%, transparent); }
   .pie__claim { max-width: 26ch; font-size: clamp(1.1rem, 1.6vw, 1.5rem); font-weight: 700; line-height: 1.25; }
-  .pie__cols { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+  .pie__cols { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; }
   .pie__lab { font-family: var(--mono); font-size: var(--fs-mini); color: var(--azul-300); letter-spacing: 0.14em; text-transform: uppercase; }
   .pie__cols ul { list-style: none; margin: 8px 0 0; padding: 0; display: grid; }
   .pie__cols a { display: inline-block; padding-block: 5px; overflow-wrap: anywhere; text-decoration: none; color: color-mix(in srgb, var(--papel) 74%, transparent); transition: color 0.3s; }
   .pie__cols a:hover { color: var(--papel); }
-  .pie__base { margin-top: 48px; display: flex; flex-wrap: wrap; justify-content: space-between; gap: 14px; font-family: var(--mono); font-size: var(--fs-mini); color: color-mix(in srgb, var(--papel) 52%, transparent); }
+  .pie__base { margin-top: 48px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 24px; font-family: var(--mono); font-size: var(--fs-mini); color: color-mix(in srgb, var(--papel) 52%, transparent); }
   .pie__arriba { display: inline-flex; flex: none; align-items: center; gap: 6px; padding-block: 5px; margin-block: -5px; text-decoration: none; }
   .pie__arriba :global(svg) { width: 13px; height: 13px; }
   .pie__arriba:hover { color: var(--papel); }
@@ -67,6 +80,11 @@ const MSG = 'Hola DukeNet, quiero información para la web de mi negocio.';
   .flota.oculta { opacity: 0; visibility: hidden; transform: translateY(16px); pointer-events: none; }
   .flota :global(svg) { width: 1.2em; height: 1.2em; }
 
+  .pie__legal { display: flex; flex-wrap: wrap; gap: 6px 18px; }
+  .pie__legal a { padding-block: 5px; margin-block: -5px; text-decoration: none; }
+  .pie__legal a:hover { color: var(--papel); }
+
+  @media (max-width: 1000px) { .pie__cols { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
   @media (max-width: 760px) {
     .pie__grid { grid-template-columns: minmax(0, 1fr); }
     .pie__cols { grid-template-columns: repeat(2, minmax(0, 1fr)); }

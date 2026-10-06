@@ -71,6 +71,12 @@ A la izquierda el titular y los dos números grandes; a la derecha el formulario
 papel blanco, la única superficie blanca grande de la página. No envía nada a ningún
 servidor: arma el mensaje y abre WhatsApp con el texto escrito.
 
+## Páginas legales
+
+`/privacidad`, `/cookies` y `/terminos`, enlazadas desde el pie. Comparten
+`Legal.astro` y se explican en [legal.md](legal.md). **Ojo:** el NIT, el domicilio y el
+correo están pendientes de completar en `src/data/legal.ts`.
+
 ## Página 404
 
 Mismo mundo: lote vacío con un bloque, botones de volver y los seis desvíos. Va marcada

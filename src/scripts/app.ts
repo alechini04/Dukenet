@@ -31,9 +31,14 @@ const irA = (hash: string) => {
 };
 
 document.addEventListener('click', (e) => {
-  const a = (e.target as Element).closest<HTMLAnchorElement>('a[href^="#"]');
-  if (!a || a.getAttribute('href') === '#') return;
-  const hash = a.getAttribute('href')!;
+  // "#algo" y, cuando ya estamos en la portada, también "/#algo": los enlaces del
+  // encabezado son absolutos para que funcionen desde las páginas legales
+  const a = (e.target as Element).closest<HTMLAnchorElement>('a[href^="#"], a[href^="/#"]');
+  if (!a) return;
+  const bruto = a.getAttribute('href')!;
+  if (bruto === '#' || bruto === '/#') return;
+  const hash = bruto.startsWith('/#') ? bruto.slice(1) : bruto;
+  if (bruto.startsWith('/#') && location.pathname !== '/') return;
   if (!$(hash) && hash !== '#inicio') return;
   e.preventDefault();
   cerrarMenu();
@@ -123,9 +128,14 @@ form?.addEventListener('submit', (e) => {
     input.setAttribute('aria-invalid', String(mal));
     if (mal && !primerFallo) primerFallo = input;
   }
-  if (primerFallo) {
-    estado.textContent = 'Revisa los campos marcados.';
-    primerFallo.focus();
+  const permiso = $<HTMLInputElement>('[data-permiso]', form);
+  const faltaPermiso = !!permiso && !permiso.checked;
+  form.classList.toggle('sin-permiso', faltaPermiso);
+  if (primerFallo || faltaPermiso) {
+    estado.textContent = faltaPermiso && !primerFallo
+      ? 'Marca la autorización de datos para poder enviarlo.'
+      : 'Revisa los campos marcados.';
+    (primerFallo ?? permiso)?.focus();
     return;
   }
   const detalle = String(data.get('detalle') || '').trim();
@@ -142,6 +152,9 @@ form?.addEventListener('submit', (e) => {
     ? 'Listo: abrimos WhatsApp con tu mensaje escrito. Solo dale enviar.'
     : 'Tu navegador bloqueó la ventana. Toca de nuevo o escríbenos directo.';
   if (!win) location.href = url;
+});
+form?.addEventListener('change', (e) => {
+  if ((e.target as HTMLInputElement).dataset.permiso !== undefined) form.classList.remove('sin-permiso');
 });
 form?.addEventListener('input', (e) => {
   const input = e.target as HTMLInputElement;
@@ -161,9 +174,11 @@ function iniciarMovimiento() {
   const escena = $('[data-escena]');
   if (titulo) {
     const tl = gsap.timeline({ defaults: { ease: 'power3.out' } });
+    const tachado = $('[data-tachado]');
     tl.fromTo($$('.ln > span', titulo), rm ? { autoAlpha: 0 } : { yPercent: 110 },
-      rm ? { autoAlpha: 1, duration: 0.8, stagger: 0.1 } : { yPercent: 0, duration: 1.05, stagger: 0.09 }, 0.1)
-      .fromTo($('[data-tachado]'), { '--tachado': 0 }, { '--tachado': 1, duration: 0.6, ease: 'power2.inOut' }, 0.95)
+      rm ? { autoAlpha: 1, duration: 0.8, stagger: 0.1 } : { yPercent: 0, duration: 1.05, stagger: 0.09 }, 0.1);
+    if (tachado) tl.fromTo(tachado, { '--tachado': 0 }, { '--tachado': 1, duration: 0.6, ease: 'power2.inOut' }, 0.95);
+    tl
       .fromTo($$('[data-aparece]'), { y: Y(22), autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.9, stagger: 0.09 }, 0.35);
     if (escena) {
       tl.fromTo($$('[data-bloque]', escena),
@@ -196,11 +211,14 @@ function iniciarMovimiento() {
   }
 
   /* Cosas que entran al ver: una sola gramática para toda la página */
-  ScrollTrigger.batch($$('[data-sube]'), {
-    start: 'top 86%', once: true,
-    onEnter: (els) => gsap.fromTo(els, { y: Y(34), autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.95, stagger: 0.08, ease: 'power3.out', overwrite: true }),
-  });
-  gsap.set($$('[data-sube]'), { autoAlpha: 0 });
+  const suben = $$('[data-sube]');
+  if (suben.length) {
+    ScrollTrigger.batch(suben, {
+      start: 'top 86%', once: true,
+      onEnter: (els) => gsap.fromTo(els, { y: Y(34), autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.95, stagger: 0.08, ease: 'power3.out', overwrite: true }),
+    });
+    gsap.set(suben, { autoAlpha: 0 });
+  }
 
   $$('[data-parte]').forEach((h) => {
     SplitText.create(h, {
@@ -298,11 +316,10 @@ function iniciarMovimiento() {
   }
 
   /* La escena de portada flota despacio, como una maqueta sobre la mesa */
-  const flota = $('[data-flota]');
-  if (flota && !rm) {
-    gsap.to(flota, { y: -14, duration: 3.6, ease: 'sine.inOut', yoyo: true, repeat: -1 });
-    gsap.to($('[data-tarjeta]'), { y: -26, duration: 4.4, ease: 'sine.inOut', yoyo: true, repeat: -1 }, 0);
-  }
+  const maqueta = $('[data-maqueta]');
+  const tarjeta = $('[data-tarjeta]');
+  if (maqueta && !rm) gsap.to(maqueta, { y: -14, duration: 3.6, ease: 'sine.inOut', yoyo: true, repeat: -1 });
+  if (tarjeta && !rm) gsap.to(tarjeta, { y: -26, duration: 4.4, ease: 'sine.inOut', yoyo: true, repeat: -1 });
 
   addEventListener('load', () => ScrollTrigger.refresh());
   $$('img').forEach((img) => !img.complete && img.addEventListener('load', () => ScrollTrigger.refresh(), { once: true }));

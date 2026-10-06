@@ -1,26 +1,26 @@
 ---
 import Icon from './Icon.astro';
 const nav = [
-  { href: '#plantilla', label: 'Por qué' },
-  { href: '#obras', label: 'Qué hacemos' },
-  { href: '#montaje', label: 'Cómo' },
-  { href: '#entregadas', label: 'Obras' },
+  { href: '/#plantilla', label: 'Por qué' },
+  { href: '/#obras', label: 'Qué hacemos' },
+  { href: '/#montaje', label: 'Cómo' },
+  { href: '/#entregadas', label: 'Obras' },
 ];
 ---
 <header class="hdr" data-hdr>
   <div class="hdr__bar marco">
-    <a href="#inicio" class="marca" aria-label="DukeNet, ir al inicio">
+    <a href="/#inicio" class="marca" aria-label="DukeNet, ir al inicio">
       <span>Duke</span><span class="marca__net">Net</span>
     </a>
 
     <nav class="hdr__nav" aria-label="Principal">
       <ul>
-        {nav.map((n) => <li><a href={n.href} data-navlink={n.href.slice(1)}>{n.label}</a></li>)}
+        {nav.map((n) => <li><a href={n.href} data-navlink={n.href.slice(2)}>{n.label}</a></li>)}
       </ul>
     </nav>
 
     <div class="hdr__acciones">
-      <a href="#contacto" class="btn btn--azul btn--sm hdr__cta">Cotizar</a>
+      <a href="/#contacto" class="btn btn--azul btn--sm hdr__cta">Cotizar</a>
       <button class="hdr__menu" type="button" aria-expanded="false" aria-controls="menu" data-menu-toggle>
         <span class="sr-only" data-menu-label>Abrir menú</span>
         <Icon name="menu" class="i-open" />
@@ -43,7 +43,7 @@ const nav = [
         </li>
       ))}
     </ol>
-    <a href="#contacto" class="btn btn--azul menu__cta" data-menu-link>Cotizar mi web</a>
+    <a href="/#contacto" class="btn btn--azul menu__cta" data-menu-link>Cotizar mi web</a>
   </nav>
 </div>
 

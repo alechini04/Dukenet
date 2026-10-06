@@ -26,6 +26,7 @@ npm run preview  # sirve dist/
 
 - `src/pages/index.astro`: arma la página con los seis capítulos.
 - `src/pages/404.astro`: página de ruta no encontrada, con desvíos a cada capítulo.
+- `src/pages/privacidad.astro`, `cookies.astro`, `terminos.astro`: las políticas legales (ver [docs/legal.md](docs/legal.md)).
 - `src/components/`: un capítulo por archivo (Portada, Plantilla, Servicios, Montaje, Entregadas, Panel, Contacto) más Header y Footer.
 - `src/lib/iso.ts`: la proyección isométrica de la que salen todas las escenas.
 - `src/data/site.ts`: textos editables (WhatsApp, servicios, fases, ciudades).

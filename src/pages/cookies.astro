@@ -1,0 +1,43 @@
+---
+import Legal from '../layouts/Legal.astro';
+import { LEGAL, dato } from '../data/legal';
+
+const indice = [
+  { id: 'que-son', t: 'Qué son las cookies' },
+  { id: 'usamos', t: 'Qué usa este sitio' },
+  { id: 'terceros', t: 'Servicios de terceros' },
+  { id: 'controlar', t: 'Cómo controlarlas' },
+  { id: 'cambios', t: 'Si esto cambia' },
+];
+---
+<Legal
+  title="Política de cookies · DukeNet"
+  description="Qué almacena este sitio en tu navegador. Hoy no usamos cookies de analítica ni de publicidad."
+  numero="Legal · 02"
+  titulo="Política de cookies"
+  intro="La versión corta: este sitio no te sigue. No usa cookies de analítica, de publicidad ni de redes sociales. Aquí explicamos qué sí ocurre y qué haríamos si eso cambiara."
+  indice={indice}
+>
+  <h2 id="que-son">1. Qué son las cookies</h2>
+  <p>Una cookie es un archivo pequeño que un sitio guarda en tu navegador para recordar algo entre una visita y otra: que iniciaste sesión, qué idioma prefieres o, en el caso de la publicidad, qué páginas visitaste.</p>
+
+  <h2 id="usamos">2. Qué usa este sitio</h2>
+  <p><b>Hoy este sitio no instala cookies propias ni de terceros.</b> Tampoco usa almacenamiento local del navegador para identificarte. En concreto:</p>
+  <ul>
+    <li><b>No hay analítica</b> (ni Google Analytics ni equivalentes) en esta página.</li>
+    <li><b>No hay píxeles de publicidad</b> ni botones de redes que te rastreen.</li>
+    <li><b>Las tipografías se sirven desde este mismo dominio</b>, así que ningún tercero recibe tu dirección IP por cargarlas.</li>
+    <li>El formulario no guarda nada: arma un mensaje y lo abre en WhatsApp.</li>
+  </ul>
+  <p>Tu proveedor de alojamiento y el nuestro registran, como cualquier servidor web, datos técnicos de la conexión (dirección IP, hora, navegador) para funcionar y protegerse de ataques. Eso no son cookies y no se usa para perfilarte.</p>
+
+  <h2 id="terceros">3. Servicios de terceros</h2>
+  <p>Cuando tocas un botón de WhatsApp, sales de este sitio y entras a un servicio de <b>Meta Platforms</b>, que sí tiene sus propias cookies y políticas. Lo mismo pasa si abres los enlaces a los sitios de nuestros clientes. No controlamos esos servicios y te recomendamos revisar sus políticas.</p>
+
+  <h2 id="controlar">4. Cómo controlarlas</h2>
+  <p>Aunque este sitio no las use, puedes administrar las cookies de cualquier página desde tu navegador: Chrome, Safari, Firefox y Edge permiten bloquearlas, borrarlas o aceptar solo las necesarias desde su configuración de privacidad.</p>
+
+  <h2 id="cambios">5. Si esto cambia</h2>
+  <p>Si más adelante agregamos analítica o alguna herramienta que necesite cookies, actualizaremos esta página, pediremos tu consentimiento antes de instalarlas y te dejaremos rechazarlas sin perder el acceso al contenido.</p>
+  <p>Dudas sobre esta política: escríbenos al correo <span class={LEGAL.correo ? '' : 'pendiente'}>{dato(LEGAL.correo)}</span> o por WhatsApp.</p>
+</Legal>

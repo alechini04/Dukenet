@@ -1,0 +1,75 @@
+---
+import Legal from '../layouts/Legal.astro';
+import { LEGAL, dato } from '../data/legal';
+import { WHATSAPP } from '../data/site';
+
+const indice = [
+  { id: 'quienes', t: 'Quiénes somos' },
+  { id: 'sitio', t: 'Uso de este sitio' },
+  { id: 'servicios', t: 'Cómo se contrata' },
+  { id: 'precios', t: 'Precios, pagos y entrega' },
+  { id: 'propiedad', t: 'Propiedad intelectual' },
+  { id: 'ejemplos', t: 'Cifras y ejemplos' },
+  { id: 'consumidor', t: 'Protección al consumidor' },
+  { id: 'responsabilidad', t: 'Responsabilidad' },
+  { id: 'ley', t: 'Ley aplicable' },
+];
+---
+<Legal
+  title="Términos y condiciones · DukeNet"
+  description="Condiciones de uso del sitio de DukeNet y reglas básicas de contratación de nuestros servicios de desarrollo web."
+  numero="Legal · 03"
+  titulo="Términos y condiciones"
+  intro="Las reglas de este sitio y de cómo trabajamos. Están redactadas conforme a la Ley 1480 de 2011 (Estatuto del Consumidor) y a la Ley 527 de 1999 sobre mensajes de datos."
+  indice={indice}
+>
+  <h2 id="quienes">1. Quiénes somos</h2>
+  <dl class="dl">
+    <div><dt>Proveedor</dt><dd>{LEGAL.nombre}{LEGAL.razonSocial ? ` (${LEGAL.razonSocial})` : ''}</dd></div>
+    <div><dt>NIT o cédula</dt><dd class={LEGAL.nit ? '' : 'pendiente'}>{dato(LEGAL.nit)}</dd></div>
+    <div><dt>Domicilio</dt><dd class={LEGAL.domicilio ? '' : 'pendiente'}>{dato(LEGAL.domicilio)}</dd></div>
+    <div><dt>Ciudad</dt><dd>{LEGAL.ciudad}, {LEGAL.pais}</dd></div>
+    <div><dt>Contacto</dt><dd>{WHATSAPP.map((w) => w.label).join(' · ')}</dd></div>
+    <div><dt>Actividad</dt><dd>Diseño y desarrollo de sitios web a medida</dd></div>
+  </dl>
+
+  <h2 id="sitio">2. Uso de este sitio</h2>
+  <p>Este sitio es informativo: muestra qué hacemos y permite escribirnos. Al usarlo te comprometes a no intentar dañarlo, copiarlo en su totalidad, extraer su contenido de forma masiva ni usarlo para fines ilegales.</p>
+  <p>Hacemos lo posible por mantenerlo disponible y al día, pero puede estar fuera de servicio por mantenimiento o por causas ajenas a nosotros.</p>
+
+  <h2 id="servicios">3. Cómo se contrata</h2>
+  <p><b>Este sitio no vende nada en línea.</b> No hay carrito ni pagos aquí. Lo que hay es una solicitud de cotización que abre una conversación.</p>
+  <ol class="lista">
+    <li>Nos escribes por el formulario o por WhatsApp.</li>
+    <li>Hacemos un diagnóstico sin costo para entender tu negocio.</li>
+    <li>Te enviamos una propuesta escrita con alcance, precio fijo y fecha de entrega.</li>
+    <li>El contrato queda formado cuando aceptas esa propuesta por escrito. Conforme a la Ley 527 de 1999, un mensaje por WhatsApp o correo tiene plena validez para esa aceptación.</li>
+  </ol>
+  <p>Nada de lo publicado en este sitio constituye una oferta comercial vinculante: el alcance y el precio se definen en la propuesta.</p>
+
+  <h2 id="precios">4. Precios, pagos y entrega</h2>
+  <ul>
+    <li>Los precios se acuerdan por proyecto y quedan por escrito en la propuesta, en pesos colombianos.</li>
+    <li>La forma de pago, los anticipos y el calendario de entregas se pactan en esa misma propuesta.</li>
+    <li>La fecha de entrega depende de que nos entregues a tiempo textos, fotos, accesos y aprobaciones.</li>
+    <li>Los dominios, el alojamiento y los servicios de terceros (pasarelas de pago, correo, etc.) se contratan a nombre del cliente y se facturan aparte, salvo que la propuesta diga otra cosa.</li>
+  </ul>
+
+  <h2 id="propiedad">5. Propiedad intelectual</h2>
+  <p>La marca DukeNet, los textos y las ilustraciones de este sitio son nuestros. Las marcas, logotipos y capturas de nuestros clientes aparecen con su permiso y pertenecen a ellos.</p>
+  <p>Sobre lo que te entregamos: al pagar la totalidad del proyecto, <b>el sitio y su contenido quedan tuyos</b>. Podemos mostrar el trabajo en nuestro portafolio salvo que nos pidas lo contrario por escrito.</p>
+
+  <h2 id="ejemplos">6. Cifras y ejemplos</h2>
+  <p>El panel de datos que se muestra en la página de inicio usa <b>cifras de ejemplo</b>, y así está rotulado. Sirve para mostrar el formato del reporte, no resultados garantizados. No prometemos un número de ventas, visitas ni posiciones en buscadores.</p>
+
+  <h2 id="consumidor">7. Protección al consumidor</h2>
+  <p>Si contratas como consumidor, te amparan la Ley 1480 de 2011 y sus normas reglamentarias, incluidas las garantías legales sobre los servicios prestados. Las reclamaciones se atienden por los canales de contacto de arriba y, si no quedas conforme, puedes acudir a la Superintendencia de Industria y Comercio.</p>
+  <p>El derecho de retracto del artículo 47 del Estatuto del Consumidor aplica a las ventas a distancia en los términos y plazos que esa norma establece; para servicios ya iniciados con tu acuerdo expreso, se liquidará lo efectivamente ejecutado.</p>
+
+  <h2 id="responsabilidad">8. Responsabilidad</h2>
+  <p>Respondemos por el trabajo que hacemos, en los términos de la propuesta y de la ley. No respondemos por fallas de servicios de terceros (alojamiento, pasarelas, redes sociales), por el contenido que publiques, ni por el uso que hagas del sitio después de entregado.</p>
+
+  <h2 id="ley">9. Ley aplicable</h2>
+  <p>Estos términos se rigen por la ley colombiana. Cualquier controversia se intentará resolver primero de buena fe entre las partes y, de no lograrse, se someterá a los jueces competentes de {LEGAL.ciudad}.</p>
+  <p>Dudas: escríbenos al correo <span class={LEGAL.correo ? '' : 'pendiente'}>{dato(LEGAL.correo)}</span> o por WhatsApp.</p>
+</Legal>

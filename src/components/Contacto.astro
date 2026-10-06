@@ -59,6 +59,16 @@ const MSG = 'Hola DukeNet, quiero cotizar la web de mi negocio.';
         <textarea id="f-detalle" name="detalle" rows="3" placeholder="Qué vendes, cómo vendes hoy y qué te gustaría lograr"></textarea>
       </div>
 
+      <label class="permiso">
+        <input type="checkbox" name="permiso" required data-permiso />
+        <span class="permiso__caja" aria-hidden="true"></span>
+        <span class="permiso__txt">
+          Autorizo a DukeNet a tratar mis datos personales para responder esta solicitud, conforme a la{' '}
+          <a href="/privacidad">política de tratamiento de datos</a>.
+        </span>
+      </label>
+      <p class="campo__error permiso__error" data-error-permiso>Necesitamos tu autorización para poder responderte.</p>
+
       <div class="hoja__pie">
         <button type="submit" class="btn btn--azul">Enviar por WhatsApp <Icon name="arrow-ur" /></button>
         <p class="hoja__estado" role="status" data-estado></p>
@@ -124,6 +134,20 @@ const MSG = 'Hola DukeNet, quiero cotizar la web de mi negocio.';
   .opcion:hover { border-color: var(--tinta); }
   .opcion:has(input:checked) { background: var(--tinta); color: var(--papel); border-color: var(--tinta); }
   .opcion:has(input:focus-visible) { outline: 2px solid var(--azul); outline-offset: 2px; }
+
+  .permiso { margin-top: 24px; display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: start; cursor: pointer; }
+  .permiso input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+  .permiso__caja { width: 20px; height: 20px; margin-top: 2px; border: 1px solid var(--gris-600); border-radius: 5px; display: grid; place-items: center; transition: background 0.3s, border-color 0.3s; }
+  .permiso__caja::after { content: ''; width: 10px; height: 6px; border-left: 2px solid var(--papel); border-bottom: 2px solid var(--papel); transform: rotate(-45deg) scale(0); transition: transform 0.25s var(--ease); }
+  .permiso:hover .permiso__caja { border-color: var(--tinta); }
+  .permiso:has(input:checked) .permiso__caja { background: var(--tinta); border-color: var(--tinta); }
+  .permiso:has(input:checked) .permiso__caja::after { transform: rotate(-45deg) scale(1); }
+  .permiso:has(input:focus-visible) .permiso__caja { outline: 2px solid var(--azul); outline-offset: 2px; }
+  .permiso__txt { font-size: var(--fs-small); line-height: 1.45; color: var(--gris-800); }
+  .permiso__txt a { color: var(--azul-700); font-weight: 650; }
+  .permiso__error { margin-top: 8px; }
+  .hoja.sin-permiso .permiso__error { display: block; }
+  .hoja.sin-permiso .permiso__caja { border-color: #8a1f1f; }
 
   .hoja__pie { margin-top: 26px; display: flex; flex-wrap: wrap; align-items: center; gap: 14px 18px; }
   .hoja__estado { font-size: var(--fs-small); font-weight: 650; color: var(--azul-700); }

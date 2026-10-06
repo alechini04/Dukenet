@@ -1,0 +1,94 @@
+---
+import Legal from '../layouts/Legal.astro';
+import { LEGAL, dato } from '../data/legal';
+import { WHATSAPP } from '../data/site';
+
+const indice = [
+  { id: 'responsable', t: 'Quién responde por tus datos' },
+  { id: 'que', t: 'Qué datos recogemos' },
+  { id: 'para-que', t: 'Para qué los usamos' },
+  { id: 'autorizacion', t: 'Autorización' },
+  { id: 'derechos', t: 'Tus derechos' },
+  { id: 'como', t: 'Cómo ejercerlos' },
+  { id: 'terceros', t: 'Quién más los ve' },
+  { id: 'seguridad', t: 'Seguridad y conservación' },
+  { id: 'menores', t: 'Menores de edad' },
+  { id: 'cambios', t: 'Cambios en esta política' },
+];
+---
+<Legal
+  title="Política de tratamiento de datos personales · DukeNet"
+  description="Cómo DukeNet recoge, usa y protege los datos personales de quienes nos escriben, conforme a la Ley 1581 de 2012 y el Decreto 1074 de 2015."
+  numero="Legal · 01"
+  titulo="Política de tratamiento de datos personales"
+  intro="Esta política explica qué datos pedimos, para qué los usamos y cómo puedes controlarlos. Está escrita conforme a la Ley 1581 de 2012, al Decreto 1074 de 2015 y a la Ley 1266 de 2008 en lo que aplica."
+  indice={indice}
+>
+  <h2 id="responsable">1. Quién responde por tus datos</h2>
+  <p>El responsable del tratamiento es:</p>
+  <dl class="dl">
+    <div><dt>Responsable</dt><dd>{LEGAL.nombre}{LEGAL.razonSocial ? ` (${LEGAL.razonSocial})` : ''}</dd></div>
+    <div><dt>NIT o cédula</dt><dd class={LEGAL.nit ? '' : 'pendiente'}>{dato(LEGAL.nit)}</dd></div>
+    <div><dt>Domicilio</dt><dd class={LEGAL.domicilio ? '' : 'pendiente'}>{dato(LEGAL.domicilio)}</dd></div>
+    <div><dt>Ciudad y país</dt><dd>{LEGAL.ciudad}, {LEGAL.pais}</dd></div>
+    <div><dt>Correo</dt><dd class={LEGAL.correo ? '' : 'pendiente'}>{dato(LEGAL.correo)}</dd></div>
+    <div><dt>WhatsApp</dt><dd>{WHATSAPP.map((w) => w.label).join(' · ')}</dd></div>
+  </dl>
+  <p>El área encargada de atender consultas y reclamos sobre datos personales es la misma persona que atiende los proyectos; puedes escribirle por cualquiera de los canales de arriba.</p>
+
+  <h2 id="que">2. Qué datos recogemos</h2>
+  <p>Solo los que nos das tú para que podamos responderte una cotización:</p>
+  <ul>
+    <li>Tu nombre.</li>
+    <li>El nombre de tu negocio y la ciudad donde queda.</li>
+    <li>El tipo de proyecto que te interesa.</li>
+    <li>Lo que escribas en el campo libre del formulario o en el mensaje de WhatsApp.</li>
+    <li>El número de teléfono desde el que nos escribes, cuando el contacto es por WhatsApp.</li>
+  </ul>
+  <p><b>No pedimos datos sensibles</b> (salud, origen étnico, orientación política, religiosa o sexual, datos biométricos) y no los necesitamos para trabajar contigo. Tampoco usamos tus datos para publicidad de terceros ni los vendemos.</p>
+
+  <h2 id="para-que">3. Para qué los usamos</h2>
+  <ol class="lista">
+    <li>Responder tu solicitud y preparar una propuesta con precio y fecha.</li>
+    <li>Contactarte durante el proyecto, si decides contratarnos.</li>
+    <li>Cumplir obligaciones contables, tributarias y legales derivadas del contrato.</li>
+    <li>Guardar prueba de la autorización y de la relación comercial.</li>
+  </ol>
+  <p>Si en algún momento queremos usar tus datos para algo distinto —por ejemplo, enviarte novedades— te lo pediremos aparte y podrás decir que no sin que eso afecte nada.</p>
+
+  <h2 id="autorizacion">4. Autorización</h2>
+  <p>Al enviar el formulario o al escribirnos por WhatsApp aceptas esta política de forma previa, expresa e informada, como lo exige el artículo 9 de la Ley 1581 de 2012. En el formulario esa autorización se marca de manera separada y es obligatoria para poder enviarlo.</p>
+  <p>Puedes <b>revocar la autorización</b> en cualquier momento, salvo que exista un deber legal o contractual de conservar el dato.</p>
+
+  <h2 id="derechos">5. Tus derechos</h2>
+  <p>Como titular de los datos, el artículo 8 de la Ley 1581 de 2012 te da derecho a:</p>
+  <ul>
+    <li>Conocer, actualizar y rectificar tus datos.</li>
+    <li>Pedir prueba de la autorización que nos diste.</li>
+    <li>Que te informemos cómo hemos usado tus datos.</li>
+    <li>Presentar quejas ante la Superintendencia de Industria y Comercio.</li>
+    <li>Revocar la autorización o pedir que borremos los datos, cuando no exista un deber legal de conservarlos.</li>
+    <li>Acceder gratuitamente a tus datos.</li>
+  </ul>
+
+  <h2 id="como">6. Cómo ejercerlos</h2>
+  <p>Escríbenos por WhatsApp a cualquiera de los números de arriba, o al correo de contacto, diciendo qué quieres (consultar, actualizar, corregir, borrar o revocar) y cómo te identificamos. No necesitas formato especial.</p>
+  <ul>
+    <li><b>Consultas:</b> respondemos en máximo diez (10) días hábiles. Si no alcanzamos, te avisamos por qué y resolvemos dentro de los cinco (5) días hábiles siguientes.</li>
+    <li><b>Reclamos:</b> respondemos en máximo quince (15) días hábiles, prorrogables ocho (8) más, avisándote el motivo.</li>
+  </ul>
+  <p>Si no quedas conforme, puedes acudir a la <a href="https://www.sic.gov.co" target="_blank" rel="noopener">Superintendencia de Industria y Comercio</a>, que es la autoridad de protección de datos en Colombia.</p>
+
+  <h2 id="terceros">7. Quién más los ve</h2>
+  <p>El formulario de este sitio <b>no guarda nada en ningún servidor nuestro</b>: arma un mensaje con lo que escribiste y lo abre en WhatsApp para que tú decidas enviarlo. Eso significa que el mensaje viaja por los servicios de <b>WhatsApp (Meta Platforms)</b> y queda sujeto también a sus políticas, que pueden implicar transferencia de datos fuera de Colombia.</p>
+  <p>Fuera de eso, solo comparten tus datos quienes necesiten hacerlo para prestarte el servicio (por ejemplo, el proveedor de alojamiento del sitio que te construimos) y las autoridades cuando la ley lo exija.</p>
+
+  <h2 id="seguridad">8. Seguridad y conservación</h2>
+  <p>Tomamos medidas razonables para proteger la información: acceso limitado a las personas que trabajan en tu proyecto, conexiones cifradas y copias controladas. Conservamos los datos {LEGAL.vigenciaBase}.</p>
+
+  <h2 id="menores">9. Menores de edad</h2>
+  <p>Este sitio se dirige a personas que toman decisiones por un negocio y no está pensado para menores de edad. No recogemos sus datos a propósito; si llega a ocurrir, escríbenos y los eliminamos.</p>
+
+  <h2 id="cambios">10. Cambios en esta política</h2>
+  <p>Si cambiamos algo importante, publicamos la versión nueva en esta misma página con su fecha. La fecha de arriba siempre indica qué versión está vigente.</p>
+</Legal>
