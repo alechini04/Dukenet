@@ -27,6 +27,12 @@
   --gris-700: #5d5d60;
   --gris-800: #424244;
 
+  /* El blanco puro es la pantalla de un dispositivo; el negro puro, las sombras;
+     el rojo es el único tono fuera del azul y solo marca errores de formulario. */
+  --blanco: #ffffff;
+  --negro: #000000;
+  --error: #8a1f1f;
+
   /* Isometric faces: one light source, three values. */
   --cara-top: var(--azul-400);
   --cara-izq: var(--azul-700);
@@ -35,12 +41,30 @@
   --fuente: 'Overpass Variable', 'Overpass', system-ui, sans-serif;
   --mono: 'Overpass Mono Variable', 'Overpass Mono', ui-monospace, monospace;
 
+  /* Escala de texto. Todo lo que escribe la página sale de aquí. */
+  --fs-micro: 0.62rem;
   --fs-mini: 0.72rem;
   --fs-small: 0.86rem;
   --fs-base: 1rem;
   --fs-lead: clamp(1.05rem, 1.25vw, 1.35rem);
+  --fs-t2: clamp(1.05rem, 1.4vw, 1.2rem);
+  --fs-t1: clamp(1.15rem, 1.6vw, 1.5rem);
+  --fs-t0: clamp(1.3rem, 2vw, 1.9rem);
+  --fs-d6: clamp(1.4rem, 2.2vw, 2.1rem);
+  --fs-d5: clamp(1.6rem, 2.6vw, 2.6rem);
+  --fs-d4: clamp(1.8rem, 3vw, 3rem);
+  --fs-d3: clamp(2rem, 4.4vw, 4.2rem);
   --fs-cap: clamp(2.2rem, 5.2vw, 5.4rem);
   --fs-hero: clamp(2.5rem, 5.9vw, 6.2rem);
+  --fs-marca: clamp(3.2rem, 14.5vw, 14rem);
+
+  /* Radios. Píldora para acciones, tarjeta para superficies, el resto es detalle. */
+  --r-xs: 4px;
+  --r-sm: 8px;
+  --r-md: 14px;
+  --r-pantalla: 16px;
+  --r-dispositivo: 22px;
+  --r-pill: 999px;
 
   --borde: clamp(20px, 4vw, 72px);
   --max: 1440px;
@@ -82,7 +106,7 @@ figure { margin: 0; }
 html { scrollbar-color: var(--azul-700) var(--tinta); }
 ::-webkit-scrollbar { width: 10px; height: 10px; }
 ::-webkit-scrollbar-track { background: var(--tinta); }
-::-webkit-scrollbar-thumb { background: var(--azul-800); border-radius: 6px; }
+::-webkit-scrollbar-thumb { background: var(--azul-800); border-radius: var(--r-sm); }
 ::-webkit-scrollbar-thumb:hover { background: var(--azul-700); }
 
 .sr-only {
@@ -126,7 +150,7 @@ html { scrollbar-color: var(--azul-700) var(--tinta); }
   font-weight: 700; font-size: var(--fs-base); letter-spacing: -0.01em;
   text-decoration: none; white-space: nowrap; cursor: pointer;
   border: 1px solid var(--btn-bg);
-  border-radius: 999px;
+  border-radius: var(--r-pill);
   transition: transform 0.45s var(--ease), background 0.45s var(--ease), color 0.45s var(--ease), border-color 0.45s var(--ease);
 }
 .btn svg { width: 1.1em; height: 1.1em; transition: transform 0.45s var(--ease); }

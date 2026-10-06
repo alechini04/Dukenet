@@ -93,13 +93,13 @@ const MSG = 'Hola DukeNet, quiero cotizar la web de mi negocio.';
   .tels li + li { border-top: 1px solid color-mix(in srgb, var(--papel) 13%, transparent); }
   .tels a { display: flex; align-items: baseline; justify-content: space-between; gap: 16px; padding: 18px 0; text-decoration: none; transition: color 0.35s var(--ease); }
   .tels a:hover { color: var(--azul-300); }
-  .tels__num { font-size: clamp(1.5rem, 2.6vw, 2.3rem); font-weight: 800; letter-spacing: -0.03em; }
+  .tels__num { font-size: var(--fs-d5); font-weight: 800; letter-spacing: -0.03em; }
   .tels__wa { display: inline-flex; align-items: center; gap: 7px; font-family: var(--mono); font-size: var(--fs-mini); color: color-mix(in srgb, var(--papel) 56%, transparent); }
   .tels__wa :global(svg) { width: 16px; height: 16px; }
 
   .hoja {
     background: var(--papel); color: var(--tinta);
-    border-radius: 14px; padding: clamp(20px, 2.6vw, 34px);
+    border-radius: var(--r-md); padding: clamp(20px, 2.6vw, 34px);
     box-shadow: 0 60px 80px -60px #000;
   }
   .hoja__head { display: flex; justify-content: space-between; flex-wrap: wrap; gap: 8px; padding-bottom: 14px; border-bottom: 1px solid var(--gris-300); font-family: var(--mono); font-size: var(--fs-mini); text-transform: uppercase; letter-spacing: 0.12em; }
@@ -117,19 +117,19 @@ const MSG = 'Hola DukeNet, quiero cotizar la web de mi negocio.';
   .campo textarea { resize: vertical; min-height: 84px; }
   .campo input::placeholder, .campo textarea::placeholder { color: var(--gris-600); }
   .campo input:focus, .campo textarea:focus { outline: none; border-color: var(--azul); }
-  .campo__error { display: none; margin-top: 6px; font-size: var(--fs-small); font-weight: 650; color: #8a1f1f; }
-  .campo.con-error input { border-color: #8a1f1f; }
+  .campo__error { display: none; margin-top: 6px; font-size: var(--fs-small); font-weight: 650; color: var(--error); }
+  .campo.con-error input { border-color: var(--error); }
   .campo.con-error .campo__error { display: block; }
 
   .opciones { border: 0; padding: 0; margin-inline: 0; }
   .opciones__grid { margin-top: 10px; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
   .opcion {
     position: relative; display: flex; align-items: center; gap: 10px; cursor: pointer;
-    padding: 9px 10px; border: 1px solid var(--gris-400); border-radius: 999px;
+    padding: 9px 10px; border: 1px solid var(--gris-400); border-radius: var(--r-pill);
     transition: background 0.3s, border-color 0.3s, color 0.3s;
   }
   .opcion input { position: absolute; inset: 0; width: 1px; height: 1px; opacity: 0; pointer-events: none; }
-  .opcion__l { display: grid; place-items: center; width: 24px; height: 24px; border-radius: 50%; border: 1px solid currentColor; font-size: var(--fs-mini); font-weight: 800; flex: none; }
+  .opcion__l { display: grid; place-items: center; width: 24px; height: 24px; border-radius: var(--r-pill); border: 1px solid currentColor; font-size: var(--fs-mini); font-weight: 800; flex: none; }
   .opcion__n { font-size: var(--fs-small); font-weight: 650; line-height: 1.2; }
   .opcion:hover { border-color: var(--tinta); }
   .opcion:has(input:checked) { background: var(--tinta); color: var(--papel); border-color: var(--tinta); }
@@ -137,7 +137,7 @@ const MSG = 'Hola DukeNet, quiero cotizar la web de mi negocio.';
 
   .permiso { margin-top: 24px; display: grid; grid-template-columns: auto 1fr; gap: 12px; align-items: start; cursor: pointer; }
   .permiso input { position: absolute; width: 1px; height: 1px; opacity: 0; }
-  .permiso__caja { width: 20px; height: 20px; margin-top: 2px; border: 1px solid var(--gris-600); border-radius: 5px; display: grid; place-items: center; transition: background 0.3s, border-color 0.3s; }
+  .permiso__caja { width: 20px; height: 20px; margin-top: 2px; border: 1px solid var(--gris-600); border-radius: var(--r-xs); display: grid; place-items: center; transition: background 0.3s, border-color 0.3s; }
   .permiso__caja::after { content: ''; width: 10px; height: 6px; border-left: 2px solid var(--papel); border-bottom: 2px solid var(--papel); transform: rotate(-45deg) scale(0); transition: transform 0.25s var(--ease); }
   .permiso:hover .permiso__caja { border-color: var(--tinta); }
   .permiso:has(input:checked) .permiso__caja { background: var(--tinta); border-color: var(--tinta); }
@@ -147,7 +147,7 @@ const MSG = 'Hola DukeNet, quiero cotizar la web de mi negocio.';
   .permiso__txt a { color: var(--azul-700); font-weight: 650; }
   .permiso__error { margin-top: 8px; }
   .hoja.sin-permiso .permiso__error { display: block; }
-  .hoja.sin-permiso .permiso__caja { border-color: #8a1f1f; }
+  .hoja.sin-permiso .permiso__caja { border-color: var(--error); }
 
   .hoja__pie { margin-top: 26px; display: flex; flex-wrap: wrap; align-items: center; gap: 14px 18px; }
   .hoja__estado { font-size: var(--fs-small); font-weight: 650; color: var(--azul-700); }

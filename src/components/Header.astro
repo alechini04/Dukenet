@@ -84,7 +84,7 @@ const nav = [
   .hdr__menu {
     display: none; width: 46px; height: 46px; place-items: center;
     background: transparent; border: 1px solid color-mix(in srgb, var(--papel) 28%, transparent);
-    border-radius: 999px; cursor: pointer;
+    border-radius: var(--r-pill); cursor: pointer;
   }
   .hdr__menu :global(svg) { width: 20px; height: 20px; grid-area: 1 / 1; }
   .hdr__menu :global(.i-close) { opacity: 0; }
@@ -104,7 +104,7 @@ const nav = [
   .menu li { border-bottom: 1px solid color-mix(in srgb, var(--papel) 12%, transparent); }
   .menu li a { display: flex; align-items: baseline; gap: 18px; padding: 20px 0; text-decoration: none; }
   .menu__n { font-family: var(--mono); font-size: var(--fs-mini); color: var(--azul-300); }
-  .menu__txt { font-weight: 800; font-size: clamp(2rem, 10vw, 3rem); letter-spacing: -0.04em; }
+  .menu__txt { font-weight: 800; font-size: var(--fs-d4); letter-spacing: -0.04em; }
   .menu__cta { margin-top: 30px; width: 100%; justify-content: center; }
 
   @media (max-width: 900px) {

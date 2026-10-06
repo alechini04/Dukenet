@@ -22,7 +22,15 @@ colors:
   gris-600: "#7a7a7d"
   gris-700: "#5d5d60"
   gris-800: "#424244"
+  blanco: "#ffffff"
+  negro: "#000000"
+  error: "#8a1f1f"
 typography:
+  marca:
+    fontFamily: "'Overpass Variable', 'Overpass', system-ui, sans-serif"
+    fontSize: "clamp(3.2rem, 14.5vw, 14rem)"
+    fontWeight: 800
+    letterSpacing: "-0.05em"
   hero:
     fontFamily: "'Overpass Variable', 'Overpass', system-ui, sans-serif"
     fontSize: "clamp(2.5rem, 5.9vw, 6.2rem)"
@@ -35,11 +43,41 @@ typography:
     fontWeight: 800
     lineHeight: 0.95
     letterSpacing: "-0.03em"
-  titulo:
+  d3:
+    fontFamily: "'Overpass Variable', 'Overpass', system-ui, sans-serif"
+    fontSize: "clamp(2rem, 4.4vw, 4.2rem)"
+    fontWeight: 800
+    letterSpacing: "-0.04em"
+  d4:
+    fontFamily: "'Overpass Variable', 'Overpass', system-ui, sans-serif"
+    fontSize: "clamp(1.8rem, 3vw, 3rem)"
+    fontWeight: 800
+    letterSpacing: "-0.04em"
+  d5:
     fontFamily: "'Overpass Variable', 'Overpass', system-ui, sans-serif"
     fontSize: "clamp(1.6rem, 2.6vw, 2.6rem)"
     fontWeight: 800
     letterSpacing: "-0.035em"
+  d6:
+    fontFamily: "'Overpass Variable', 'Overpass', system-ui, sans-serif"
+    fontSize: "clamp(1.4rem, 2.2vw, 2.1rem)"
+    fontWeight: 800
+    letterSpacing: "-0.04em"
+  t0:
+    fontFamily: "'Overpass Variable', 'Overpass', system-ui, sans-serif"
+    fontSize: "clamp(1.3rem, 2vw, 1.9rem)"
+    fontWeight: 800
+  t1:
+    fontFamily: "'Overpass Variable', 'Overpass', system-ui, sans-serif"
+    fontSize: "clamp(1.15rem, 1.6vw, 1.5rem)"
+    fontWeight: 750
+  t2:
+    fontFamily: "'Overpass Variable', 'Overpass', system-ui, sans-serif"
+    fontSize: "clamp(1.05rem, 1.4vw, 1.2rem)"
+    fontWeight: 750
+  micro:
+    fontFamily: "'Overpass Mono Variable', 'Overpass Mono', ui-monospace, monospace"
+    fontSize: "0.62rem"
   cuerpo:
     fontFamily: "'Overpass Variable', 'Overpass', system-ui, sans-serif"
     fontSize: "clamp(16px, 1.02vw, 18px)"
@@ -55,8 +93,12 @@ typography:
     letterSpacing: "0.2em"
     textTransform: uppercase
 rounded:
-  boton: "999px"
-  tarjeta: "14px"
+  xs: "4px"
+  sm: "8px"
+  md: "14px"
+  pantalla: "16px"
+  dispositivo: "22px"
+  pill: "999px"
   bloque: "0px"
 spacing:
   borde: "clamp(20px, 4vw, 72px)"
@@ -136,12 +178,39 @@ Three materials: ink ground, steel-blue model, white paper for action.
 - **Tinta** (#0c0d0e): the page ground. tinta-2 for cards, tinta-3 for device frames.
 - **Papel** (#f2f2f3): buttons, the quote form, and text on the dark ground.
 - **Grises** 300–800: form rules, placeholders and the grey faces of unbuilt blocks.
+- **Blanco puro** (`--blanco`, #ffffff): only the screen of a drawn device.
+- **Negro puro** (`--negro`, #000000): only as the colour of a shadow, always mixed with
+  transparency.
+- **Error** (`--error`, #8a1f1f): the only hue outside the blue ramp. It exists so a
+  failed field on white paper reads as an error and nothing else; never use it for
+  decoration or for a second accent.
 
 ## Typography
 
 Overpass Variable for everything, Overpass Mono for data: numbers, labels, eyebrows,
-domains and deliverables. Display sizes are fluid and set in tokens; nothing in the page
+domains and deliverables. Every size in the page is a token in `global.css`; nothing
 invents its own scale.
+
+### Scale as built
+
+| Token | Valor | Dónde |
+|---|---|---|
+| `--fs-marca` | clamp(3.2rem, 14.5vw, 14rem) | la marca del pie |
+| `--fs-hero` | clamp(2.5rem, 5.9vw, 6.2rem) | titular de portada y de la 404 |
+| `--fs-cap` | clamp(2.2rem, 5.2vw, 5.4rem) | `.titulo`, el título de cada capítulo |
+| `--fs-d3` | clamp(2rem, 4.4vw, 4.2rem) | títulos de las páginas legales |
+| `--fs-d4` | clamp(1.8rem, 3vw, 3rem) | nombre de obra, cupo del mes, menú móvil |
+| `--fs-d5` | clamp(1.6rem, 2.6vw, 2.6rem) | nombre de fase, teléfonos de contacto |
+| `--fs-d6` | clamp(1.4rem, 2.2vw, 2.1rem) | cifras del tablero |
+| `--fs-t0` | clamp(1.3rem, 2vw, 1.9rem) | encabezados de las políticas |
+| `--fs-t1` | clamp(1.15rem, 1.6vw, 1.5rem) | títulos de tarjeta y principios |
+| `--fs-t2` | clamp(1.05rem, 1.4vw, 1.2rem) | subtítulos de las políticas |
+| `--fs-lead` | clamp(1.05rem, 1.25vw, 1.35rem) | párrafos de entrada |
+| `--fs-base` / `--fs-small` / `--fs-mini` / `--fs-micro` | 1 / 0.86 / 0.72 / 0.62rem | cuerpo, apoyo, datos mono, etiquetas de gráfica |
+
+Las dos medidas dentro del SVG del capítulo 03 (11 y 15 unidades) no son tipografía de
+página: son unidades de dibujo que escalan con el `viewBox`, y por eso no salen de la
+escala.
 
 ## Layout
 
@@ -207,6 +276,9 @@ GSAP with ScrollTrigger and SplitText, Lenis smooth scroll (lerp 0.1), easing
 ### Don't
 - **Don't** reintroduce costume elements (hazard stripes, bolts, plates) — the page is a
   model of the work, not a theme park of it.
-- **Don't** add a second hue: the only colour is the blue ramp.
+- **Don't** add a second hue: the only colour is the blue ramp, with `--error` reserved
+  for form validation and nothing else.
+- **Don't** write a literal size, radius or colour in a component: if the system lacks
+  the step you need, add the token here first.
 - **Don't** round the isometric blocks or soften their faces with gradients.
 - **Don't** animate anything that does not explain something; motion here is narration.

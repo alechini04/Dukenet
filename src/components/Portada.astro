@@ -105,9 +105,9 @@ const MSG = 'Hola DukeNet, quiero información para la web de mi negocio.';
   .portada__baja {
     position: absolute; left: 50%; bottom: clamp(24px, 4vh, 48px); transform: translateX(-50%);
     width: 26px; height: 42px; border: 1px solid color-mix(in srgb, var(--papel) 28%, transparent);
-    border-radius: 999px; display: grid; justify-items: center; padding-top: 8px;
+    border-radius: var(--r-pill); display: grid; justify-items: center; padding-top: 8px;
   }
-  .portada__baja span { width: 2px; height: 8px; background: var(--azul-300); border-radius: 2px; }
+  .portada__baja span { width: 2px; height: 8px; background: var(--azul-300); border-radius: var(--r-pill); }
   :global(html.motion:not(.rm)) .portada__baja span { animation: baja 1.9s var(--ease-io) infinite; }
   @keyframes baja { 0% { transform: translateY(0); opacity: 1; } 70% { transform: translateY(16px); opacity: 0; } 71% { transform: translateY(0); opacity: 0; } 100% { opacity: 1; } }
 
