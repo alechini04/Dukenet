@@ -1,65 +1,60 @@
 # Las animaciones
 
 Todo el movimiento vive en [`src/scripts/app.ts`](../src/scripts/app.ts), en el mismo
-orden en que aparece al bajar. Herramientas: [GSAP](https://gsap.com) con ScrollTrigger
-y SplitText, y [Lenis](https://lenis.darkroom.engineering) para el scroll suave,
-enganchado al reloj de GSAP para que haya un solo bucle.
+orden en que aparece al bajar. Herramientas: [GSAP](https://gsap.com) con ScrollTrigger y
+SplitText, y [Lenis](https://lenis.darkroom.engineering) para el scroll suave, enganchado
+al reloj de GSAP para que haya un solo bucle. Esa es la razón de que se sienta fluida
+aunque haya mucho moviéndose: una sola línea de tiempo por cuadro y solo transformaciones.
 
-## Dos interruptores
+## Tres interruptores
 
-En el `<head>` corre un script diminuto antes de pintar:
+En el `<head>`, antes de pintar:
 
 ```js
 document.documentElement.classList.add('motion');
-if (matchMedia('(prefers-reduced-motion: reduce)').matches)
-  document.documentElement.classList.add('rm');
+if (matchMedia('(prefers-reduced-motion: reduce)').matches) classList.add('rm');
+if (matchMedia('(hover: hover) and (pointer: fine)').matches) classList.add('puntero-fino');
 ```
 
-- **`motion`** solo se agrega si hay JavaScript. Sin JS la página se ve completa y
-  quieta: la maqueta del capítulo 03 aparece **terminada**, con la captura real puesta,
-  y las cinco fases se leen como lista.
-- **`rm`** se agrega si el sistema pide menos movimiento: las líneas de tiempo se
-  reproducen una vez en vez de anclarse, los recorridos se vuelven desvanecidos y la
-  maqueta deja de flotar. Nada queda invisible.
+- **`motion`**: solo con JavaScript. Sin él la página se ve completa y quieta, y la
+  maqueta del capítulo 02 aparece **terminada**, con la captura real puesta.
+- **`rm`**: movimiento reducido. Se va el cursor propio, el pin, el recorrido automático
+  de las capturas y los desplazamientos; las líneas se reproducen una vez.
+- **`puntero-fino`**: solo con mouse. Enciende el cursor propio y esconde el del sistema.
+
+## El cursor
+
+Dos piezas: un **anillo** que persigue al puntero con 0,42 s de retraso y un **punto**
+que va casi pegado (0,08 s). El anillo crece sobre cualquier cosa tocable y se convierte
+en un **disco azul con la etiqueta «Ver sitio»** sobre una obra (`data-cursor-label`).
+Si agregas un bloque donde el cursor deba decir algo, pon ese atributo y listo.
 
 ## Gramática común
 
 | Marca | Qué hace |
 |---|---|
-| `data-parte` | El título se parte en líneas y sube desde una máscara al entrar. |
-| `data-sube` | El bloque entra una vez, desde abajo, con escalonado. |
-| `data-aparece` | Igual, pero dentro de la línea de tiempo de la portada. |
-| `data-bloque` | Pieza de la maqueta de portada: entra con un rebote corto. |
+| `data-parte` | El título se parte en líneas y sube desde una máscara. |
+| `data-sube` | El bloque entra una vez, desde abajo, escalonado. |
+| `data-revela` | La imagen se descubre con una máscara que sube, y la foto se asienta desde 1.18. |
+| `data-tira` | La captura real se recorre sola dentro de su ventana, en bucle de 26 s. |
+| `data-aparece` | Entra dentro de la línea de tiempo de la portada. |
+| `data-cursor-label` | El cursor se vuelve disco con esa etiqueta. |
 
-## Los dos capítulos narrados
+## El capítulo narrado
 
-**01 · Plantilla.** Una línea ligada al scroll (`scrub: 0.8`): las ocho losas se hunden
-y bajan a 30 % de opacidad, la novena sube, aparece su construcción en azul y entran los
-tres principios. Subir lo deshace.
+**02 · Proceso.** Una sola línea de tiempo en pausa, anclada (`pin`) durante
+`innerHeight * 3`:
 
-**03 · Montaje.** La pieza principal. Una sola línea de tiempo, en pausa, anclada
-(`pin`) durante `innerHeight * 3.2`:
+- **Fases** (segundos): `F = [0, 2.4, 4.8, 7.2, 9.8]`, con `FIN = 12`.
+- Los bloques del plano se dibujan con `clip-path` de izquierda a derecha.
+- La captura real entra con un `clip-path` mientras un barrido de luz cruza el lienzo.
+- La barra de direcciones se escribe letra a letra con `urlEn(t)`.
+- **Reversible**: `marcarFase(t)` lee el tiempo de la línea; nunca hay disparos de una
+  sola vía. Si agregas algo, hazlo igual.
 
-- **Fases** (segundos de la línea): `F = [0, 2.4, 4.8, 7.4, 10]`, con `FIN = 12.4`.
-- El plano se dibuja con `stroke-dashoffset` sobre polígonos con `pathLength="1"`.
-- La captura real entra con un `clipPath` cuyo ancho va de 0 al ancho del plano.
-- **Reversible**: la fase activa y la barra de progreso se calculan en `marcarFase(t)` a
-  partir del tiempo, nunca con disparos de una sola vía. Si agregas algo, hazlo igual.
-
-Para cambiar el ritmo mueve `F` y `FIN`; para que dure más o menos scroll, cambia el
-`3.2`.
-
-## Lo demás
-
-- **Portada**: título por líneas, tachado que se dibuja, maqueta que se arma y luego
-  flota (3,6 s la base, 4,4 s la tarjeta).
-- **Servicios**: las columnas entran con `data-sube`; el modelo sube 8 px al pasar el
-  mouse.
-- **Panel**: las cifras cuentan hacia arriba, las barras isométricas rebotan y el embudo
-  se abre.
-- **Botón flotante**: aparece entre la portada y el formulario.
+Para cambiar el ritmo mueve `F` y `FIN`; para que dure más o menos scroll, cambia el `3`.
 
 ## Probar con movimiento reducido
 
-En Windows: **Configuración › Accesibilidad › Efectos visuales › Efectos de animación**.
-En Chrome DevTools: `Ctrl+Shift+P` → `Emulate CSS prefers-reduced-motion: reduce`.
+Windows: **Configuración › Accesibilidad › Efectos visuales › Efectos de animación**.
+Chrome DevTools: `Ctrl+Shift+P` → `Emulate CSS prefers-reduced-motion: reduce`.

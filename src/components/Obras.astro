@@ -1,0 +1,113 @@
+---
+import Icon from './Icon.astro';
+import { WHATSAPP, wa } from '../data/site';
+
+const casos = [
+  {
+    n: '01', nombre: 'El Gato Galletero', url: 'https://www.elgatogalletero.com/', dominio: 'elgatogalletero.com',
+    tipo: 'Tienda en línea', estado: 'Entregada', anio: '2026',
+    texto: 'Tienda completa con causa: catálogo por categorías, combos y envíos a toda Colombia. Cada compra apoya el rescate de gatos en Bucaramanga.',
+    desk: '/obras/gato-galletero.jpg', movil: '/obras/gato-galletero-movil.jpg',
+  },
+  {
+    n: '02', nombre: 'Suè', url: 'https://suue.shop/', dominio: 'suue.shop',
+    tipo: 'Marca de moda', estado: 'Entregada', anio: '2026',
+    texto: 'Marca de ropa con tejidos hechos a mano: lanzamiento de colección, fotografía grande y compra directa, con editorial propio.',
+    desk: '/obras/suue.jpg', movil: '/obras/suue-movil.jpg',
+  },
+];
+const MSG = 'Hola DukeNet, quiero pedir el cupo del mes para la web de mi negocio.';
+---
+<section id="obras" class="cap obras" data-cap="obras" aria-labelledby="obras-tit">
+  <div class="marco">
+    <header class="obras__head">
+      <div>
+        <p class="tag tag--linea">03 · Obras</p>
+        <h2 id="obras-tit" class="titulo obras__tit" data-parte>Entregadas<br />y funcionando</h2>
+      </div>
+      <p class="lead" data-sube>Ninguna se parece a la otra. Ese es justamente el punto: entra y compruébalo.</p>
+    </header>
+
+    <div class="obras__lista">
+      {casos.map((c) => (
+        <article class="obra">
+          <a class="obra__vista" href={c.url} target="_blank" rel="noopener" data-cursor-label="Ver sitio" aria-label={`Abrir ${c.dominio} en una pestaña nueva`}>
+            <div class="ventana caja" data-revela>
+              <div class="ventana__barra">
+                <span class="ventana__puntos" aria-hidden="true"><i></i><i></i><i></i></span>
+                <span class="ventana__url">{c.dominio}</span>
+                <span class="ventana__vivo" aria-hidden="true"><i></i>en línea</span>
+              </div>
+              <div class="ventana__vista"><img src={c.desk} alt={`Página de inicio de ${c.nombre}`} width="1200" height="2167" loading="lazy" decoding="async" data-tira /></div>
+            </div>
+            <div class="telefono" aria-hidden="true">
+              <div class="telefono__vista"><img src={c.movil} alt="" width="560" height="2297" loading="lazy" decoding="async" data-tira /></div>
+            </div>
+          </a>
+
+          <div class="obra__info" data-sube>
+            <span class="obra__n">obra {c.n}</span>
+            <h3 class="obra__nombre">{c.nombre}</h3>
+            <p class="obra__texto">{c.texto}</p>
+            <dl class="obra__ficha">
+              <div><dt>Obra</dt><dd>{c.tipo}</dd></div>
+              <div><dt>Estado</dt><dd><span class="pildora">{c.estado}</span></dd></div>
+              <div><dt>Año</dt><dd>{c.anio}</dd></div>
+            </dl>
+            <a class="btn btn--sm obra__link" href={c.url} target="_blank" rel="noopener">Abrir {c.dominio} <Icon name="arrow-ur" /></a>
+          </div>
+        </article>
+      ))}
+
+      <article class="obra obra--cupo caja" data-sube>
+        <div>
+          <span class="obra__n">obra 03 · en construcción</span>
+          <h3 class="obra__nombre">Tu marca aquí</h3>
+          <p class="obra__texto">Hay cupo este mes. Tomamos pocos proyectos para acompañar cada uno de cerca. La siguiente obra puede ser la tuya.</p>
+        </div>
+        <div class="cupo__acc">
+          <a class="btn btn--azul" href={wa(WHATSAPP[0].tel, MSG)} target="_blank" rel="noopener">Pedir el cupo del mes <Icon name="arrow-ur" /></a>
+          <p class="cupo__nota"><b>Convite</b> · plataforma de bodas en construcción: invitación digital, confirmación de asistencia y lista de regalos.</p>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+
+<style>
+  .obras__head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr); gap: 24px 60px; align-items: end; }
+  .obras__tit { margin-top: 18px; }
+
+  .obras__lista { margin-top: clamp(44px, 6vw, 86px); display: grid; gap: clamp(50px, 7vw, 110px); }
+  .obra { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.7fr); gap: clamp(24px, 4vw, 60px); align-items: center; }
+  .obra:nth-child(even) .obra__vista { order: 2; }
+
+  .obra__vista { position: relative; display: block; text-decoration: none; padding-right: clamp(30px, 5vw, 70px); }
+  .obra__vista .ventana__vista { aspect-ratio: 16 / 10; }
+  .telefono { position: absolute; right: 0; bottom: -14px; width: clamp(80px, 13%, 136px); padding: 5px; border-radius: var(--r-dispositivo); background: var(--tinta-3); border: 1px solid var(--linea-fuerte); box-shadow: 0 26px 46px -22px var(--negro); }
+  .telefono__vista { aspect-ratio: 390 / 844; overflow: hidden; border-radius: var(--r-pantalla); background: var(--blanco); }
+  .telefono__vista img { width: 100%; height: auto; }
+
+  .obra__n { font-family: var(--mono); font-size: var(--fs-micro); letter-spacing: 0.2em; text-transform: uppercase; color: var(--azul-300); }
+  .obra__nombre { margin-top: 10px; font-size: var(--fs-d4); font-weight: 700; }
+  .obra__texto { margin-top: 14px; font-size: var(--fs-base); line-height: 1.55; color: color-mix(in srgb, var(--papel) 62%, transparent); max-width: 44ch; }
+  .obra__ficha { margin: 22px 0 0; display: grid; }
+  .obra__ficha > div { display: grid; grid-template-columns: 6.5rem 1fr; gap: 12px; padding: 10px 0; border-top: 1px solid var(--linea); align-items: center; }
+  .obra__ficha dt { font-family: var(--mono); font-size: var(--fs-micro); letter-spacing: 0.14em; text-transform: uppercase; color: color-mix(in srgb, var(--papel) 48%, transparent); }
+  .obra__ficha dd { margin: 0; font-size: var(--fs-small); font-weight: 600; }
+  .pildora { display: inline-flex; align-items: center; padding: 3px 11px; border-radius: var(--r-pill); border: 1px solid color-mix(in srgb, var(--azul-300) 45%, transparent); color: var(--azul-200); font-family: var(--mono); font-size: var(--fs-micro); letter-spacing: 0.12em; text-transform: uppercase; }
+  .obra__link { margin-top: 22px; }
+
+  .obra--cupo { grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); align-items: center; padding: clamp(24px, 3.2vw, 46px); gap: clamp(20px, 3vw, 50px); }
+  .obra--cupo .obra__nombre { color: var(--azul-300); }
+  .cupo__acc { display: grid; gap: 20px; justify-items: start; }
+  .cupo__nota { font-size: var(--fs-small); line-height: 1.5; color: color-mix(in srgb, var(--papel) 52%, transparent); padding-left: 16px; border-left: 1px solid var(--linea-fuerte); }
+  .cupo__nota b { color: var(--papel); }
+
+  @media (max-width: 1000px) {
+    .obras__head { grid-template-columns: minmax(0, 1fr); }
+    .obra, .obra--cupo { grid-template-columns: minmax(0, 1fr); }
+    .obra:nth-child(even) .obra__vista { order: 0; }
+  }
+  @media (max-width: 560px) { .obra__ficha > div { grid-template-columns: minmax(0, 1fr); gap: 2px; } }
+</style>

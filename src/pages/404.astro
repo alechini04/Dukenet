@@ -2,19 +2,14 @@
 import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import { WHATSAPP, wa } from '../data/site';
-import { caja, rejilla } from '../lib/iso';
-
-const u = 30;
-const piso = rejilla(6, 6, 1, u);
-const bloque = caja(2, 2, 0, 2, 2, 0.4, u);
 const MSG = 'Hola DukeNet, quiero información para la web de mi negocio.';
 const destinos = [
-  { href: '/#plantilla', n: '01', t: 'Por qué' },
-  { href: '/#obras', n: '02', t: 'Qué hacemos' },
-  { href: '/#montaje', n: '03', t: 'Cómo' },
-  { href: '/#entregadas', n: '04', t: 'Obras' },
-  { href: '/#panel', n: '05', t: 'Datos' },
-  { href: '/#contacto', n: '06', t: 'Cotizar' },
+  { href: '/#porque', n: '00', t: 'Por qué' },
+  { href: '/#servicios', n: '01', t: 'Servicios' },
+  { href: '/#proceso', n: '02', t: 'Proceso' },
+  { href: '/#obras', n: '03', t: 'Obras' },
+  { href: '/#datos', n: '04', t: 'Datos' },
+  { href: '/#contacto', n: '05', t: 'Cotizar' },
 ];
 ---
 <Base
@@ -25,7 +20,7 @@ const destinos = [
   <main id="contenido" class="e404">
     <div class="marco e404__grid">
       <div>
-        <p class="cap__num">Error 404</p>
+        <p class="tag tag--linea">Error 404</p>
         <h1 class="e404__tit">Esta ruta<br /><span class="azul">no existe</span></h1>
         <p class="lead e404__lead">La página que buscabas se movió o nunca se construyó. Te devolvemos al inicio, o escríbenos y lo resolvemos por WhatsApp.</p>
         <div class="e404__cta">
@@ -37,14 +32,13 @@ const destinos = [
       </div>
 
       <div class="e404__escena">
-        <svg class="iso" viewBox="-200 -150 400 320" role="img" aria-label="Ilustración: un lote vacío con un solo bloque">
-          <path class="malla" d={piso} />
-          <g>
-            <polygon class="der der--gris" points={bloque.der} />
-            <polygon class="izq izq--gris" points={bloque.izq} />
-            <polygon class="top top--gris" points={bloque.top} />
-          </g>
-        </svg>
+        <div class="ventana caja">
+          <div class="ventana__barra">
+            <span class="ventana__puntos" aria-hidden="true"><i></i><i></i><i></i></span>
+            <span class="ventana__url">404 · no encontrada</span>
+          </div>
+          <div class="e404__vacio"><span>sin contenido en esta ruta</span></div>
+        </div>
       </div>
     </div>
 
@@ -65,13 +59,16 @@ const destinos = [
   .azul { color: var(--azul-300); }
   .e404__lead { margin-top: 20px; }
   .e404__cta { margin-top: 30px; display: flex; flex-wrap: wrap; gap: 12px; }
-  .e404__escena .iso { filter: drop-shadow(0 40px 50px rgba(0, 0, 0, 0.5)); }
+  .e404__vacio { aspect-ratio: 16 / 10; display: grid; place-items: center; background: var(--tinta-2);
+    background-image: linear-gradient(90deg, var(--rejilla) 1px, transparent 1px), linear-gradient(var(--rejilla) 1px, transparent 1px);
+    background-size: 26px 26px; }
+  .e404__vacio span { font-family: var(--mono); font-size: var(--fs-micro); letter-spacing: 0.18em; text-transform: uppercase; color: color-mix(in srgb, var(--papel) 40%, transparent); }
 
   .e404__rutas { margin-top: clamp(44px, 6vw, 80px); }
-  .e404__rutas ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: color-mix(in srgb, var(--papel) 12%, transparent); border-block: 1px solid color-mix(in srgb, var(--papel) 12%, transparent); }
-  .e404__rutas a { display: flex; align-items: center; gap: 12px; padding: 16px 14px; background: var(--tinta); text-decoration: none; font-weight: 700; transition: background 0.4s var(--ease); }
+  .e404__rutas ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--linea); border-block: 1px solid var(--linea); }
+  .e404__rutas a { display: flex; align-items: center; gap: 12px; padding: 16px 14px; background: var(--tinta); text-decoration: none; font-weight: 600; font-size: var(--fs-small); transition: background 0.4s var(--ease); }
   .e404__rutas a:hover { background: var(--tinta-2); }
-  .e404__rutas span { font-family: var(--mono); font-size: var(--fs-mini); color: var(--azul-300); font-weight: 400; }
+  .e404__rutas span { font-family: var(--mono); font-size: var(--fs-micro); letter-spacing: 0.14em; color: var(--azul-300); font-weight: 400; }
   .e404__rutas :global(svg) { width: 15px; height: 15px; margin-left: auto; opacity: 0.6; }
 
   @media (max-width: 900px) {

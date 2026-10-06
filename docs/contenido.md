@@ -25,10 +25,10 @@ sección, para no inflar el archivo de datos.
 | Texto | Archivo |
 |---|---|
 | Titular de la portada | `Portada.astro` |
-| Frase del capítulo 01 y los tres principios | `Plantilla.astro`, arreglo `principios` |
-| Casos entregados (nombre, dominio, tipo, estado, texto, capturas) | `Entregadas.astro`, arreglo `casos` |
-| Notas y volúmenes de la maqueta del capítulo 03 | `Montaje.astro`, arreglos `notas` y `vol` |
-| Cifras, gráfica y embudo del panel | `Panel.astro`, arreglos `metricas`, `semana`, `embudo` |
+| Frase del capítulo 00 y los tres principios | `Porque.astro`, arreglo `principios` |
+| Casos entregados (nombre, dominio, tipo, estado, texto, capturas) | `Obras.astro`, arreglo `casos` |
+| Notas y bloques del plano del capítulo 02 | `Proceso.astro`, arreglos `notas` y `bloques` |
+| Cifras, gráfica y embudo del panel | `Datos.astro`, arreglos `metricas`, `semana`, `embudo` |
 | Opciones del formulario | `Contacto.astro`, arreglo `opciones` |
 | Título de la pestaña y descripción para Google | `src/pages/index.astro` |
 
@@ -84,9 +84,8 @@ rehaces una, mantén la proporción o ajusta el `width`/`height` de la etiqueta
 `<img>` en `Entregadas.astro`, porque esas medidas son las que evitan que la
 página salte mientras carga.
 
-`gato-galletero.jpg` además se usa dentro del capítulo 03: se proyecta sobre la
-cara superior de la maqueta con la matriz isométrica. Si la cambias, revisa que
-siga encuadrando (se muestra su parte superior).
+`gato-galletero.jpg` se usa en tres sitios: la portada, el capítulo 02 (donde se
+revela al final del montaje) y la ficha de la obra. Si la cambias, revisa los tres.
 
 ### Reglas para cualquier imagen nueva
 

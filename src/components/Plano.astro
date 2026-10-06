@@ -1,0 +1,35 @@
+---
+// El plano: la rejilla fija sobre la que está dibujada toda la página, los dos
+// ejes verticales que marcan la columna de contenido y el cursor propio.
+// Decorativo por completo.
+---
+<div class="plano" aria-hidden="true">
+  <div class="plano__rejilla"></div>
+  <div class="plano__ejes"><i></i><i></i><i></i></div>
+  <div class="plano__vineta"></div>
+</div>
+
+<div class="cursor" data-cursor aria-hidden="true"><span class="cursor__anillo"></span><span class="cursor__txt" data-cursor-txt></span></div>
+<span class="cursor__punto" data-cursor-punto aria-hidden="true"></span>
+
+<style>
+  .plano { position: fixed; inset: 0; z-index: 0; pointer-events: none; overflow: hidden; }
+  .plano__rejilla {
+    position: absolute; inset: 0;
+    background-image:
+      linear-gradient(90deg, var(--rejilla) 1px, transparent 1px),
+      linear-gradient(var(--rejilla) 1px, transparent 1px);
+    background-size: var(--celda) var(--celda);
+    background-position: center center;
+  }
+  .plano__ejes { position: absolute; inset: 0; max-width: var(--max); margin-inline: auto; padding-inline: var(--borde); }
+  .plano__ejes i { position: absolute; top: 0; bottom: 0; width: 1px; background: var(--linea); }
+  .plano__ejes i:nth-child(1) { left: var(--borde); }
+  .plano__ejes i:nth-child(2) { right: var(--borde); }
+  .plano__ejes i:nth-child(3) { left: 50%; opacity: 0.45; }
+  .plano__vineta {
+    position: absolute; inset: 0;
+    background: radial-gradient(120% 90% at 50% 40%, transparent 40%, var(--tinta) 100%);
+  }
+  @media (max-width: 700px) { .plano__ejes i:nth-child(3) { display: none; } }
+</style>

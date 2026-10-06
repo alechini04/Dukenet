@@ -3,7 +3,7 @@
 
 /* ── Tokens ─────────────────────────────────────────────────────────────── */
 :root {
-  /* The palette stays: steel blue, greys, black, white. */
+  /* Azul acero y su rampa: el único tono de la página. */
   --azul-100: #eef6ff;
   --azul-200: #d6ebff;
   --azul-300: #b5d9fd;
@@ -14,9 +14,11 @@
   --azul-800: #2c455d;
   --azul-900: #1d2d3d;
 
-  --tinta: #0c0d0e;
-  --tinta-2: #141618;
-  --tinta-3: #1d2023;
+  /* Negro de instrumento: casi sin azul, para que el azul sea el que brilla. */
+  --tinta: #08090a;
+  --tinta-2: #0d0f11;
+  --tinta-3: #141719;
+  --tinta-4: #1b1f22;
   --papel: #f2f2f3;
   --papel-2: #e7e7ea;
 
@@ -27,26 +29,24 @@
   --gris-700: #5d5d60;
   --gris-800: #424244;
 
-  /* El blanco puro es la pantalla de un dispositivo; el negro puro, las sombras;
-     el rojo es el único tono fuera del azul y solo marca errores de formulario. */
   --blanco: #ffffff;
   --negro: #000000;
   --error: #8a1f1f;
 
-  /* Isometric faces: one light source, three values. */
-  --cara-top: var(--azul-400);
-  --cara-izq: var(--azul-700);
-  --cara-der: var(--azul-800);
+  /* Líneas: la página entera está dibujada sobre un plano. */
+  --linea: color-mix(in srgb, var(--papel) 9%, transparent);
+  --linea-fuerte: color-mix(in srgb, var(--papel) 16%, transparent);
+  --rejilla: color-mix(in srgb, var(--azul-300) 7%, transparent);
 
   --fuente: 'Overpass Variable', 'Overpass', system-ui, sans-serif;
   --mono: 'Overpass Mono Variable', 'Overpass Mono', ui-monospace, monospace;
 
-  /* Escala de texto. Todo lo que escribe la página sale de aquí. */
+  --fs-nano: 0.5rem;   /* solo dentro de maquetas dibujadas, nunca texto de página */
   --fs-micro: 0.62rem;
   --fs-mini: 0.72rem;
   --fs-small: 0.86rem;
   --fs-base: 1rem;
-  --fs-lead: clamp(1.05rem, 1.25vw, 1.35rem);
+  --fs-lead: clamp(1.02rem, 1.2vw, 1.3rem);
   --fs-t2: clamp(1.05rem, 1.4vw, 1.2rem);
   --fs-t1: clamp(1.15rem, 1.6vw, 1.5rem);
   --fs-t0: clamp(1.3rem, 2vw, 1.9rem);
@@ -54,11 +54,10 @@
   --fs-d5: clamp(1.6rem, 2.6vw, 2.6rem);
   --fs-d4: clamp(1.8rem, 3vw, 3rem);
   --fs-d3: clamp(2rem, 4.4vw, 4.2rem);
-  --fs-cap: clamp(2.2rem, 5.2vw, 5.4rem);
-  --fs-hero: clamp(2.5rem, 5.9vw, 6.2rem);
+  --fs-cap: clamp(2rem, 4.6vw, 4.8rem);
+  --fs-hero: clamp(2.4rem, 5.4vw, 5.8rem);
   --fs-marca: clamp(3.2rem, 14.5vw, 14rem);
 
-  /* Radios. Píldora para acciones, tarjeta para superficies, el resto es detalle. */
   --r-xs: 4px;
   --r-sm: 8px;
   --r-md: 14px;
@@ -66,8 +65,9 @@
   --r-dispositivo: 22px;
   --r-pill: 999px;
 
-  --borde: clamp(20px, 4vw, 72px);
-  --max: 1440px;
+  --borde: clamp(18px, 3.4vw, 64px);
+  --max: 1520px;
+  --celda: 92px; /* paso de la rejilla */
 
   --ease: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-io: cubic-bezier(0.76, 0, 0.24, 1);
@@ -86,28 +86,27 @@ body {
   background: var(--tinta);
   color: var(--papel);
   font-family: var(--fuente);
-  font-size: clamp(16px, 1.02vw, 18px);
-  line-height: 1.55;
+  font-size: clamp(15.5px, 1vw, 17px);
+  line-height: 1.6;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   overflow-x: clip;
 }
 
-img, svg { display: block; max-width: 100%; }
+img, svg, canvas { display: block; max-width: 100%; }
 a { color: inherit; text-underline-offset: 0.22em; }
 button, input, select, textarea { font: inherit; color: inherit; }
 p { margin: 0; }
-h1, h2, h3, h4 { margin: 0; font-family: var(--fuente); font-weight: 800; letter-spacing: -0.03em; line-height: 0.95; text-wrap: balance; }
+h1, h2, h3, h4 { margin: 0; font-family: var(--fuente); font-weight: 700; letter-spacing: -0.035em; line-height: 1; text-wrap: balance; }
 figure { margin: 0; }
 
 ::selection { background: var(--azul); color: var(--tinta); }
 :focus-visible { outline: 2px solid var(--azul-300); outline-offset: 3px; }
 
-html { scrollbar-color: var(--azul-700) var(--tinta); }
-::-webkit-scrollbar { width: 10px; height: 10px; }
+html { scrollbar-color: var(--azul-800) var(--tinta); }
+::-webkit-scrollbar { width: 9px; height: 9px; }
 ::-webkit-scrollbar-track { background: var(--tinta); }
 ::-webkit-scrollbar-thumb { background: var(--azul-800); border-radius: var(--r-sm); }
-::-webkit-scrollbar-thumb:hover { background: var(--azul-700); }
 
 .sr-only {
   position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
@@ -119,72 +118,116 @@ html { scrollbar-color: var(--azul-700) var(--tinta); }
 }
 .skip:focus { top: 14px; }
 
-/* ── Layout ─────────────────────────────────────────────────────────────── */
+/* El contenido flota sobre el plano */
+header, main, footer { position: relative; z-index: 1; }
+
+/* ── Plano ──────────────────────────────────────────────────────────────── */
+/* La página está dibujada sobre un plano: rejilla fija de hilos azules, marcos
+   de línea fina y micro-etiquetas mono pegadas a los bordes. */
 .marco { width: 100%; max-width: var(--max); margin-inline: auto; padding-inline: var(--borde); }
 
-/* A chapter: one screen, one idea. */
-.cap {
-  position: relative;
-  min-height: 100svh;
-  display: grid; align-content: center;
-  padding-block: clamp(96px, 12vh, 180px);
-}
-.cap__num {
-  font-family: var(--mono); font-size: var(--fs-mini); letter-spacing: 0.22em;
-  text-transform: uppercase; color: var(--azul-400);
-  display: flex; align-items: center; gap: 12px;
-}
-.cap__num::after { content: ''; flex: 1; max-width: 120px; height: 1px; background: currentColor; opacity: 0.4; }
+.cap { position: relative; padding-block: clamp(90px, 11vw, 170px); }
+.cap--alto { min-height: 100svh; display: grid; align-content: center; }
 
-.titulo { font-size: var(--fs-cap); }
-.lead { font-size: var(--fs-lead); line-height: 1.5; color: color-mix(in srgb, var(--papel) 74%, transparent); max-width: 46ch; }
+/* etiqueta técnica: 03 · CÓMO ─────────── */
+.tag {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-family: var(--mono); font-size: var(--fs-micro); letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--azul-300);
+}
+.tag::before { content: ''; width: 6px; height: 6px; background: currentColor; }
+.tag--linea::after { content: ''; width: clamp(40px, 8vw, 130px); height: 1px; background: currentColor; opacity: 0.4; }
+
+.titulo { font-size: var(--fs-cap); font-weight: 700; }
+.lead { font-size: var(--fs-lead); line-height: 1.55; color: color-mix(in srgb, var(--papel) 66%, transparent); max-width: 48ch; }
+
+/* lectura lateral: columnas de micro-texto alineadas al borde, como un índice */
+.lectura {
+  list-style: none; margin: 0; padding: 0; display: grid; gap: 7px;
+  font-family: var(--mono); font-size: var(--fs-micro); letter-spacing: 0.14em;
+  text-transform: uppercase; color: color-mix(in srgb, var(--papel) 58%, transparent);
+}
+.lectura b { color: var(--azul-300); font-weight: 400; }
+
+/* caja de plano: marco de hilo con muescas en las esquinas */
+.caja { position: relative; border: 1px solid var(--linea); background: color-mix(in srgb, var(--tinta-2) 70%, transparent); }
+.caja::before, .caja::after {
+  content: ''; position: absolute; width: 9px; height: 9px; border: 1px solid var(--azul-400); opacity: 0.55;
+}
+.caja::before { top: -1px; left: -1px; border-right: 0; border-bottom: 0; }
+.caja::after { bottom: -1px; right: -1px; border-left: 0; border-top: 0; }
+
+/* ── Ventana: el navegador dibujado donde vive el trabajo real ──────────── */
+.ventana { border-radius: var(--r-sm); overflow: hidden; background: var(--tinta-2); }
+.ventana__barra {
+  display: flex; align-items: center; gap: 12px; padding: 9px 12px;
+  background: var(--tinta-3); border-bottom: 1px solid var(--linea);
+  font-family: var(--mono); font-size: var(--fs-micro); letter-spacing: 0.08em;
+}
+.ventana__puntos { display: flex; gap: 5px; flex: none; }
+.ventana__puntos i { width: 7px; height: 7px; border-radius: var(--r-pill); background: var(--tinta-4); }
+.ventana__puntos i:first-child { background: var(--azul-700); }
+.ventana__url { margin-inline: auto; min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; color: color-mix(in srgb, var(--papel) 62%, transparent); }
+.ventana__vivo { display: inline-flex; align-items: center; gap: 6px; flex: none; color: var(--azul-300); text-transform: uppercase; }
+.ventana__vivo i { width: 5px; height: 5px; border-radius: var(--r-pill); background: currentColor; }
+.ventana__vista { position: relative; aspect-ratio: 16 / 10.6; overflow: hidden; background: var(--blanco); }
+.ventana__vista img { width: 100%; height: auto; }
 
 /* ── Botones ────────────────────────────────────────────────────────────── */
 .btn {
-  --btn-bg: var(--papel);
-  --btn-fg: var(--tinta);
-  position: relative;
-  display: inline-flex; align-items: center; gap: 0.7em;
-  min-height: 54px; padding: 0 1.5em;
+  --btn-bg: transparent;
+  --btn-fg: var(--papel);
+  --btn-line: var(--linea-fuerte);
+  position: relative; overflow: hidden;
+  display: inline-flex; align-items: center; gap: 0.75em;
+  min-height: 50px; padding: 0 1.4em;
   background: var(--btn-bg); color: var(--btn-fg);
-  font-weight: 700; font-size: var(--fs-base); letter-spacing: -0.01em;
+  border: 1px solid var(--btn-line); border-radius: var(--r-pill);
+  font-family: var(--mono); font-size: var(--fs-mini); letter-spacing: 0.14em; text-transform: uppercase;
   text-decoration: none; white-space: nowrap; cursor: pointer;
-  border: 1px solid var(--btn-bg);
-  border-radius: var(--r-pill);
-  transition: transform 0.45s var(--ease), background 0.45s var(--ease), color 0.45s var(--ease), border-color 0.45s var(--ease);
+  transition: color 0.45s var(--ease), border-color 0.45s var(--ease);
 }
-.btn svg { width: 1.1em; height: 1.1em; transition: transform 0.45s var(--ease); }
-.btn:hover { transform: translateY(-2px); }
+.btn::before {
+  content: ''; position: absolute; inset: 0; z-index: -1;
+  background: var(--btn-hover, var(--papel));
+  transform: translateY(101%);
+  transition: transform 0.55s var(--ease);
+}
+.btn svg { width: 1.05em; height: 1.05em; flex: none; transition: transform 0.45s var(--ease); }
+.btn:hover { color: var(--tinta); border-color: var(--btn-hover, var(--papel)); }
+.btn:hover::before { transform: translateY(0); }
 .btn:hover svg { transform: translate(3px, -3px); }
-.btn:active { transform: translateY(0); }
+.btn--azul { --btn-line: var(--azul); --btn-fg: var(--azul-200); --btn-hover: var(--azul-300); }
+.btn--sm { min-height: 40px; padding: 0 1.1em; font-size: var(--fs-micro); }
 
-.btn--azul { --btn-bg: var(--azul); --btn-fg: var(--tinta); }
-.btn--azul:hover { --btn-bg: var(--azul-300); }
-.btn--linea {
-  --btn-bg: transparent; --btn-fg: var(--papel);
-  border-color: color-mix(in srgb, var(--papel) 34%, transparent);
+/* ── Cursor ─────────────────────────────────────────────────────────────── */
+.cursor, .cursor__punto {
+  position: fixed; top: 0; left: 0; z-index: 200; pointer-events: none;
+  opacity: 0; will-change: transform;
 }
-.btn--linea:hover { --btn-bg: var(--papel); --btn-fg: var(--tinta); }
-.btn--sm { min-height: 42px; font-size: var(--fs-small); padding: 0 1.2em; }
+.cursor__anillo, .cursor__txt {
+  position: absolute; left: 0; top: 0;
+  display: grid; place-items: center;
+}
+.cursor__anillo {
+  width: 38px; height: 38px; margin: -19px 0 0 -19px; border-radius: var(--r-pill);
+  border: 1px solid color-mix(in srgb, var(--azul-300) 70%, transparent);
+  transition: transform 0.4s var(--ease), background 0.4s var(--ease), border-color 0.4s;
+}
+.cursor__punto { width: 5px; height: 5px; margin: -2.5px 0 0 -2.5px; border-radius: var(--r-pill); background: var(--azul-300); transition: opacity 0.4s; }
+.cursor__txt {
+  width: 104px; height: 104px; margin: -52px 0 0 -52px;
+  font-family: var(--mono); font-size: var(--fs-micro); letter-spacing: 0.12em; text-transform: uppercase;
+  color: var(--tinta); opacity: 0; transition: opacity 0.3s; white-space: nowrap;
+}
+html.puntero-fino.motion:not(.rm) .cursor, html.puntero-fino.motion:not(.rm) .cursor__punto { opacity: 1; }
+html.puntero-fino.motion:not(.rm) { cursor: none; }
+html.puntero-fino.motion:not(.rm) a, html.puntero-fino.motion:not(.rm) button, html.puntero-fino.motion:not(.rm) label, html.puntero-fino.motion:not(.rm) input, html.puntero-fino.motion:not(.rm) textarea { cursor: none; }
+.cursor.es-enlace .cursor__anillo { transform: scale(1.65); background: color-mix(in srgb, var(--azul-300) 18%, transparent); border-color: var(--azul-300); }
+.cursor.es-obra .cursor__anillo { transform: scale(2.74); background: var(--azul-300); border-color: var(--azul-300); }
+.cursor.es-obra .cursor__txt { opacity: 1; }
+.cursor.es-obra ~ .cursor__punto, .cursor.es-enlace ~ .cursor__punto { opacity: 0; }
 
-/* ── Escena isométrica ──────────────────────────────────────────────────── */
-/* Every scene is one SVG drawn from src/lib/iso.ts. These are its materials. */
-.iso { width: 100%; height: auto; overflow: visible; }
-.iso .top { fill: var(--cara-top); }
-.iso .izq { fill: var(--cara-izq); }
-.iso .der { fill: var(--cara-der); }
-.iso .top--papel { fill: var(--papel); }
-.iso .izq--papel { fill: var(--gris-400); }
-.iso .der--papel { fill: var(--gris-600); }
-.iso .top--gris { fill: var(--tinta-3); }
-.iso .izq--gris { fill: #111416; }
-.iso .der--gris { fill: #0e1113; }
-.iso .malla { fill: none; stroke: color-mix(in srgb, var(--azul-400) 26%, transparent); stroke-width: 0.6; }
-.iso .filo { fill: none; stroke: color-mix(in srgb, var(--papel) 24%, transparent); stroke-width: 0.8; }
-.iso .brillo { fill: var(--azul-300); }
-.iso text { font-family: var(--mono); fill: var(--papel); }
-
-/* ── Movimiento ─────────────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
 }

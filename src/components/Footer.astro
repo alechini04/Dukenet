@@ -25,8 +25,9 @@ const MSG = 'Hola DukeNet, quiero información para la web de mi negocio.';
         <div>
           <span class="pie__lab">Sitio</span>
           <ul>
-            <li><a href="/#obras">Qué hacemos</a></li>
-            <li><a href="/#montaje">Cómo</a></li>
+            <li><a href="/#servicios">Servicios</a></li>
+            <li><a href="/#proceso">Proceso</a></li>
+            <li><a href="/#obras">Obras</a></li>
             <li><a href="/#contacto">Cotizar</a></li>
           </ul>
         </div>
@@ -57,37 +58,33 @@ const MSG = 'Hola DukeNet, quiero información para la web de mi negocio.';
 </a>
 
 <style>
-  .pie { padding-block: clamp(70px, 9vw, 130px) 28px; border-top: 1px solid color-mix(in srgb, var(--papel) 10%, transparent); }
-  .pie__marca { display: flex; align-items: baseline; font-weight: 800; letter-spacing: -0.05em; font-size: var(--fs-marca); line-height: 0.85; }
+  .pie { padding-block: clamp(64px, 8vw, 120px) 26px; border-top: 1px solid var(--linea); }
+  .pie__marca { display: flex; align-items: baseline; font-weight: 700; letter-spacing: -0.055em; font-size: var(--fs-marca); line-height: 0.82; color: color-mix(in srgb, var(--papel) 94%, transparent); }
   .pie__net { color: var(--azul-300); }
-  .pie__grid { margin-top: clamp(36px, 5vw, 64px); display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 32px; padding-top: 26px; border-top: 1px solid color-mix(in srgb, var(--papel) 13%, transparent); }
-  .pie__claim { max-width: 26ch; font-size: var(--fs-t1); font-weight: 700; line-height: 1.25; }
+  .pie__grid { margin-top: clamp(32px, 4vw, 56px); display: grid; grid-template-columns: minmax(0, 4fr) minmax(0, 8fr); gap: 30px; padding-top: 24px; border-top: 1px solid var(--linea); }
+  .pie__claim { max-width: 26ch; font-size: var(--fs-t1); font-weight: 600; line-height: 1.3; }
   .pie__cols { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 24px; }
-  .pie__lab { font-family: var(--mono); font-size: var(--fs-mini); color: var(--azul-300); letter-spacing: 0.14em; text-transform: uppercase; }
-  .pie__cols ul { list-style: none; margin: 8px 0 0; padding: 0; display: grid; }
-  .pie__cols a { display: inline-block; padding-block: 5px; overflow-wrap: anywhere; text-decoration: none; color: color-mix(in srgb, var(--papel) 74%, transparent); transition: color 0.3s; }
+  .pie__lab { font-family: var(--mono); font-size: var(--fs-micro); color: var(--azul-300); letter-spacing: 0.18em; text-transform: uppercase; }
+  .pie__cols ul { list-style: none; margin: 10px 0 0; padding: 0; display: grid; }
+  .pie__cols a { display: inline-block; padding-block: 5px; overflow-wrap: anywhere; text-decoration: none; font-size: var(--fs-small); color: color-mix(in srgb, var(--papel) 66%, transparent); transition: color 0.3s; }
   .pie__cols a:hover { color: var(--papel); }
-  .pie__base { margin-top: 48px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 24px; font-family: var(--mono); font-size: var(--fs-mini); color: color-mix(in srgb, var(--papel) 52%, transparent); }
+  .pie__base { margin-top: 44px; display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 10px 24px; font-family: var(--mono); font-size: var(--fs-micro); letter-spacing: 0.1em; color: color-mix(in srgb, var(--papel) 48%, transparent); }
+  .pie__legal { display: flex; flex-wrap: wrap; gap: 6px 18px; }
+  .pie__legal a { padding-block: 5px; margin-block: -5px; text-decoration: none; }
+  .pie__legal a:hover, .pie__arriba:hover { color: var(--papel); }
   .pie__arriba { display: inline-flex; flex: none; align-items: center; gap: 6px; padding-block: 5px; margin-block: -5px; text-decoration: none; }
-  .pie__arriba :global(svg) { width: 13px; height: 13px; }
-  .pie__arriba:hover { color: var(--papel); }
+  .pie__arriba :global(svg) { width: 12px; height: 12px; }
 
   .flota {
     position: fixed; right: clamp(14px, 2vw, 26px); bottom: clamp(14px, 2vw, 26px); z-index: 90;
-    box-shadow: 0 16px 34px -10px color-mix(in srgb, var(--negro) 70%, transparent);
-    transition: opacity 0.4s, visibility 0s linear 0.4s, transform 0.5s var(--ease);
+    background: color-mix(in srgb, var(--tinta) 86%, transparent);
+    -webkit-backdrop-filter: blur(12px); backdrop-filter: blur(12px);
+    transition: opacity 0.4s, visibility 0s linear 0.4s, transform 0.5s var(--ease), color 0.45s var(--ease), border-color 0.45s;
   }
-  .flota.oculta { opacity: 0; visibility: hidden; transform: translateY(16px); pointer-events: none; }
-  .flota :global(svg) { width: 1.2em; height: 1.2em; }
-
-  .pie__legal { display: flex; flex-wrap: wrap; gap: 6px 18px; }
-  .pie__legal a { padding-block: 5px; margin-block: -5px; text-decoration: none; }
-  .pie__legal a:hover { color: var(--papel); }
+  .flota.oculta { opacity: 0; visibility: hidden; transform: translateY(14px); pointer-events: none; }
+  .flota :global(svg) { width: 1.1em; height: 1.1em; }
 
   @media (max-width: 1000px) { .pie__cols { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-  @media (max-width: 760px) {
-    .pie__grid { grid-template-columns: minmax(0, 1fr); }
-    .pie__cols { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  }
+  @media (max-width: 760px) { .pie__grid { grid-template-columns: minmax(0, 1fr); } }
   @media (max-width: 480px) { .flota span { display: none; } }
 </style>

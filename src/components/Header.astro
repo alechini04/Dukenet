@@ -1,25 +1,33 @@
 ---
 import Icon from './Icon.astro';
 const nav = [
-  { href: '/#plantilla', label: 'Por qué' },
-  { href: '/#obras', label: 'Qué hacemos' },
-  { href: '/#montaje', label: 'Cómo' },
-  { href: '/#entregadas', label: 'Obras' },
+  { href: '/#proceso', label: 'Proceso' },
+  { href: '/#obras', label: 'Obras' },
+  { href: '/#datos', label: 'Datos' },
+  { href: '/#servicios', label: 'Servicios' },
 ];
 ---
 <header class="hdr" data-hdr>
   <div class="hdr__bar marco">
     <a href="/#inicio" class="marca" aria-label="DukeNet, ir al inicio">
-      <span>Duke</span><span class="marca__net">Net</span>
+      <span class="marca__cuadro" aria-hidden="true"><i></i><i></i><i></i><i></i></span>
+      <span class="marca__txt">Duke<b>Net</b></span>
     </a>
 
     <nav class="hdr__nav" aria-label="Principal">
       <ul>
-        {nav.map((n) => <li><a href={n.href} data-navlink={n.href.slice(2)}>{n.label}</a></li>)}
+        {nav.map((n, i) => (
+          <li>
+            <a href={n.href} data-navlink={n.href.slice(2)}>
+              <span class="hdr__n">0{i + 1}</span>{n.label}
+            </a>
+          </li>
+        ))}
       </ul>
     </nav>
 
     <div class="hdr__acciones">
+      <span class="estado" aria-label="Estado: tomamos proyectos este mes"><i></i>Cupo abierto</span>
       <a href="/#contacto" class="btn btn--azul btn--sm hdr__cta">Cotizar</a>
       <button class="hdr__menu" type="button" aria-expanded="false" aria-controls="menu" data-menu-toggle>
         <span class="sr-only" data-menu-label>Abrir menú</span>
@@ -48,67 +56,55 @@ const nav = [
 </div>
 
 <style>
-  .hdr {
-    position: fixed; inset: 0 0 auto 0; z-index: 100;
-    transition: background 0.5s var(--ease), backdrop-filter 0.5s;
-  }
-  .hdr.is-pegado {
-    background: color-mix(in srgb, var(--tinta) 82%, transparent);
-    -webkit-backdrop-filter: blur(16px); backdrop-filter: blur(16px);
-  }
-  .hdr__bar { display: flex; align-items: center; gap: 28px; height: 72px; }
+  .hdr { position: fixed; inset: 0 0 auto 0; z-index: 100; transition: background 0.5s var(--ease), backdrop-filter 0.5s; }
+  .hdr.is-pegado { background: color-mix(in srgb, var(--tinta) 80%, transparent); -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px); }
+  .hdr__bar { display: flex; align-items: center; gap: 24px; height: 70px; }
 
-  .marca {
-    display: inline-flex; align-items: baseline; gap: 1px; padding-block: 4px;
-    font-weight: 800; font-size: 1.32rem; letter-spacing: -0.045em; text-decoration: none; line-height: 1;
-  }
-  .marca__net { color: var(--azul-300); }
+  .marca { display: inline-flex; align-items: center; gap: 10px; padding-block: 5px; text-decoration: none; }
+  .marca__cuadro { display: grid; grid-template-columns: repeat(2, 5px); gap: 2px; }
+  .marca__cuadro i { width: 5px; height: 5px; background: var(--azul-300); }
+  .marca__cuadro i:nth-child(4) { background: var(--papel); }
+  .marca__txt { font-weight: 700; font-size: 1.1rem; letter-spacing: -0.04em; }
+  .marca__txt b { color: var(--azul-300); font-weight: 700; }
 
   .hdr__nav { margin-left: auto; }
-  .hdr__nav ul { display: flex; gap: clamp(20px, 2.6vw, 40px); list-style: none; margin: 0; padding: 0; }
+  .hdr__nav ul { display: flex; gap: clamp(14px, 2vw, 32px); list-style: none; margin: 0; padding: 0; }
   .hdr__nav a {
-    position: relative; display: block; padding: 6px 0;
-    font-size: var(--fs-small); font-weight: 550; text-decoration: none;
-    color: color-mix(in srgb, var(--papel) 66%, transparent);
+    position: relative; display: inline-flex; align-items: baseline; gap: 7px; padding: 8px 0;
+    font-family: var(--mono); font-size: var(--fs-micro); letter-spacing: 0.16em; text-transform: uppercase;
+    text-decoration: none; color: color-mix(in srgb, var(--papel) 58%, transparent);
     transition: color 0.35s var(--ease);
   }
-  .hdr__nav a::after {
-    content: ''; position: absolute; left: 0; right: 0; bottom: 0; height: 1px;
-    background: var(--azul-300); transform: scaleX(0); transform-origin: left;
-    transition: transform 0.5s var(--ease);
-  }
+  .hdr__n { color: var(--azul-300); opacity: 0.6; }
+  .hdr__nav a::after { content: ''; position: absolute; left: 0; right: 0; bottom: 2px; height: 1px; background: var(--azul-300); transform: scaleX(0); transform-origin: left; transition: transform 0.5s var(--ease); }
   .hdr__nav a:hover, .hdr__nav a[aria-current='true'] { color: var(--papel); }
   .hdr__nav a:hover::after, .hdr__nav a[aria-current='true']::after { transform: scaleX(1); }
 
-  .hdr__acciones { display: flex; align-items: center; gap: 10px; }
-  .hdr__menu {
-    display: none; width: 46px; height: 46px; place-items: center;
-    background: transparent; border: 1px solid color-mix(in srgb, var(--papel) 28%, transparent);
-    border-radius: var(--r-pill); cursor: pointer;
-  }
-  .hdr__menu :global(svg) { width: 20px; height: 20px; grid-area: 1 / 1; }
+  .hdr__acciones { display: flex; align-items: center; gap: 14px; }
+  .estado { display: inline-flex; align-items: center; gap: 7px; font-family: var(--mono); font-size: var(--fs-micro); letter-spacing: 0.14em; text-transform: uppercase; color: color-mix(in srgb, var(--papel) 54%, transparent); }
+  .estado i { width: 6px; height: 6px; border-radius: var(--r-pill); background: var(--azul-300); box-shadow: 0 0 0 3px color-mix(in srgb, var(--azul-300) 22%, transparent); }
+  :global(html.motion:not(.rm)) .estado i { animation: latido 2.4s var(--ease-io) infinite; }
+  @keyframes latido { 0%, 100% { box-shadow: 0 0 0 3px color-mix(in srgb, var(--azul-300) 22%, transparent); } 50% { box-shadow: 0 0 0 7px color-mix(in srgb, var(--azul-300) 0%, transparent); } }
+
+  .hdr__menu { display: none; width: 42px; height: 42px; place-items: center; background: transparent; border: 1px solid var(--linea-fuerte); border-radius: var(--r-pill); cursor: pointer; }
+  .hdr__menu :global(svg) { width: 18px; height: 18px; grid-area: 1 / 1; }
   .hdr__menu :global(.i-close) { opacity: 0; }
   .hdr__menu[aria-expanded='true'] :global(.i-open) { opacity: 0; }
   .hdr__menu[aria-expanded='true'] :global(.i-close) { opacity: 1; }
 
-  .hdr__avance { height: 2px; background: color-mix(in srgb, var(--papel) 8%, transparent); }
+  .hdr__avance { height: 1px; background: var(--linea); }
   .hdr__avance i { display: block; height: 100%; background: var(--azul-300); transform: scaleX(0); transform-origin: left; }
 
-  .menu {
-    position: fixed; inset: 74px 0 0 0; z-index: 99;
-    background: color-mix(in srgb, var(--tinta) 96%, transparent);
-    -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px);
-    overflow-y: auto; overscroll-behavior: contain; padding-block: 24px 40px;
-  }
+  .menu { position: fixed; inset: 71px 0 0 0; z-index: 99; background: color-mix(in srgb, var(--tinta) 97%, transparent); -webkit-backdrop-filter: blur(20px); backdrop-filter: blur(20px); overflow-y: auto; overscroll-behavior: contain; padding-block: 24px 40px; }
   .menu ol { list-style: none; margin: 0; padding: 0; }
-  .menu li { border-bottom: 1px solid color-mix(in srgb, var(--papel) 12%, transparent); }
-  .menu li a { display: flex; align-items: baseline; gap: 18px; padding: 20px 0; text-decoration: none; }
-  .menu__n { font-family: var(--mono); font-size: var(--fs-mini); color: var(--azul-300); }
-  .menu__txt { font-weight: 800; font-size: var(--fs-d4); letter-spacing: -0.04em; }
-  .menu__cta { margin-top: 30px; width: 100%; justify-content: center; }
+  .menu li { border-bottom: 1px solid var(--linea); }
+  .menu li a { display: flex; align-items: baseline; gap: 16px; padding: 20px 0; text-decoration: none; }
+  .menu__n { font-family: var(--mono); font-size: var(--fs-micro); color: var(--azul-300); }
+  .menu__txt { font-weight: 700; font-size: var(--fs-d4); letter-spacing: -0.04em; }
+  .menu__cta { margin-top: 28px; width: 100%; justify-content: center; }
 
-  @media (max-width: 900px) {
-    .hdr__nav { display: none; }
+  @media (max-width: 940px) {
+    .hdr__nav, .estado { display: none; }
     .hdr__acciones { margin-left: auto; }
     .hdr__menu { display: grid; }
   }

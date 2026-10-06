@@ -1,83 +1,75 @@
 # Los capítulos, en orden
 
-La página se arma en [`src/pages/index.astro`](../src/pages/index.astro) y son **seis
-capítulos a pantalla completa**, cada uno con su número y su idea. Todas las escenas
-isométricas salen del mismo proyector: [`src/lib/iso.ts`](../src/lib/iso.ts).
+La página se arma en [`src/pages/index.astro`](../src/pages/index.astro). Todo ocurre
+sobre el **plano**: la rejilla fija, los ejes y el cursor propio, que vive en
+[`src/components/Plano.astro`](../src/components/Plano.astro) y se monta una sola vez
+desde el layout.
 
 | # | Id | Archivo | Qué cuenta |
 |---|---|---|---|
-| — | — | `Header.astro` | Marca, cuatro enlaces, botón de cotizar y barra de avance. |
-| 00 | `#inicio` | `Portada.astro` | La promesa y la maqueta que se arma sola. |
-| 01 | `#plantilla` | `Plantilla.astro` | Por qué no usamos plantillas. |
-| 02 | `#obras` | `Servicios.astro` | Las cuatro maneras de crecer. |
-| 03 | `#montaje` | `Montaje.astro` | Las cinco fases, construyéndose. |
-| 04 | `#entregadas` | `Entregadas.astro` | Obras reales y el cupo del mes. |
-| 05 | `#panel` | `Panel.astro` | Los datos que vas a recibir. |
-| 06 | `#contacto` | `Contacto.astro` | El formulario y los dos WhatsApp. |
-| — | — | `Footer.astro` | Marca grande, enlaces y el botón flotante. |
+| — | — | `Header.astro` | Marca, nav mono numerada, estado «cupo abierto» y barra de avance. |
+| — | `#inicio` | `Portada.astro` | La promesa y la obra real moviéndose sola. |
+| 00 | `#porque` | `Porque.astro` | Por qué no usamos plantillas. |
+| 01 | `#servicios` | `Servicios.astro` | Las cuatro maneras de crecer. |
+| 02 | `#proceso` | `Proceso.astro` | Las cinco fases, construyéndose dentro del navegador. |
+| 03 | `#obras` | `Obras.astro` | Los sitios reales y el cupo del mes. |
+| 04 | `#datos` | `Datos.astro` | El panel que vas a recibir. |
+| 05 | `#contacto` | `Contacto.astro` | Formulario y los dos WhatsApp. |
+| — | — | `Footer.astro` | Marca grande, enlaces, legales y botón flotante. |
 
 ---
 
-## 00 · Portada
+## Portada
 
-Titular en tres líneas con «páginas bonitas» tachado, el párrafo de presentación y tres
-botones (cotizar y los dos WhatsApp, que salen de `WHATSAPP` en `site.ts`).
+Titular en tres líneas con «páginas bonitas» tachado, y a la derecha **la obra real**:
+una ventana de navegador con la captura de elgatogalletero.com que se recorre sola, y el
+teléfono encima con la versión móvil. Abajo, tres datos en mono.
 
-A la derecha, la **maqueta**: una plataforma con cuatro bloques que se apilan al cargar
-y una tarjeta que flota aparte. Respira despacio mientras no la tocas.
+## 00 · Por qué
 
-## 01 · Plantilla
+La frase grande («Una plantilla te hace uno más…») y los tres principios en cajas de
+hilo, con una lectura lateral que contrasta plantilla contra a medida.
 
-Nueve losas idénticas en isométrico. Al bajar, ocho se hunden y se apagan y la novena se
-levanta y se construye en azul, mientras aparecen los tres principios. La animación está
-ligada al scroll: si subes, se deshace.
+## 01 · Servicios
 
-## 02 · Servicios
+Cuatro cajas, una por servicio, con número, nombre, promesa corta en mono, texto, lista
+de lo que incluye y enlace que baja al formulario **dejando marcada esa opción**. Los
+datos salen de `SERVICIOS` en `site.ts`.
 
-Cuatro columnas, una por servicio, cada una con su propio modelo isométrico (tienda,
-página, landing, datos). Los datos salen de `SERVICIOS` en `site.ts`. El enlace de cada
-columna baja al formulario **y deja marcada esa opción**.
+## 02 · Proceso — el capítulo largo
 
-## 03 · Montaje — el capítulo largo
+La pantalla se queda fija unas tres pantallas mientras, dentro de una ventana de
+navegador, el sitio se construye:
 
-La pantalla se queda fija durante unas tres pantallas y media de scroll mientras una
-sola línea de tiempo construye el sitio:
+1. **Diagnóstico**: el lienzo con la rejilla del plano y tres notas pegadas.
+2. **Propuesta**: se dibujan los bloques de la estructura, con su nombre.
+3. **Diseño**: los bloques se rellenan.
+4. **Lanzamiento**: un barrido de luz revela la captura real, la barra de direcciones
+   termina de escribir el dominio y aparece «en línea».
+5. **Crecer**: entra el panel de reporte con sus barras.
 
-1. **Diagnóstico**: el lote vacío con tres notas flotando.
-2. **Propuesta**: se dibuja el plano, arista por arista.
-3. **Diseño**: los volúmenes se llenan.
-4. **Lanzamiento**: entra la captura real de El Gato Galletero, proyectada sobre la cara
-   superior con la misma matriz isométrica, y se estampa «EN LÍNEA».
-5. **Crecer**: suben las barras de datos al lado.
+La fase activa y la barra de progreso se calculan del tiempo de la línea, así que subir
+lo deshace exactamente. Los textos salen de `FASES` en `site.ts`.
 
-El texto de la fase y la barra de progreso se calculan desde el tiempo de la línea, así
-que el capítulo es reversible. Los textos salen de `FASES` en `site.ts`.
+## 03 · Obras
 
-## 04 · Entregadas
+Los dos sitios entregados, cada uno en su ventana con la captura recorriéndose y el
+teléfono encima. El cursor se convierte en un disco con la etiqueta **«Ver sitio»**
+cuando pasas por encima. Debajo, el bloque del cupo del mes con la nota de Convite.
 
-Los casos reales dentro de un navegador dibujado, con la captura móvil encima de la
-esquina. Al pasar el mouse, la captura se recorre sola. Debajo, el bloque del cupo del
-mes y la nota de Convite (en construcción).
+## 04 · Datos
 
-## 05 · Panel
+Tablero dentro de una caja: cuatro cifras que cuentan, gráfica de barras y embudo.
+**Las cifras son de ejemplo y la página lo dice**; ese rótulo se queda mientras no haya
+datos reales autorizados.
 
-Tablero oscuro: cuatro cifras que cuentan hacia arriba, una gráfica de barras
-isométricas y el embudo de compra. **Las cifras son de ejemplo y la página lo dice**;
-ese rótulo se queda mientras no haya datos reales autorizados.
+## 05 · Contacto
 
-## 06 · Contacto
+Los dos números grandes a la izquierda y el formulario a la derecha, dentro de una caja
+de hilo. No envía nada a ningún servidor: arma el mensaje y abre WhatsApp. Lleva la
+casilla obligatoria de autorización de datos.
 
-A la izquierda el titular y los dos números grandes; a la derecha el formulario sobre
-papel blanco, la única superficie blanca grande de la página. No envía nada a ningún
-servidor: arma el mensaje y abre WhatsApp con el texto escrito.
+## Páginas legales y 404
 
-## Páginas legales
-
-`/privacidad`, `/cookies` y `/terminos`, enlazadas desde el pie. Comparten
-`Legal.astro` y se explican en [legal.md](legal.md). **Ojo:** el NIT, el domicilio y el
-correo están pendientes de completar en `src/data/legal.ts`.
-
-## Página 404
-
-Mismo mundo: lote vacío con un bloque, botones de volver y los seis desvíos. Va marcada
-`noindex` y fuera del sitemap.
+`/privacidad`, `/cookies` y `/terminos` comparten `Legal.astro` (ver [legal.md](legal.md)).
+La 404 usa el mismo mundo: una ventana vacía con la rejilla y los seis desvíos.

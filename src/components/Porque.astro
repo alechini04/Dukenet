@@ -1,0 +1,59 @@
+---
+const principios = [
+  { n: '01', t: 'Primero entendemos cómo vendes', d: 'Después dibujamos la página que tu negocio necesita. Y solo entonces se escribe una línea de código.' },
+  { n: '02', t: 'Cada pantalla tiene un objetivo', d: 'Que el visitante entienda, confíe y compre. Nada decorativo que no aporte.' },
+  { n: '03', t: 'Salir al aire no es el final', d: 'Medimos, ajustamos y te contamos qué cambió, mes a mes.' },
+];
+---
+<section id="porque" class="cap porque" data-cap="porque" aria-labelledby="porque-tit">
+  <div class="marco">
+    <div class="porque__head">
+      <p class="tag tag--linea">00 · Por qué</p>
+      <h2 id="porque-tit" class="porque__frase" data-parte>
+        Una plantilla te hace <span class="apagado">uno más</span>.<br />
+        Nosotros te hacemos <span class="azul">el único</span>.
+      </h2>
+    </div>
+
+    <div class="porque__grid">
+      <ol class="princ">
+        {principios.map((p) => (
+          <li class="princ__it caja" data-sube>
+            <span class="princ__n">{p.n}</span>
+            <h3 class="princ__t">{p.t}</h3>
+            <p class="princ__d">{p.d}</p>
+          </li>
+        ))}
+      </ol>
+
+      <aside class="porque__nota" data-sube>
+        <ul class="lectura">
+          <li><b>plantilla</b> misma estructura para todos</li>
+          <li><b>a medida</b> estructura según cómo vendes tú</li>
+          <li><b>resultado</b> el visitante entiende y compra</li>
+        </ul>
+        <p class="porque__cita">«El sitio es la prueba: si vendiéramos plantillas, esta página sería una.»</p>
+      </aside>
+    </div>
+  </div>
+</section>
+
+<style>
+  .porque__head { display: grid; gap: 20px; }
+  .porque__frase { font-size: var(--fs-cap); line-height: 1.02; max-width: 18ch; }
+  .apagado { color: color-mix(in srgb, var(--papel) 42%, transparent); }
+  .azul { color: var(--azul-300); }
+
+  .porque__grid { margin-top: clamp(40px, 5vw, 76px); display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 0.42fr); gap: clamp(20px, 3vw, 52px); align-items: start; }
+  .princ { list-style: none; margin: 0; padding: 0; display: grid; gap: 10px; }
+  .princ__it { display: grid; grid-template-columns: auto 1fr; gap: 6px 20px; padding: clamp(18px, 2vw, 28px); transition: background 0.5s var(--ease), border-color 0.5s var(--ease); }
+  .princ__it:hover { border-color: var(--linea-fuerte); background: color-mix(in srgb, var(--tinta-2) 95%, transparent); }
+  .princ__n { grid-row: span 2; font-family: var(--mono); font-size: var(--fs-micro); letter-spacing: 0.18em; color: var(--azul-300); padding-top: 5px; }
+  .princ__t { font-size: var(--fs-t1); font-weight: 700; }
+  .princ__d { font-size: var(--fs-small); color: color-mix(in srgb, var(--papel) 58%, transparent); max-width: 56ch; }
+
+  .porque__nota { display: grid; gap: 22px; padding-top: 6px; }
+  .porque__cita { font-size: var(--fs-small); line-height: 1.5; color: color-mix(in srgb, var(--papel) 50%, transparent); padding-top: 18px; border-top: 1px solid var(--linea); }
+
+  @media (max-width: 900px) { .porque__grid { grid-template-columns: minmax(0, 1fr); } }
+</style>

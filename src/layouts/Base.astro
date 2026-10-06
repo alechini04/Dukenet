@@ -1,5 +1,6 @@
 ---
 import '../styles/global.css';
+import Plano from '../components/Plano.astro';
 import { WHATSAPP, CIUDADES } from '../data/site';
 
 interface Props { title: string; description: string; robots?: string }
@@ -56,10 +57,12 @@ const negocio = {
       // Motion opts in only when JS runs. With reduced motion requested, the page keeps fades and
       // count-ups but drops smooth scroll, pinning, parallax and travel.
       document.documentElement.classList.add('motion');
+      if (matchMedia('(hover: hover) and (pointer: fine)').matches) document.documentElement.classList.add('puntero-fino');
       if (matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('rm');
     </script>
   </head>
   <body>
+    <Plano />
     <a class="skip" href="#contenido">Saltar al contenido</a>
     <slot />
   </body>

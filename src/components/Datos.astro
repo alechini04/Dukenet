@@ -1,0 +1,125 @@
+---
+const metricas = [
+  { label: 'Visitas', valor: 4812, formato: 'int', tendencia: '+18%' },
+  { label: 'Pedidos', valor: 167, formato: 'int', tendencia: '+11%' },
+  { label: 'Conversión', valor: 3.47, formato: 'pct', tendencia: '+0,4 pts' },
+  { label: 'Ticket promedio', valor: 78400, formato: 'cop', tendencia: '+6%' },
+];
+const fmt = (v: number, f: string) =>
+  f === 'pct' ? v.toFixed(2).replace('.', ',') + '%' : f === 'cop' ? '$' + v.toLocaleString('es-CO') : v.toLocaleString('es-CO');
+const semana = [
+  { d: 'Lun', v: 38 }, { d: 'Mar', v: 52 }, { d: 'Mié', v: 44 }, { d: 'Jue', v: 66 },
+  { d: 'Vie', v: 58 }, { d: 'Sáb', v: 79 }, { d: 'Dom', v: 94 },
+];
+const embudo = [
+  { paso: 'Visitaron la tienda', v: 4812 },
+  { paso: 'Vieron un producto', v: 2140 },
+  { paso: 'Agregaron al carrito', v: 402 },
+  { paso: 'Pagaron', v: 167 },
+];
+---
+<section id="datos" class="cap datos" data-cap="datos" aria-labelledby="datos-tit">
+  <div class="marco datos__grid">
+    <div class="datos__texto">
+      <p class="tag tag--linea">04 · Datos</p>
+      <h2 id="datos-tit" class="titulo datos__tit" data-parte>Dejas<br />de adivinar</h2>
+      <p class="lead datos__lead" data-sube>Un panel en español, sin tecnicismos: de dónde llega la gente, qué mira, qué compra y en qué paso se va. Más un reporte mensual con lo que hicimos y lo que sigue.</p>
+      <ul class="datos__lista" data-sube>
+        <li>Visitas, origen y búsquedas</li>
+        <li>Productos más vistos y más vendidos</li>
+        <li>Carritos abandonados y en qué paso se caen</li>
+      </ul>
+    </div>
+
+    <figure class="tablero caja" data-tablero data-sube>
+      <figcaption class="tablero__head">
+        <span class="tablero__t">Panel de ventas <b>últimos 30 días</b></span>
+        <span class="pildora">Ejemplo</span>
+      </figcaption>
+
+      <dl class="kpis">
+        {metricas.map((m) => (
+          <div class="kpi">
+            <dt>{m.label}</dt>
+            <dd class="kpi__v" data-cuenta={m.valor} data-formato={m.formato}>{fmt(m.valor, m.formato)}</dd>
+            <dd class="kpi__t">{m.tendencia} <span>vs. mes anterior</span></dd>
+          </div>
+        ))}
+      </dl>
+
+      <div class="tablero__cols">
+        <div class="bloque">
+          <span class="bloque__lab">Pedidos por día</span>
+          <div class="grafica">
+            {semana.map((s, i) => (
+              <div class="grafica__col">
+                <i style={`--h:${s.v}%`} class={i === semana.length - 1 ? 'alta' : ''} data-barra></i>
+                <span>{s.d}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div class="bloque">
+          <span class="bloque__lab">¿En qué paso se van?</span>
+          <ol class="embudo">
+            {embudo.map((e) => (
+              <li>
+                <span class="embudo__txt">{e.paso}<b>{e.v.toLocaleString('es-CO')}</b></span>
+                <span class="embudo__via"><i style={`--w:${Math.round((e.v / embudo[0].v) * 100)}%`} data-embudo></i></span>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </div>
+      <p class="tablero__pie">Cifras de ejemplo para mostrar el formato del panel.</p>
+    </figure>
+  </div>
+</section>
+
+<style>
+  .datos__grid { display: grid; grid-template-columns: minmax(0, 0.8fr) minmax(0, 1.2fr); gap: clamp(30px, 4vw, 76px); align-items: center; }
+  .datos__tit { margin-top: 18px; }
+  .datos__lead { margin-top: 20px; }
+  .datos__lista { list-style: none; margin: 26px 0 0; padding: 0; display: grid; }
+  .datos__lista li { display: flex; align-items: center; gap: 12px; padding: 12px 0; border-top: 1px solid var(--linea); font-size: var(--fs-small); }
+  .datos__lista li::before { content: ''; width: 6px; height: 6px; background: var(--azul-300); flex: none; }
+
+  .tablero { padding: clamp(16px, 1.8vw, 26px); }
+  .tablero__head { display: flex; justify-content: space-between; align-items: center; gap: 12px; padding-bottom: 14px; border-bottom: 1px solid var(--linea); }
+  .tablero__t { font-family: var(--mono); font-size: var(--fs-micro); letter-spacing: 0.14em; text-transform: uppercase; }
+  .tablero__t b { color: color-mix(in srgb, var(--papel) 50%, transparent); font-weight: 400; }
+  .pildora { display: inline-flex; align-items: center; padding: 3px 11px; border-radius: var(--r-pill); border: 1px solid color-mix(in srgb, var(--azul-300) 45%, transparent); color: var(--azul-200); font-family: var(--mono); font-size: var(--fs-micro); letter-spacing: 0.12em; text-transform: uppercase; }
+
+  .kpis { margin: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
+  .kpi { padding: 18px 14px 16px 0; }
+  .kpi + .kpi { padding-left: 16px; border-left: 1px solid var(--linea); }
+  .kpi dt { font-family: var(--mono); font-size: var(--fs-micro); letter-spacing: 0.14em; text-transform: uppercase; color: var(--azul-300); }
+  .kpi__v { margin: 8px 0 0; font-size: var(--fs-d6); font-weight: 700; letter-spacing: -0.04em; line-height: 1; white-space: nowrap; }
+  .kpi__t { margin: 8px 0 0; font-family: var(--mono); font-size: var(--fs-micro); color: var(--azul-300); }
+  .kpi__t span { color: color-mix(in srgb, var(--papel) 54%, transparent); }
+
+  .tablero__cols { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 12px; margin-top: 10px; }
+  .bloque { border: 1px solid var(--linea); padding: 14px; }
+  .bloque__lab { font-family: var(--mono); font-size: var(--fs-micro); letter-spacing: 0.12em; text-transform: uppercase; color: color-mix(in srgb, var(--papel) 58%, transparent); }
+
+  .grafica { margin-top: 16px; display: grid; grid-template-columns: repeat(7, 1fr); gap: 7px; align-items: end; height: 132px; }
+  .grafica__col { display: grid; grid-template-rows: 1fr auto; height: 100%; gap: 7px; }
+  .grafica__col i { align-self: end; height: var(--h); background: var(--azul-800); border-top: 1px solid var(--azul-500); transform-origin: bottom; }
+  .grafica__col i.alta { background: var(--azul); border-top-color: var(--azul-200); }
+  .grafica__col span { text-align: center; font-family: var(--mono); font-size: var(--fs-micro); color: color-mix(in srgb, var(--papel) 56%, transparent); }
+
+  .embudo { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 13px; }
+  .embudo__txt { display: flex; justify-content: space-between; gap: 10px; font-size: var(--fs-small); }
+  .embudo__txt b { font-family: var(--mono); font-weight: 400; color: var(--azul-300); }
+  .embudo__via { display: block; margin-top: 7px; height: 6px; background: color-mix(in srgb, var(--papel) 7%, transparent); }
+  .embudo__via i { display: block; height: 100%; width: var(--w); background: var(--azul); transform-origin: left; }
+
+  .tablero__pie { margin-top: 14px; font-family: var(--mono); font-size: var(--fs-micro); letter-spacing: 0.08em; color: color-mix(in srgb, var(--papel) 50%, transparent); }
+
+  @media (max-width: 1000px) { .datos__grid { grid-template-columns: minmax(0, 1fr); } }
+  @media (max-width: 620px) {
+    .kpis { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+    .kpi:nth-child(3) { padding-left: 0; border-left: 0; }
+    .tablero__cols { grid-template-columns: minmax(0, 1fr); }
+  }
+</style>

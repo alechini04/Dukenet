@@ -30,6 +30,7 @@ Documentos que ya existían y siguen siendo la fuente de verdad de otra cosa:
 | Cambiar las cinco fases del método | [`src/data/site.ts`](../src/data/site.ts) |
 | Cambiar las ciudades de la cinta | [`src/data/site.ts`](../src/data/site.ts) |
 | Cambiar el titular de la portada | [`src/components/Portada.astro`](../src/components/Portada.astro) |
+| Tocar la rejilla, los ejes o el cursor | [`src/components/Plano.astro`](../src/components/Plano.astro) |
 | Agregar o editar un caso entregado | [`src/components/Entregadas.astro`](../src/components/Entregadas.astro) |
 | Cambiar las cifras del panel de ejemplo | [`src/components/Panel.astro`](../src/components/Panel.astro) |
 | Cambiar el título de la pestaña o la descripción para Google | [`src/pages/index.astro`](../src/pages/index.astro) |
@@ -52,9 +53,8 @@ src/
   pages/index.astro     arma la página con los seis capítulos, en orden
   pages/404.astro       página de ruta no encontrada
   layouts/Base.astro    <head>: título, SEO, datos estructurados, icono
-  components/*.astro    un capítulo por archivo (Portada, Plantilla, Servicios,
-                        Montaje, Entregadas, Panel, Contacto) más Header y Footer
-  lib/iso.ts            la proyección isométrica de la que salen todas las escenas
+  components/*.astro    un capítulo por archivo (Portada, Porque, Servicios,
+                        Proceso, Obras, Datos, Contacto) más Header, Footer y Plano
   data/site.ts          los textos y datos que se cambian seguido
   scripts/app.ts        comportamiento y animaciones
   styles/global.css     colores, tipografía, botones y materiales isométricos
