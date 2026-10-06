@@ -1,0 +1,181 @@
+---
+import { caja, rejilla, pt } from '../lib/iso';
+import { FASES } from '../data/site';
+
+const u = 32;
+const piso = rejilla(7, 7, 1, u);
+const base = caja(0, 0, 0, 7, 7, 0.3, u);
+
+// the volumes of a site, as a building
+const vol = [
+  { id: 'cabecera', c: caja(0.5, 0.5, 0.3, 6, 0.9, 0.25, u) },
+  { id: 'portada', c: caja(0.5, 1.6, 0.3, 6, 2.6, 0.9, u) },
+  { id: 'cat1', c: caja(0.5, 4.5, 0.3, 1.7, 1.7, 0.5, u) },
+  { id: 'cat2', c: caja(2.5, 4.5, 0.3, 1.7, 1.7, 0.75, u) },
+  { id: 'cat3', c: caja(4.5, 4.5, 0.3, 1.7, 1.7, 0.6, u) },
+];
+
+// the real screenshot, laid flat on the portada volume (z = 0.3 + 0.9)
+const zFoto = 1.2;
+const fx = 0.5, fy = 1.6, fw = 6, fd = 2.6;
+const o = pt(fx, fy, zFoto, u);
+const C = Math.cos(Math.PI / 6) * u, S = Math.sin(Math.PI / 6) * u;
+const matriz = `matrix(${C.toFixed(3)},${S.toFixed(3)},${(-C).toFixed(3)},${S.toFixed(3)},${o[0].toFixed(2)},${o[1].toFixed(2)})`;
+
+// the data bars that grow beside the finished site
+const barras = [1.1, 1.9, 1.5, 2.6].map((h, i) => ({ h, c: caja(7.6, 0.6 + i * 1.5, 0, 1, 1, h, u) }));
+
+// three notes above the empty plot
+const notas = [
+  { x: 1.4, y: 0.6, z: 2.4, t: 'Vende papelería' },
+  { x: 4.2, y: 1.4, z: 3.1, t: 'Envíos a todo el país' },
+  { x: 2.2, y: 4.2, z: 2.7, t: 'Apoya refugios' },
+].map((n) => ({ ...n, p: pt(n.x, n.y, n.z, u) }));
+---
+<section id="montaje" class="cap montaje" data-cap="montaje" aria-labelledby="montaje-tit" data-montaje>
+  <div class="montaje__pin" data-montaje-pin>
+    <div class="marco montaje__grid">
+      <div class="montaje__texto">
+        <p class="cap__num">03 · Cómo</p>
+        <h2 id="montaje-tit" class="titulo montaje__tit">Cinco fases,<br />cero misterio</h2>
+
+        <ol class="pista" aria-hidden="true">
+          {FASES.map((_, i) => <li data-pista={i}><i></i></li>)}
+        </ol>
+
+        <ol class="fases" data-fases>
+          {FASES.map((f, i) => (
+            <li class={`fase ${i === 0 ? 'activa' : ''}`} data-fase={i}>
+              <span class="fase__n">{f.n}</span>
+              <h3 class="fase__nombre">{f.nombre}</h3>
+              <p class="fase__texto">{f.texto}</p>
+              <p class="fase__entrega">Entregable · <b>{f.entrega}</b></p>
+            </li>
+          ))}
+        </ol>
+      </div>
+
+      <div class="montaje__escena">
+        <svg class="iso" viewBox="-235 -215 530 450" role="img" aria-label="Animación: un sitio web se construye por fases sobre una maqueta isométrica, hasta mostrar la tienda de El Gato Galletero publicada">
+          <defs>
+            <clipPath id="recorte-foto"><rect x="0" y="0" width={fw} height={fd} /></clipPath>
+            <clipPath id="revela-foto"><rect data-revela x="0" y="0" width={fw} height={fd} /></clipPath>
+          </defs>
+
+          <path class="malla" d={piso} data-capa="piso" />
+
+          <g data-capa="base">
+            <polygon class="der der--gris" points={base.der} />
+            <polygon class="izq izq--gris" points={base.izq} />
+            <polygon class="top top--gris" points={base.top} />
+          </g>
+
+          <g data-capa="plano">
+            {vol.map((v) => (
+              <g data-wire>
+                <polygon class="hilo" points={v.c.top} pathLength="1" />
+                <polygon class="hilo" points={v.c.izq} pathLength="1" />
+                <polygon class="hilo" points={v.c.der} pathLength="1" />
+              </g>
+            ))}
+          </g>
+
+          <g data-capa="solido">
+            {vol.map((v, i) => (
+              <g data-solido>
+                <polygon class="der" points={v.c.der} />
+                <polygon class="izq" points={v.c.izq} />
+                <polygon class={i === 1 ? 'top brillo' : 'top'} points={v.c.top} />
+              </g>
+            ))}
+          </g>
+
+          <g data-capa="foto" transform={matriz} clip-path="url(#recorte-foto)">
+            <g clip-path="url(#revela-foto)">
+              <image href="/obras/gato-galletero.jpg" x="0" y="0" width={fw} height={fd} preserveAspectRatio="xMidYMin slice" />
+            </g>
+          </g>
+
+          <g data-capa="barras">
+            {barras.map((b) => (
+              <g data-barra>
+                <polygon class="der" points={b.c.der} />
+                <polygon class="izq" points={b.c.izq} />
+                <polygon class="top brillo" points={b.c.top} />
+              </g>
+            ))}
+          </g>
+
+          <g data-capa="notas">
+            {notas.map((n) => (
+              <g data-nota transform={`translate(${n.p[0].toFixed(1)} ${n.p[1].toFixed(1)})`}>
+                <rect x="-54" y="-20" width="108" height="34" rx="4" class="nota__fondo" />
+                <text x="0" y="2" text-anchor="middle" class="nota__txt">{n.t}</text>
+              </g>
+            ))}
+          </g>
+
+          <g data-capa="sello">
+            <g transform={`translate(${pt(0.2, 7.4, 1.1, u)[0].toFixed(1)} ${pt(0.2, 7.4, 1.1, u)[1].toFixed(1)})`}>
+              <rect x="-62" y="-17" width="124" height="34" class="sello__fondo" />
+              <text x="0" y="5" text-anchor="middle" class="sello__txt">EN LÍNEA</text>
+            </g>
+          </g>
+        </svg>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .montaje { padding: 0; min-height: 0; }
+  .montaje__pin { min-height: 100svh; display: grid; align-content: center; padding-block: clamp(90px, 12vh, 150px); }
+  .montaje__grid {
+    display: grid; grid-template-columns: minmax(0, 0.86fr) minmax(0, 1.14fr);
+    gap: clamp(28px, 4vw, 70px); align-items: center;
+  }
+  .montaje__tit { margin-top: 18px; }
+
+  .pista { list-style: none; margin: clamp(26px, 3vw, 40px) 0 0; padding: 0; display: grid; grid-template-columns: repeat(5, 1fr); gap: 6px; }
+  .pista li { height: 3px; background: color-mix(in srgb, var(--papel) 14%, transparent); overflow: hidden; }
+  .pista i { display: block; height: 100%; background: var(--azul-300); transform: scaleX(0); transform-origin: left; }
+
+  .fases { list-style: none; margin: 26px 0 0; padding: 0; }
+  .fase { display: grid; gap: 8px; }
+  .fase__n { font-family: var(--mono); font-size: var(--fs-mini); color: var(--azul-300); letter-spacing: 0.2em; }
+  .fase__nombre { font-size: clamp(1.6rem, 2.6vw, 2.6rem); font-weight: 800; letter-spacing: -0.035em; }
+  .fase__texto { font-size: var(--fs-base); line-height: 1.5; color: color-mix(in srgb, var(--papel) 70%, transparent); max-width: 42ch; }
+  .fase__entrega { font-family: var(--mono); font-size: var(--fs-mini); color: color-mix(in srgb, var(--papel) 52%, transparent); }
+  .fase__entrega b { color: var(--papel); font-weight: 500; }
+
+  :global(html.motion:not(.rm)) .fases { display: grid; grid-template-areas: 'apilado'; }
+  :global(html.motion:not(.rm)) .fase {
+    grid-area: apilado; opacity: 0; visibility: hidden; transform: translateY(14px);
+    transition: opacity 0.4s var(--ease), transform 0.55s var(--ease), visibility 0s linear 0.4s;
+  }
+  :global(html.motion:not(.rm)) .fase.activa { opacity: 1; visibility: visible; transform: none; transition-delay: 0s; }
+  /* without JS the five phases simply read as a list */
+  :global(html:not(.motion)) .fases { display: grid; gap: 26px; }
+
+  .montaje__escena .iso { filter: drop-shadow(0 50px 60px rgba(0, 0, 0, 0.55)); }
+  /* The scene is drawn finished. With JS the layers start hidden and the
+     timeline builds them; without JS the visitor simply sees the obra done. */
+  :global(html.motion) [data-capa='base'],
+  :global(html.motion) [data-capa='solido'],
+  :global(html.motion) [data-capa='foto'],
+  :global(html.motion) [data-capa='barras'],
+  :global(html.motion) [data-capa='sello'] { opacity: 0; }
+  :global(html:not(.motion)) [data-capa='notas'] { opacity: 0; }
+  :global(html:not(.motion)) [data-capa='plano'] { opacity: 0.3; }
+  .iso .hilo { fill: none; stroke: var(--azul-300); stroke-width: 1.1; stroke-dasharray: 1; }
+  .nota__fondo { fill: var(--papel); }
+  .nota__txt { font-size: 11px; fill: var(--tinta); font-family: var(--mono); }
+  .sello__fondo { fill: var(--azul-300); }
+  .sello__txt { font-size: 15px; font-weight: 700; fill: var(--tinta); font-family: var(--fuente); letter-spacing: 0.08em; }
+
+  @media (max-width: 1000px) {
+    .montaje__grid { grid-template-columns: minmax(0, 1fr); gap: 20px; }
+    .montaje__escena { max-width: 560px; margin-inline: auto; }
+    .fase__texto { max-width: none; }
+  }
+</style>

@@ -28,7 +28,7 @@ Documentos que ya existían y siguen siendo la fuente de verdad de otra cosa:
 | Cambiar los servicios (nombre, texto, qué incluye, foto) | [`src/data/site.ts`](../src/data/site.ts) |
 | Cambiar las cinco fases del método | [`src/data/site.ts`](../src/data/site.ts) |
 | Cambiar las ciudades de la cinta | [`src/data/site.ts`](../src/data/site.ts) |
-| Cambiar el titular de la portada | [`src/components/Hero.astro`](../src/components/Hero.astro) |
+| Cambiar el titular de la portada | [`src/components/Portada.astro`](../src/components/Portada.astro) |
 | Agregar o editar un caso entregado | [`src/components/Entregadas.astro`](../src/components/Entregadas.astro) |
 | Cambiar las cifras del panel de ejemplo | [`src/components/Panel.astro`](../src/components/Panel.astro) |
 | Cambiar el título de la pestaña o la descripción para Google | [`src/pages/index.astro`](../src/pages/index.astro) |
@@ -40,20 +40,22 @@ Documentos que ya existían y siguen siendo la fuente de verdad de otra cosa:
 ## Cómo está armado
 
 Sitio estático en [Astro](https://astro.build) 7: una sola página (`/`) más una
-página de error (`/404`). Cada sección es un componente `.astro` con su HTML y
+página de error (`/404`). Cada capítulo es un componente `.astro` con su HTML y
 su CSS juntos; el CSS de un componente no se escapa a los demás. Todo el
 comportamiento (menú, pestañas, formulario y animaciones) vive en un único
 archivo, `src/scripts/app.ts`, que se carga una vez.
 
 ```
 src/
-  pages/index.astro     arma la página con las secciones, en orden
+  pages/index.astro     arma la página con los seis capítulos, en orden
   pages/404.astro       página de ruta no encontrada
   layouts/Base.astro    <head>: título, SEO, datos estructurados, icono
-  components/*.astro    una sección por archivo
+  components/*.astro    un capítulo por archivo (Portada, Plantilla, Servicios,
+                        Montaje, Entregadas, Panel, Contacto) más Header y Footer
+  lib/iso.ts            la proyección isométrica de la que salen todas las escenas
   data/site.ts          los textos y datos que se cambian seguido
   scripts/app.ts        comportamiento y animaciones
-  styles/global.css     colores, tipografía, botones y utilidades
+  styles/global.css     colores, tipografía, botones y materiales isométricos
 public/                 imágenes, favicon, robots.txt (se copian tal cual)
 ```
 

@@ -1,346 +1,212 @@
 ---
 name: DukeNet
-description: Custom websites for Colombian businesses, presented as a licensed construction project.
+description: Custom websites for Colombian businesses, told as an isometric build that assembles while you scroll.
 colors:
-  sign: "#5980a6"
-  sign-100: "#eef6ff"
-  sign-200: "#d6ebff"
-  sign-300: "#b5d9fd"
-  sign-400: "#94bce3"
-  sign-500: "#749dc4"
-  sign-700: "#416180"
-  sign-800: "#2c455d"
-  sign-900: "#1d2d3d"
-  ink: "#0c0d0e"
-  ink-2: "#141618"
-  ink-3: "#1d2023"
-  paper: "#f2f2f3"
-  paper-2: "#e7e7ea"
-  concrete-300: "#d4d4d7"
-  concrete-400: "#b7b7ba"
-  concrete-500: "#98989b"
-  concrete-600: "#7a7a7d"
-  concrete-700: "#5d5d60"
-  concrete-800: "#424244"
+  azul: "#5980a6"
+  azul-100: "#eef6ff"
+  azul-200: "#d6ebff"
+  azul-300: "#b5d9fd"
+  azul-400: "#94bce3"
+  azul-500: "#749dc4"
+  azul-700: "#416180"
+  azul-800: "#2c455d"
+  azul-900: "#1d2d3d"
+  tinta: "#0c0d0e"
+  tinta-2: "#141618"
+  tinta-3: "#1d2023"
+  papel: "#f2f2f3"
+  papel-2: "#e7e7ea"
+  gris-300: "#d4d4d7"
+  gris-400: "#b7b7ba"
+  gris-500: "#98989b"
+  gris-600: "#7a7a7d"
+  gris-700: "#5d5d60"
+  gris-800: "#424244"
 typography:
-  display:
+  hero:
     fontFamily: "'Overpass Variable', 'Overpass', system-ui, sans-serif"
-    fontSize: "clamp(3rem, min(8.8vw, 15.5svh), 9.4rem)"
-    fontWeight: 850
-    lineHeight: 0.86
-    letterSpacing: "-0.035em"
-  headline:
-    fontFamily: "'Overpass Variable', 'Overpass', system-ui, sans-serif"
-    fontSize: "clamp(2.6rem, 6.8vw, 7.2rem)"
-    fontWeight: 850
+    fontSize: "clamp(2.5rem, 5.9vw, 6.2rem)"
+    fontWeight: 800
     lineHeight: 0.88
-    letterSpacing: "-0.035em"
-  title:
+    letterSpacing: "-0.045em"
+  capitulo:
     fontFamily: "'Overpass Variable', 'Overpass', system-ui, sans-serif"
-    fontSize: "clamp(2rem, 3.4vw, 3.4rem)"
-    fontWeight: 850
+    fontSize: "clamp(2.2rem, 5.2vw, 5.4rem)"
+    fontWeight: 800
     lineHeight: 0.95
     letterSpacing: "-0.03em"
-  body:
+  titulo:
     fontFamily: "'Overpass Variable', 'Overpass', system-ui, sans-serif"
-    fontSize: "clamp(16px, 1.05vw, 18px)"
+    fontSize: "clamp(1.6rem, 2.6vw, 2.6rem)"
+    fontWeight: 800
+    letterSpacing: "-0.035em"
+  cuerpo:
+    fontFamily: "'Overpass Variable', 'Overpass', system-ui, sans-serif"
+    fontSize: "clamp(16px, 1.02vw, 18px)"
     fontWeight: 400
     lineHeight: 1.55
-    letterSpacing: "normal"
-  button:
+  lead:
     fontFamily: "'Overpass Variable', 'Overpass', system-ui, sans-serif"
-    fontSize: "1rem"
-    fontWeight: 750
-    lineHeight: 1
-    letterSpacing: "0.04em"
-  label:
+    fontSize: "clamp(1.05rem, 1.25vw, 1.35rem)"
+    lineHeight: 1.5
+  dato:
     fontFamily: "'Overpass Mono Variable', 'Overpass Mono', ui-monospace, monospace"
-    fontSize: "0.75rem"
-    fontWeight: 500
-    lineHeight: 1.2
-    letterSpacing: "0.08em"
-    fontFeature: "tnum"
+    fontSize: "0.72rem"
+    letterSpacing: "0.2em"
+    textTransform: uppercase
 rounded:
-  plate: "0px"
-  sign: "clamp(12px, 1.4vw, 22px)"
+  boton: "999px"
+  tarjeta: "14px"
+  bloque: "0px"
 spacing:
-  gutter: "clamp(16px, 3.2vw, 44px)"
-  max: "1520px"
-  section: "clamp(88px, 11vw, 170px)"
-  sign-inset: "clamp(8px, 0.8vw, 12px)"
+  borde: "clamp(20px, 4vw, 72px)"
+  max: "1440px"
+  capitulo: "100svh"
 components:
-  plate:
-    backgroundColor: "{colors.ink}"
-    textColor: "{colors.paper}"
-    typography: "{typography.button}"
-    rounded: "{rounded.plate}"
-    padding: "0 1.35em 0 1.4em"
-    height: "56px"
-  plate-hover:
-    backgroundColor: "{colors.sign}"
-    textColor: "{colors.ink}"
-  plate-sign:
-    backgroundColor: "{colors.sign}"
-    textColor: "{colors.ink}"
-    rounded: "{rounded.plate}"
-  plate-sign-hover:
-    backgroundColor: "{colors.paper}"
-    textColor: "{colors.ink}"
-  plate-paper:
-    backgroundColor: "{colors.paper}"
-    textColor: "{colors.ink}"
-    rounded: "{rounded.plate}"
-  plate-paper-hover:
-    backgroundColor: "{colors.ink}"
-    textColor: "{colors.paper}"
-  plate-sm:
-    typography: "{typography.button}"
-    padding: "0 1em"
-    height: "42px"
-  sign-panel:
-    backgroundColor: "{colors.sign}"
-    textColor: "{colors.paper}"
-    rounded: "{rounded.sign}"
-    padding: "clamp(40px, 4.4vw, 76px) clamp(26px, 4.4vw, 76px)"
-  ficha:
-    backgroundColor: "{colors.paper}"
-    textColor: "{colors.ink}"
-    rounded: "{rounded.plate}"
-    padding: "18px 20px 20px"
-  frente-plate:
-    backgroundColor: "{colors.ink}"
-    textColor: "{colors.paper}"
-    typography: "{typography.label}"
-    rounded: "{rounded.plate}"
-    padding: "5px 10px 4px 5px"
-  selector-pending:
-    textColor: "{colors.ink}"
-    rounded: "{rounded.plate}"
-    padding: "16px 18px 16px 14px"
-  selector-selected:
-    backgroundColor: "{colors.ink}"
-    textColor: "{colors.paper}"
-    rounded: "{rounded.plate}"
-  field:
-    textColor: "{colors.ink}"
-    rounded: "{rounded.plate}"
-    padding: "10px 0"
+  boton:
+    backgroundColor: "{colors.papel}"
+    textColor: "{colors.tinta}"
+    rounded: "{rounded.boton}"
+    height: "54px"
+  boton-azul:
+    backgroundColor: "{colors.azul}"
+    textColor: "{colors.tinta}"
+  boton-linea:
+    backgroundColor: transparent
+    textColor: "{colors.papel}"
+    border: "1px solid papel 34%"
+  tarjeta:
+    backgroundColor: "{colors.tinta-2}"
+    border: "1px solid papel 12%"
+    rounded: "{rounded.tarjeta}"
+  hoja:
+    backgroundColor: "{colors.papel}"
+    textColor: "{colors.tinta}"
+    rounded: "{rounded.tarjeta}"
+  cara-superior:
+    backgroundColor: "{colors.azul-400}"
+  cara-izquierda:
+    backgroundColor: "{colors.azul-700}"
+  cara-derecha:
+    backgroundColor: "{colors.azul-800}"
 ---
 
 # Design System: DukeNet
 
 ## Overview
 
-**Creative North Star: "Valla de obra", seen inside the site at night**
+**Creative North Star: "La maqueta"**
 
-Every DukeNet surface is a municipal construction-site license sign and the paperwork that travels with it, and since 2026-10-05 the page is no longer a stack of flat bands: it is one dark room that the whole page floats in. A perspective floor runs to a horizon behind every frente, a cone of work light falls across it, dust drifts in the beam and a survey overlay locks onto whatever frente you are reading. The sign is a steel-blue informative road-sign panel with a reflective white inner border and four bolts; around it lies the night-site ground in near-black ink, with off-white plates carrying actions, and concrete greys for secondary text and rules. Black-and-white barrier stripes mark the threshold between one frente (work front) and the next, each carrying its FR-0x plate code. Data is laid out as a ficha técnica: monospace terms, heavy values, hairline rules.
+DukeNet builds the thing that makes a business sell, so the whole page is that thing
+being built. Every scene is one isometric model —a platform, blocks stacking, a site
+taking shape— drawn as SVG polygons from a single 2:1 projection and assembled while
+you scroll. The ground is near-black, the models are steel blue lit from one side, and
+the only white surfaces are the ones you are meant to act on: the buttons and the quote
+form. Nothing is decorated: if a shape is on screen it is a piece of the build.
 
-The world is dense and declarative. Headlines are highway-sign lettering at heavy weights, uppercase and tightly set; body copy is plain Overpass at a comfortable measure. Photography is never shown raw; it is duotoned into sign blue. State is shown the way a site schedule shows it: dashed is pending or not selected, solid is done or selected. Motion builds things: the sign rises, lines are unmasked, a promise is struck through, and a client site is built in front of you as you scroll. Copy is Spanish (es-CO), direct, in tuteo.
+The page reads as **six chapters, one screen each**, numbered like a plan: 01 Por qué,
+02 Qué hacemos, 03 Cómo, 04 Obras, 05 Datos, 06 Hablemos. Each chapter states one idea
+and shows one model. The third is the long one: the site assembles in five phases while
+the screen stays still.
 
-Rejected: the dark-agency hero with condensed giant type and moody unprocessed photos, and any yellow or orange "construction" cliché. Construction is carried by blue sign, black ink, white plates and stripes only.
+Replaced in October 2026: the construction-site costume (FR-0x plates, barrier stripes,
+bolted sign panels, ficha técnica tables). The palette survived the change; the metaphor
+did not.
 
 **Key Characteristics:**
-- One room (`Sala.astro`) behind the entire page: floor grid, horizon bloom, light cone, dust and the pointer lamp. Frentes paint no ground of their own, so the room runs through all of them.
-- A survey overlay (`Hud.astro`) locks a corner frame onto the frente in view, labels it FR-0x and reports viewport and progress; the reticle follows the pointer.
-- Panels that carry data float in the room as glass: the hero ficha, the obra cards and the dashboard are translucent ink with a sign-300 edge, blurred backdrop and depth parallax. The quote form stays a solid paper sheet: it is the one document you fill in.
-- Steel-blue sign panels drench whole regions; ink ground everywhere else.
-- Sign panels alone are rounded; every other surface is square.
-- Buttons are plates with a fill wipe from below on hover.
-- Barrier-stripe rails with FR-01…FR-07 plates as section thresholds.
-- Ficha técnica tables with Overpass Mono terms.
-- Dashed = pending / not selected; solid = done / selected.
-- Duotone photos multiplied in sign blue.
+- One isometric projection everywhere, from `src/lib/iso.ts`: unit cubes twice as wide
+  as tall, three face values (top azul-400, left azul-700, right azul-800).
+- Chapters are full screens with a mono number-and-rule eyebrow.
+- Type does the shouting: 800 weight, tight tracking, nothing above it.
+- Buttons are pills; cards are 14px; isometric blocks are hard-edged.
+- Dark ground, blue models, white only for actions and the form.
+- Real client screenshots are projected onto the model's top face with the same
+  isometric matrix, so the work shows up inside the drawing.
 
 ## Colors
 
-A three-material palette: blue sign panel, black ink ground, reflective white plate, with concrete greys doing all secondary work.
+Three materials: ink ground, steel-blue model, white paper for action.
 
 ### Primary
-- **Informative Sign Blue** (sign): the valla panels (hero, closing contact sign), the plate-sign button, the fill of hover wipes, progress bars and phase tracks, selected letter badges, estado tags and frente code chips. Its 100–900 ramp is the only tint family: 300/400 for accents and legends on ink, 700 for labels and status text on paper, 800 behind duotone photos, 900 for the pinned schedule ground and tinted shadows.
+- **Azul** (`--azul`, #5980a6) with its 100–900 ramp. 300 for accents, legends and the
+  wordmark's second half; 400/700/800 are the three faces of every isometric block;
+  900 for deep shadow mixes.
 
 ### Neutral
-- **Night-Site Ink** (ink): page ground, sign lettering on blue for the emphasised line, primary plate fill, selected selectors, strike-through bars. ink-2 and ink-3 are only for device-frame depictions.
-- **Reflective Plate White** (paper): body text on ink, the sign's inner border, ficha and form sheets, paper plates, light sections (Obras, Panel). paper-2 for browser chrome in mockups.
-- **Concrete Greys** (concrete-300 to 800): hairline rules on paper (300), dot/idle borders (400), dashed pending borders (500), secondary text on paper (700, 800).
-
-### Named Rules
-**The No Hazard Colours Rule.** Construction is signalled with sign blue, ink, paper and stripes. Yellow and orange never appear.
-
-**The Blue Drench Rule.** Sign blue fills whole regions (a sign, a schedule ground) or small solid chips. It is never a thin decorative gradient or a glow.
-
-**The Ink On Sign Rule.** On sign blue, running text and leads are ink; paper lettering on blue is reserved for display-size headlines, where contrast holds.
+- **Tinta** (#0c0d0e): the page ground. tinta-2 for cards, tinta-3 for device frames.
+- **Papel** (#f2f2f3): buttons, the quote form, and text on the dark ground.
+- **Grises** 300–800: form rules, placeholders and the grey faces of unbuilt blocks.
 
 ## Typography
 
-**Display Font:** Overpass Variable (with Overpass, system-ui)
-**Body Font:** Overpass Variable (with Overpass, system-ui)
-**Label/Mono Font:** Overpass Mono Variable (with Overpass Mono, ui-monospace)
-
-**Character:** Overpass descends from US highway-sign lettering, so the same family reads as road sign at 850–900 uppercase and as plain, legible text at 400. Overpass Mono is the site-paperwork voice: plate codes, ficha terms, data.
-
-### Hierarchy
-- **Display** (850, clamp(3rem, min(8.8vw, 15.5svh), 9.4rem), 0.86, uppercase, -0.035em): the hero valla headline only; sized so the whole sign holds in one desktop viewport. Footer wordmark runs heavier (900) at up to 19rem.
-- **Headline** (850, roughly clamp(2.5rem, 5.6–8vw, 6–8.6rem), 0.88, uppercase, -0.035em): section titles, set in two short balanced lines.
-- **Title** (800–850, clamp(1.45rem–2rem, 2.2–4.2vw, 2.1–4.4rem), 0.92–1.08, uppercase for object names): service panel names, case names, phase names; principle heads stay sentence case at 800.
-- **Body** (400–450, clamp(16px, 1.05vw, 18px), 1.55): paragraphs capped at 42–48ch; leads step up to about 1.35rem at 450 with 800 for emphasis. Ficha values are 650.
-- **Button** (750, 1rem, 0.04em, uppercase): plates and nav (nav at 650, 0.92rem, 0.06em).
-- **Label** (Mono 500, 0.75rem, 0.08em, uppercase, tabular numerals): plate codes, ficha terms (0.72rem, 0.06em), captions, chart axes. Header labels in ficha heads step to 700.
-
-### Scale reference (as built)
-Everything under 1rem comes from six tokens in `global.css`; a new small size means picking the nearest step, not inventing one.
-
-| Token | Size | Used for |
-| --- | --- | --- |
-| `--fs-micro` | 0.62rem | chart day labels, stage captions, the smallest legends |
-| `--fs-mini` | 0.7rem | dashboard block labels, frente codes, KPI terms |
-| `--fs-plate` | 0.74rem | `.t-plate`: ficha terms, plate codes, form labels |
-| `--fs-small` | 0.85rem | secondary copy, ticker cities, small plates, case links |
-| `--fs-note` | 0.92rem | nav items, form status, compact titles |
-| `--fs-base` | 1rem | plates, ficha values |
-
-Display and headline sizes stay per component as `clamp()` pairs, because each one is tuned to its own container: hero `clamp(3rem, min(8.8vw, 15.5svh), 9.4rem)`, section headlines `clamp(2.5–2.6rem, 5.8–6.8vw, 6.2–7.2rem)`, object titles `clamp(1.8–2.2rem, 3.2–4.2vw, 3–4.4rem)`, leads `clamp(1.02–1.08rem, 1.2–1.35vw, 1.2–1.35rem)`, footer wordmark `clamp(4rem, 17.5vw, 19rem)`. Inside the Cronograma stage, type is set in the SVG's own 1440×900 units (20–22px), so it scales with the frame.
-
-### Corner reference (as built)
-Square is the default (`--radius-plate: 0`). The only non-zero radii, and the one reason each is allowed:
-
-| Value | Where | Why |
-| --- | --- | --- |
-| `--radius-sign` clamp(12px, 1.4vw, 22px) | hero valla, closing sign | it is a road sign |
-| 8–10px | "En línea" stamp, "En obra" sign | small signs, with the same inset border |
-| 4px | wordmark NET badge | the sign at wordmark scale |
-| 6px / 14–26px / 50% | browser window, phone frame, bolts and dots | depicted physical objects |
-| 2px / 6px | focus ring, scrollbar thumb | browser chrome themed from the palette |
-
-### Named Rules
-**The Plate Code Rule.** Mono labels name data, objects and frentes (terms, codes, captions, legends). They never sit as eyebrows above section headlines.
-
-**The Tabular Rule.** Every number that moves or is compared (KPIs, codes, phases) uses tabular numerals.
+Overpass Variable for everything, Overpass Mono for data: numbers, labels, eyebrows,
+domains and deliverables. Display sizes are fluid and set in tokens; nothing in the page
+invents its own scale.
 
 ## Layout
 
-Full-width sections in a centred container (max 1520px, fluid gutter clamp(16px, 3.2vw, 44px)). Sections alternate ground: ink (hero ground, Manifiesto, Entregadas, Contacto), paper (Obras, Panel) and sign-900 (Cronograma). Vertical rhythm is generous and fluid, around clamp(88px, 11vw, 170px) per section, with barrier rails (14px) as the only hard thresholds between frentes.
-
-Grids are asymmetric fractions (5/7, 4/7, 8/4, 4/8, 1.1/1) rather than equal columns; the sign panels bleed nearly edge to edge inside a thin ink margin (clamp(12px, 1.6vw, 22px)). The header is a fixed 64px ink strip with a 3px avance progress line under it. Breakpoints collapse two-column grids to one at 960–980px, switch to the mobile menu at 860px, and at 480–560px make plates full-width with the arrow pushed to the end.
-
-## Elevation & Depth
-
-Depth is material, not atmospheric. The ground is flat; objects sitting on a sign or on the ground (ficha sheet, form sheet, dashboard, floating WhatsApp plate, device mockups) cast one long, soft, negatively spread drop shadow tinted toward sign-900 or black, as a sheet clipped to a panel would. Sign panels themselves never cast shadows; their depth comes from the inset reflective border and the bolts.
-
-### Shadow Vocabulary
-- **Clipped sheet** (`box-shadow: 0 18px 40px -18px color-mix(in srgb, var(--sign-900) 75%, transparent), 0 2px 0 color-mix(in srgb, var(--sign-900) 30%, transparent)`): a paper sheet lying on a sign.
-- **Document on ground** (`box-shadow: 0 50px 90px -50px color-mix(in srgb, var(--sign-800) 90%, transparent)`): the dashboard and form sheet.
-- **Floating plate** (`box-shadow: 0 16px 34px -10px color-mix(in srgb, #000 70%, transparent)`): the fixed WhatsApp plate.
-- **Bolt** (`box-shadow: 0 1px 1px color-mix(in srgb, var(--ink) 45%, transparent)`): sign fixings only.
-
-### Named Rules
-**The Sheets Cast, Signs Don't Rule.** Only loose objects (sheets, mockups, the floating plate) cast shadows; signs, plates in flow and sections stay flat.
-
-## Shapes
-
-Two corners only. Sign panels carry a road-sign radius (clamp(12px, 1.4vw, 22px)) with a paper inner border inset clamp(8px, 0.8vw, 12px), clamp(3px, 0.32vw, 5px) thick, radius reduced by 6px, and bolts at the four corners. The wordmark's NET badge repeats the sign at small scale (inset ink then paper rings). Everything else is square: plates, sheets, tabs, fields, chips, tags, charts.
-
-Exceptions are depictions of real objects, not surfaces: bolts and stepper dots are circles, browser and phone mockups keep device radii. Borders do the structural work: 2px ink rules head a ficha, 1px concrete hairlines separate rows, 1.5–2px dashed lines mean pending.
-
-**The Two Corners Rule.** If it is not a sign panel or a depicted physical object, its corner is 0.
-
-**The Dashed Means Pending Rule.** Dashed stroke = not selected, not yet done, under construction. Solid stroke or solid fill = selected, done, delivered. Never use dashes decoratively.
+- `.marco`: max 1440px with a `clamp(20px, 4vw, 72px)` gutter.
+- `.cap`: one chapter, `min-height: 100svh`, content vertically centred.
+- Two-column chapters collapse to one at 1000px (860px for the Obras header).
 
 ## Components
 
-### Buttons (Plates)
-Tactile sign plates that get painted on hover.
-- **Shape:** square (0px), 2px border in the fill colour, min-height 56px (42px small).
-- **Primary (ink plate):** ink fill, paper lettering, 750 uppercase, trailing up-right arrow.
-- **Sign plate:** sign fill, ink lettering; used for Cotizar in the header and service CTAs.
-- **Paper plate:** paper fill, ink lettering, for use on ink grounds.
-- **Ghost light / dark:** transparent with a 55% paper or 70% ink border.
-- **Hover / Focus:** a fill wipes up from below (0.5s, ease-out cubic-bezier(0.16, 1, 0.3, 1)) in the variant's hover colour (sign for ink plates, paper for sign plates, ink for paper plates), the lettering swaps, the arrow nudges 3px up-right; active presses 1px down. Focus is a 3px sign-300 outline offset 3px.
+### Botón (`.btn`)
+Pill, 54px tall, three skins: papel (default), azul (primary action) and línea
+(outlined, on dark). Lifts 2px on hover and the trailing arrow steps up-right.
 
-### Chips and Tags
-- **Frente plate:** ink plate with a 30% paper hairline, mono label, code in a sign-blue chip (FR-0x). Sits on the right end of each barrier rail and in the header next to the wordmark (sign-300 code in a sign hairline box).
-- **Estado tag:** square sign chip with ink 750 uppercase; "en obra" variant is paper with a 3px sign underline.
-- **Photo tag / entregable tag:** paper chip with mono ink label.
+### Capítulo (`.cap` + `.cap__num`)
+Full-screen section with a mono eyebrow —`03 · Cómo`— followed by a hairline rule.
 
-### Cards / Containers
-- **Valla (sign panel):** sign fill, road-sign radius, reflective inset border, four bolts, paper headline with the emphasised line in ink.
-- **Ficha técnica:** square paper sheet, 2px ink rule under a mono header row, two-column dl with mono concrete-700 terms, 650 values and 1px concrete-300 row rules; may end in the ETAPAS stepper (3px track, dot per phase, sign for done/current).
-- **Dashboard sheet:** square ink sheet on paper ground, sign-300 mono KPI terms, 850 values with trend line, bars in sign-700 with the top bar sign-300.
-- **Obra en construcción:** 2px dashed paper frame around an ink-bordered small sign.
+### Escena isométrica (`.iso`)
+An SVG whose polygons come from `caja()`, `losa()` and `rejilla()` in `src/lib/iso.ts`.
+Classes `.top`, `.izq`, `.der` carry the three face values; `--papel` and `--gris`
+variants give white and unbuilt blocks. Never hand-write points: the helper keeps every
+model on the same projection.
 
-### Inputs / Fields
-- **Style:** underline only, 2px concrete-400 bottom border on transparent, square, ink text at 1.12rem; label above in 0.8rem uppercase sign-700.
-- **Focus:** bottom border turns sign with a 2px sign underline shadow.
-- **Error:** bottom border becomes ink and dashed, message in 650 ink below.
+### Tarjeta de datos (`.tablero`)
+Dark card, 14px radius, hairline border: KPIs that count up, an isometric bar row and a
+funnel. Always labelled **Ejemplo** while the figures are illustrative.
 
-### Selectors (tabs and option cards)
-- **Pending:** transparent, 1.5–2px dashed border (ink 38% or concrete-500), a square letter badge (A–D) outlined in currentColor.
-- **Hover:** border turns solid-colour ink but stays dashed.
-- **Selected:** solid ink fill, paper text, solid border, letter badge filled sign with ink letter; tabs reveal a sign-400 arrow.
+### Hoja (`.hoja`)
+The quote form: solid white, 14px radius, the only paper surface in the page. Fields are
+underlines, options are pills, and the selected option inverts to ink.
 
-### Navigation
-- **Header:** fixed ink strip (92% opacity), wordmark DUKE in paper 72% plus NET in a mini sign badge, frente code readout, uppercase 650 nav links with a 2px sign underline that scales in from the left on hover or current, small sign plate Cotizar. A 3px avance line beneath fills with page progress.
-- **Mobile:** 46px square outlined toggle; full-height ink menu with FR-0x mono codes beside large 850 uppercase labels, divided by paper hairlines, ending in a sign plate.
+### Obra entregada (`.caso`)
+A browser chrome bar plus the real screenshot, with the mobile capture overlapping its
+corner. On hover the screenshot scrolls itself. The ficha underneath is three mono rows.
 
-### Barrier Rail (signature)
-14px repeating -45deg stripe, paper and ink in 14px bands, spanning the full width between frentes, with the frente plate riding its right end. It is the only use of stripes.
+## Motion
 
-### Pinned Schedule (signature)
-**Obra en vivo (signature).** Cronograma pins at every width and scrubs one GSAP timeline on a sign-900 ground: a browser frame builds the El Gato Galletero home in five phases. Diagnóstico pins paper notes (taped with sign-300) on a drafting grid; Propuesta draws labeled wireframe boxes and dimension lines (cotas) in sign-300/paper; Diseño grows a grey skeleton block by block; Lanzamiento types the domain in the URL bar while a sign-300 scan line wipes the real screenshot in, then a bolted "En línea" sign stamps on; Crecer raises an ink "Reporte del mes · Ejemplo" plate whose bars settle elastically. A five-segment track and the swapping phase text follow the timeline's time, so scrubbing backwards restores every state. With reduced motion the stage does not pin; the same timeline plays once, faster, when it enters view. Stage geometry is measured from `public/obras/gato-galletero.jpg`; changing that capture means re-measuring the skeleton and wire boxes.
+GSAP with ScrollTrigger and SplitText, Lenis smooth scroll (lerp 0.1), easing
+`power3.out` / `power2.inOut`, durations 0.5–1.4s.
 
-### Night-Site Light (signature)
-The ground is a construction site at night, so the page is lit rather than flat. One
-work lamp follows the pointer: `.luz`, an absolute layer at z-index -1 inside each
-dark region (hero, manifiesto, entregadas, cronograma, contacto, footer), carrying a
-42vmax radial of sign-300 at 11% positioned by `--lx`/`--ly` (the pointer's position
-inside that region). Sign panels answer to it in two ways: they lean up to 1.2 deg
-toward it (`.escena` sets the perspective, `[data-tilt]` the lean, `[data-paralaje]`
-parts inner layers by a couple of percent), and their reflective inner border catches
-a travelling highlight (`.glint`, a masked bordered box whose `--gx`/`--gy` follow the
-pointer and whose `--glint` fades with distance). The sheeting also flares once as the
-hero sign is raised, and the NET plate takes a sweep (`.net-sheet`) on hover and once
-on arrival. Devices glow into the room: each case stage carries a blurred sign-400
-halo (`.brillo`) that strengthens on hover, the Cronograma stage raises its own light
-when the client's site goes live, and the dashboard takes a single reading pass while
-its figures count up. Every one of these is pointer-driven, desktop-only
-(`hover: hover and pointer: fine`), and absent under reduced motion.
-
-### Depth (signature)
-Objects arrive from depth instead of sliding up the page: anything marked `[data-vuelo]`
-(each case, the obra card, the dashboard, the closing sign) is scrubbed from
-`z: -340px, rotateX: 6deg, autoAlpha: .35` to rest as it enters, inside a parent carrying
-`.escena` (perspective 1700px). Going back up puts it away again. The hero sign and the
-ficha lean toward the lamp and part by a couple of percent, so the first viewport reads as
-two planes at different distances rather than one card.
-
-### Motion
-GSAP with Lenis smooth scroll (lerp 0.1). Easing is expo.out / expo.inOut (CSS ease-out cubic-bezier(0.16, 1, 0.3, 1), ease-in-out cubic-bezier(0.76, 0, 0.24, 1)); durations 0.5–1.3s. Entrance grammar: the sign rises by clip-path from below, headline lines unmask upward, the refused words are struck through word by word, the ficha drops in with a slight rotation, bolts spin in. Photos reveal by clip-path with a scale settle. Numbers count up with damped expo easing; chart bars settle with a soft elastic. Reduced motion keeps fades and count-ups and drops smooth scroll, pinning, parallax, scale and travel.
+- **Entrada**: lines unmask upward (`[data-parte]`), blocks rise and settle
+  (`[data-sube]`), the cover's model assembles piece by piece with a back ease.
+- **Scrollytelling**: chapter 01 is scrubbed —eight slabs sink and dim while the ninth
+  rises and builds— and chapter 03 pins for 3.2 screens while one timeline raises the
+  base, draws the plan, fills the volumes, wipes the real screenshot in and grows the
+  data bars. Both read their state from the timeline's time, so scrolling back undoes
+  them exactly.
+- **Reposo**: the cover model floats on a 3.6s sine, its card on 4.4s.
+- **Reduced motion**: timelines play once instead of pinning, travel becomes a fade,
+  and the float stops. Nothing is left invisible.
+- **Without JS**: everything is drawn in its finished state, including the built site
+  with its screenshot; the five phases read as a list.
 
 ## Do's and Don'ts
 
-### Do:
-- **Do** drench whole regions in sign blue (#5980a6) and keep leads and small text on it in ink.
-- **Do** give sign panels the road-sign radius, the inset paper border and four bolts; keep every other surface square.
-- **Do** build every action as a plate with the fill-wipe hover and a trailing arrow.
-- **Do** separate frentes with the 14px barrier rail and its FR-0x plate.
-- **Do** present facts as a ficha técnica: Overpass Mono terms, heavy values, hairline rows.
-- **Do** use dashed strokes for pending or unselected and solid for done or selected.
-- **Do** duotone every photo into sign blue (grayscale image under a sign multiply layer on sign-800).
-- **Do** keep reduced motion to fades and count-ups; the room itself (floor, horizon, beam,
-  glass) is static design, so it stays — only the lamp, the dust, the HUD and the depth
-  flights drop out.
-- **Do** keep one solid paper sheet in the page (the quote form) as the anchor the eye
-  trusts; everything else that carries data is glass.
-- **Do** let light land on the sign's reflective border and on the ground around it; the
-  panel face stays an even blue, because paper lettering on sign blue is only 3.6:1 and
-  any wash across the field drops it under the large-text minimum.
+### Do
+- **Do** build every illustration from `src/lib/iso.ts` so the whole page shares one
+  vanishing geometry.
+- **Do** give each chapter one idea, one model and one number.
+- **Do** keep white for actions: buttons, the form, and the client's own screenshots.
+- **Do** label example data as example, every time it appears.
+- **Do** let text carry the weight: 800, tight, large, on a plain ground.
 
-### Don't:
-- **Don't** use yellow, orange or any hazard colour; construction is blue, ink, paper and stripes.
-- **Don't** round plates, sheets, fields, tabs or tags.
-- **Don't** use barrier stripes as decoration inside sections; they are thresholds only.
-- **Don't** show unprocessed or moody full-colour photography.
-- **Don't** set mono plate labels as eyebrows above headlines.
-- **Don't** put shadows on sign panels or in-flow plates.
-- **Don't** wash the lamp across a sign's face, and don't light anything with a hue
-  outside the sign ramp; light here is white sheeting and sign blue, never a glow colour.
-- **Don't** show a progress percentage or metric that is not real; show real phases instead.
+### Don't
+- **Don't** reintroduce costume elements (hazard stripes, bolts, plates) — the page is a
+  model of the work, not a theme park of it.
+- **Don't** add a second hue: the only colour is the blue ramp.
+- **Don't** round the isometric blocks or soften their faces with gradients.
+- **Don't** animate anything that does not explain something; motion here is narration.

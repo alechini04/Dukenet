@@ -1,118 +1,77 @@
-# Las secciones, en orden
+# Los capítulos, en orden
 
-La página se arma en [`src/pages/index.astro`](../src/pages/index.astro). Cada
-bloque de abajo es un componente en `src/components/`.
+La página se arma en [`src/pages/index.astro`](../src/pages/index.astro) y son **seis
+capítulos a pantalla completa**, cada uno con su número y su idea. Todas las escenas
+isométricas salen del mismo proyector: [`src/lib/iso.ts`](../src/lib/iso.ts).
 
-Entre secciones hay una **cinta de obra** (`Rail.astro`): las franjas diagonales
-con una placa a la derecha (`FR-03 · Obras`). Es decorativa y está marcada como
-tal para los lectores de pantalla.
-
-El encabezado muestra en todo momento en qué "frente" vas (`FR-01 · Inicio`,
-`FR-02 · Manifiesto`…). Esa numeración vive en dos sitios que deben coincidir:
-`FRENTES` en [`src/data/site.ts`](../src/data/site.ts) y el objeto `FR` en
-[`src/scripts/app.ts`](../src/scripts/app.ts).
+| # | Id | Archivo | Qué cuenta |
+|---|---|---|---|
+| — | — | `Header.astro` | Marca, cuatro enlaces, botón de cotizar y barra de avance. |
+| 00 | `#inicio` | `Portada.astro` | La promesa y la maqueta que se arma sola. |
+| 01 | `#plantilla` | `Plantilla.astro` | Por qué no usamos plantillas. |
+| 02 | `#obras` | `Servicios.astro` | Las cuatro maneras de crecer. |
+| 03 | `#montaje` | `Montaje.astro` | Las cinco fases, construyéndose. |
+| 04 | `#entregadas` | `Entregadas.astro` | Obras reales y el cupo del mes. |
+| 05 | `#panel` | `Panel.astro` | Los datos que vas a recibir. |
+| 06 | `#contacto` | `Contacto.astro` | El formulario y los dos WhatsApp. |
+| — | — | `Footer.astro` | Marca grande, enlaces y el botón flotante. |
 
 ---
 
-## Encabezado · `Header.astro`
+## 00 · Portada
 
-Fijo arriba, 67 px de alto (64 de barra + 3 de la banda de avance). Contiene la
-marca, el frente actual, el menú de escritorio, el botón **Cotizar** y, en
-celular, el botón de menú.
+Titular en tres líneas con «páginas bonitas» tachado, el párrafo de presentación y tres
+botones (cotizar y los dos WhatsApp, que salen de `WHATSAPP` en `site.ts`).
 
-- La banda azul de abajo se llena a medida que bajas: es el avance de lectura.
-- El menú de celular **no está dentro de `<header>`** a propósito. El header
-  tiene `backdrop-filter` y eso lo convertiría en el marco de referencia del
-  panel, recortándolo a 67 px de alto. Si lo mueves adentro, el menú se ve
-  cortado.
-- Se cierra con `Esc`, al tocar un enlace o al pasar a pantalla ancha.
+A la derecha, la **maqueta**: una plataforma con cuatro bloques que se apilan al cargar
+y una tarjeta que flota aparte. Respira despacio mientras no la tocas.
 
-## Portada · `Hero.astro` · `#inicio` · FR-01
+## 01 · Plantilla
 
-La valla azul: titular, el párrafo de presentación, tres botones (Cotizar y los
-dos WhatsApp, que salen de `WHATSAPP` en `site.ts`) y la **ficha de obra** con
-el proyecto, el constructor, la cobertura y las cinco etapas.
+Nueve losas idénticas en isométrico. Al bajar, ocho se hunden y se apagan y la novena se
+levanta y se construye en azul, mientras aparecen los tres principios. La animación está
+ligada al scroll: si subes, se deshace.
 
-- El titular tacha "páginas bonitas" palabra por palabra, para que la línea
-  sobreviva cuando el texto se parte en celular.
-- La lista de etapas va rotando sola cada 1,9 s (solo indica en qué consiste el
-  método; no es el avance de ningún proyecto real).
+## 02 · Servicios
 
-## Cinta · `Cinta.astro`
+Cuatro columnas, una por servicio, cada una con su propio modelo isométrico (tienda,
+página, landing, datos). Los datos salen de `SERVICIOS` en `site.ts`. El enlace de cada
+columna baja al formulario **y deja marcada esa opción**.
 
-Dos filas que se desplazan en direcciones opuestas: arriba, qué construimos;
-abajo, las ciudades (`CIUDADES` en `site.ts`). El texto está duplicado para que
-el bucle no tenga costura. Con movimiento reducido se queda quieta.
+## 03 · Montaje — el capítulo largo
 
-## Manifiesto · `Manifiesto.astro` · `#manifiesto` · FR-02
+La pantalla se queda fija durante unas tres pantallas y media de scroll mientras una
+sola línea de tiempo construye el sitio:
 
-La frase grande ("Una plantilla te hace uno más…") que se ilumina palabra por
-palabra mientras la lees, la foto de diagnóstico y los tres principios.
+1. **Diagnóstico**: el lote vacío con tres notas flotando.
+2. **Propuesta**: se dibuja el plano, arista por arista.
+3. **Diseño**: los volúmenes se llenan.
+4. **Lanzamiento**: entra la captura real de El Gato Galletero, proyectada sobre la cara
+   superior con la misma matriz isométrica, y se estampa «EN LÍNEA».
+5. **Crecer**: suben las barras de datos al lado.
 
-Los tres principios están en el propio archivo, en el arreglo `principios`.
+El texto de la fase y la barra de progreso se calculan desde el tiempo de la línea, así
+que el capítulo es reversible. Los textos salen de `FASES` en `site.ts`.
 
-## Obras · `Obras.astro` · `#obras` · FR-03
+## 04 · Entregadas
 
-Los cuatro tipos de proyecto (A, B, C, D) como pestañas: a la izquierda la
-lista, a la derecha el panel con foto, descripción, qué incluye y un botón de
-cotizar. Los datos salen de `SERVICIOS` en `site.ts`.
+Los casos reales dentro de un navegador dibujado, con la captura móvil encima de la
+esquina. Al pasar el mouse, la captura se recorre sola. Debajo, el bloque del cupo del
+mes y la nota de Convite (en construcción).
 
-- Funciona con teclado: flechas para moverse, `Inicio` y `Fin` para los extremos.
-- El botón de cada panel lleva `data-plan`: al hacer clic te baja al formulario
-  **y deja marcada esa opción**.
+## 05 · Panel
 
-## Obras entregadas · `Entregadas.astro` · `#entregadas` · FR-04
+Tablero oscuro: cuatro cifras que cuentan hacia arriba, una gráfica de barras
+isométricas y el embudo de compra. **Las cifras son de ejemplo y la página lo dice**;
+ese rótulo se queda mientras no haya datos reales autorizados.
 
-Los casos reales, cada uno dentro de un navegador y un celular dibujados, con
-capturas de pantalla completas. Abajo, el bloque "Tu marca aquí" con el cupo
-del mes.
+## 06 · Contacto
 
-Los casos están en el arreglo `casos`, dentro del mismo archivo. Convite aparece
-como "En construcción".
+A la izquierda el titular y los dos números grandes; a la derecha el formulario sobre
+papel blanco, la única superficie blanca grande de la página. No envía nada a ningún
+servidor: arma el mensaje y abre WhatsApp con el texto escrito.
 
-- En pantallas con mouse, los marcos se desplazan levemente a distinto ritmo.
-- En celular, la captura se recorre sola mientras bajas, como si el sitio se
-  estuviera navegando.
+## Página 404
 
-## Cronograma · `Cronograma.astro` · `#cronograma` · FR-05
-
-La pieza principal: la pantalla se ancla y, al bajar, una obra se construye en
-cinco fases (notas → planos → diseño → lanzamiento → reporte), con el texto de
-la fase actualizándose a la izquierda. Los textos de las fases salen de `FASES`
-en `site.ts`; los planos, cotas y notas adhesivas están dibujados en SVG dentro
-del componente.
-
-La línea de tiempo completa está explicada en [animaciones.md](animaciones.md).
-
-## Panel · `Panel.astro` · `#panel` · FR-06
-
-El panel de datos: cuatro indicadores que cuentan hacia arriba, una gráfica por
-día y un embudo de compra.
-
-**Las cifras son de ejemplo y la página lo dice.** El rótulo "Ejemplo" tiene que
-quedarse mientras no haya datos reales autorizados por un cliente.
-
-## Cotizar · `Contacto.astro` · `#contacto` · FR-07
-
-La valla de cierre: los dos WhatsApp y el formulario. El formulario no envía
-nada a ningún servidor: arma un mensaje y abre WhatsApp con el texto escrito.
-
-- Obligatorios: nombre y negocio. Si faltan, se marcan y el foco va al primero.
-- El mensaje sale hacia el **primer número** de `WHATSAPP` (`data-tel` del
-  formulario).
-- Si el navegador bloquea la ventana emergente, se navega a WhatsApp en la misma
-  pestaña y se avisa en pantalla.
-
-## Pie · `Footer.astro`
-
-La marca grande, los enlaces (WhatsApp, obras entregadas, secciones) y el año.
-
-También vive aquí el **botón flotante de WhatsApp**, que aparece solo entre la
-portada y el formulario, y se esconde sobre el bloque "Tu marca aquí" para no
-tapar su botón.
-
-## Ruta no encontrada · `src/pages/404.astro`
-
-Mismo mundo visual: cartel azul con "Esta ruta no existe", botón de volver al
-inicio, los dos WhatsApp y un desvío a cada sección. Va marcada `noindex` y
-queda fuera del sitemap.
+Mismo mundo: lote vacío con un bloque, botones de volver y los seis desvíos. Va marcada
+`noindex` y fuera del sitemap.

@@ -1,7 +1,5 @@
 ---
 import '../styles/global.css';
-import Sala from '../components/Sala.astro';
-import Hud from '../components/Hud.astro';
 import { WHATSAPP, CIUDADES } from '../data/site';
 
 interface Props { title: string; description: string; robots?: string }
@@ -62,8 +60,6 @@ const negocio = {
     </script>
   </head>
   <body>
-    <Sala />
-    <Hud />
     <a class="skip" href="#contenido">Saltar al contenido</a>
     <slot />
   </body>

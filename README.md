@@ -24,9 +24,10 @@ npm run preview  # sirve dist/
 
 ## Estructura
 
-- `src/pages/index.astro`: arma la página con las secciones.
-- `src/pages/404.astro`: página de ruta no encontrada, con desvíos a cada sección.
-- `src/components/`: una sección por archivo (Hero, Obras, Entregadas, Cronograma, Panel, Contacto…).
+- `src/pages/index.astro`: arma la página con los seis capítulos.
+- `src/pages/404.astro`: página de ruta no encontrada, con desvíos a cada capítulo.
+- `src/components/`: un capítulo por archivo (Portada, Plantilla, Servicios, Montaje, Entregadas, Panel, Contacto) más Header y Footer.
+- `src/lib/iso.ts`: la proyección isométrica de la que salen todas las escenas.
 - `src/data/site.ts`: textos editables (WhatsApp, servicios, fases, ciudades).
 - `src/scripts/app.ts`: menú, pestañas, formulario → WhatsApp y todas las animaciones.
 - `src/styles/global.css`: colores, tipografía y botones.

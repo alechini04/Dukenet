@@ -1,16 +1,14 @@
 ---
 import Base from '../layouts/Base.astro';
 import Header from '../components/Header.astro';
-import Hero from '../components/Hero.astro';
-import Cinta from '../components/Cinta.astro';
-import Manifiesto from '../components/Manifiesto.astro';
-import Obras from '../components/Obras.astro';
+import Portada from '../components/Portada.astro';
+import Plantilla from '../components/Plantilla.astro';
+import Servicios from '../components/Servicios.astro';
+import Montaje from '../components/Montaje.astro';
 import Entregadas from '../components/Entregadas.astro';
-import Cronograma from '../components/Cronograma.astro';
 import Panel from '../components/Panel.astro';
 import Contacto from '../components/Contacto.astro';
 import Footer from '../components/Footer.astro';
-import Rail from '../components/Rail.astro';
 ---
 <Base
   title="DukeNet · Webs a medida que venden, en toda Colombia"
@@ -18,16 +16,11 @@ import Rail from '../components/Rail.astro';
 >
   <Header />
   <main id="contenido">
-    <Hero />
-    <Cinta />
-    <Manifiesto />
-    <Rail code="FR-03" name="Obras" />
-    <Obras />
-    <Rail code="FR-04" name="Entregadas" />
+    <Portada />
+    <Plantilla />
+    <Servicios />
+    <Montaje />
     <Entregadas />
-    <Rail code="FR-05" name="Cronograma" />
-    <Cronograma />
-    <Rail code="FR-06" name="Panel" />
     <Panel />
     <Contacto />
   </main>

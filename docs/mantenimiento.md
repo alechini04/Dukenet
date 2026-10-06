@@ -42,9 +42,14 @@ viendo la versión sin anclaje ni paralaje. Esa versión también tiene que vers
 terminada: revísala cuando cambies algo grande
 (ver [animaciones.md](animaciones.md)).
 
-**Los anclajes y el scroll suave.** Los enlaces `#seccion` los maneja el
-script, que compensa los 67 px del encabezado. El valor está en la constante
+**Los anclajes y el scroll suave.** Los enlaces `#capitulo` los maneja el
+script, que compensa los 74 px del encabezado. El valor está en la constante
 `HEADER` de `app.ts`: si cambia la altura de la barra, cámbialo ahí también.
+
+**Las escenas isométricas.** Nunca escribas puntos a mano: todas salen de
+`src/lib/iso.ts`. Para que una fila de bloques se vea horizontal en pantalla hay
+que moverse lo mismo en +x y en −y (si solo creces en x, la fila baja en
+diagonal).
 
 **Las imágenes mueven las medidas.** ScrollTrigger calcula posiciones al
 cargar; por eso se llama `ScrollTrigger.refresh()` cuando termina cada imagen y

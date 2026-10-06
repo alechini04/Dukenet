@@ -8,7 +8,6 @@ Un solo archivo alimenta varias secciones a la vez. Tocar aquí es lo más segur
 |---|---|
 | `WHATSAPP` | Los botones de la portada, los de la sección de cotizar, la lista del pie, el botón flotante y los teléfonos de los datos estructurados. El **primero** de la lista es al que llega el formulario. |
 | `wa(tel, texto)` | Arma el enlace `wa.me` con el mensaje ya escrito. Si agregas un botón nuevo de WhatsApp, úsala en vez de escribir la URL a mano. |
-| `FRENTES` | La numeración `FR-0x` del encabezado y los desvíos de la página 404. |
 | `SERVICIOS` | Las cuatro pestañas de Obras: letra, nombre, texto, qué incluye, botón, foto y su descripción alternativa. |
 | `FASES` | Las cinco etapas: en la ficha de la portada y en el cronograma. |
 | `CIUDADES` | La cinta de cobertura y la lista de ciudades de los datos estructurados. |
@@ -25,11 +24,10 @@ sección, para no inflar el archivo de datos.
 
 | Texto | Archivo |
 |---|---|
-| Titular de la portada y ficha de obra | `Hero.astro` |
-| Lo que construimos (fila grande de la cinta) | `Cinta.astro`, arreglo `obras` |
-| Frase del manifiesto y los tres principios | `Manifiesto.astro`, arreglo `principios` |
+| Titular de la portada | `Portada.astro` |
+| Frase del capítulo 01 y los tres principios | `Plantilla.astro`, arreglo `principios` |
 | Casos entregados (nombre, dominio, tipo, estado, texto, capturas) | `Entregadas.astro`, arreglo `casos` |
-| Notas adhesivas, planos y cotas del cronograma | `Cronograma.astro`, arreglos `notas` y `wire` |
+| Notas y volúmenes de la maqueta del capítulo 03 | `Montaje.astro`, arreglos `notas` y `vol` |
 | Cifras, gráfica y embudo del panel | `Panel.astro`, arreglos `metricas`, `semana`, `embudo` |
 | Opciones del formulario | `Contacto.astro`, arreglo `opciones` |
 | Título de la pestaña y descripción para Google | `src/pages/index.astro` |
@@ -86,9 +84,9 @@ rehaces una, mantén la proporción o ajusta el `width`/`height` de la etiqueta
 `<img>` en `Entregadas.astro`, porque esas medidas son las que evitan que la
 página salte mientras carga.
 
-`gato-galletero.jpg` además se usa dentro del cronograma: los planos del SVG
-están medidos sobre esa captura (1440 de ancho, se muestran sus primeros
-900 px). Si la cambias, revisa que los rectángulos sigan cuadrando.
+`gato-galletero.jpg` además se usa dentro del capítulo 03: se proyecta sobre la
+cara superior de la maqueta con la matriz isométrica. Si la cambias, revisa que
+siga encuadrando (se muestra su parte superior).
 
 ### Reglas para cualquier imagen nueva
 

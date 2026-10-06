@@ -1,0 +1,122 @@
+---
+import Icon from './Icon.astro';
+import { WHATSAPP, wa } from '../data/site';
+import { caja, rejilla } from '../lib/iso';
+
+const u = 30;
+const piso = rejilla(9, 9, 1, u);
+// the stack: a site being assembled, bottom to top
+const base = caja(0.6, 0.6, 0, 7.8, 7.8, 0.45, u);
+const cuerpo = caja(1.6, 1.6, 0.45, 5.8, 5.8, 0.9, u);
+const seccion = caja(2.4, 2.4, 1.35, 4.2, 4.2, 0.75, u);
+const cabeza = caja(3.2, 3.2, 2.1, 2.6, 2.6, 1.1, u);
+const tarjeta = caja(5.4, -1.2, 2.6, 3.2, 2.2, 0.22, u);
+const MSG = 'Hola DukeNet, quiero información para la web de mi negocio.';
+---
+<section id="inicio" class="cap portada" data-cap="inicio">
+  <div class="marco portada__grid">
+    <div class="portada__texto">
+      <p class="cap__num" data-aparece>Estudio de desarrollo web · Colombia</p>
+      <h1 class="portada__titulo" data-titulo>
+        <span class="ln"><span>No hacemos</span></span>
+        <span class="ln"><span class="tachado" data-tachado>páginas bonitas</span></span>
+        <span class="ln"><span class="portada__azul">hacemos ventas</span></span>
+      </h1>
+      <p class="lead portada__lead" data-aparece>
+        Diseñamos y programamos desde cero la web de tu negocio —tienda, catálogo o landing— con datos claros y acompañamiento mes a mes. <strong>Nada de plantillas.</strong>
+      </p>
+      <div class="portada__cta" data-aparece>
+        <a class="btn btn--azul" href="#contacto">Cotizar mi web <Icon name="arrow-ur" /></a>
+        {WHATSAPP.map((w) => (
+          <a class="btn btn--linea" href={wa(w.tel, MSG)} target="_blank" rel="noopener">
+            <Icon name="whatsapp" /> {w.label}
+          </a>
+        ))}
+      </div>
+    </div>
+
+    <div class="portada__escena" data-escena>
+      <svg class="iso" viewBox="-300 -190 600 460" role="img" aria-label="Ilustración: un sitio web representado como bloques isométricos que se apilan">
+        <g data-flota>
+          <path class="malla" d={piso} />
+          <g data-bloque>
+            <polygon class="der der--gris" points={base.der} />
+            <polygon class="izq izq--gris" points={base.izq} />
+            <polygon class="top top--gris" points={base.top} />
+          </g>
+          <g data-bloque>
+            <polygon class="der" points={cuerpo.der} />
+            <polygon class="izq" points={cuerpo.izq} />
+            <polygon class="top" points={cuerpo.top} />
+          </g>
+          <g data-bloque>
+            <polygon class="der der--papel" points={seccion.der} />
+            <polygon class="izq izq--papel" points={seccion.izq} />
+            <polygon class="top top--papel" points={seccion.top} />
+          </g>
+          <g data-bloque>
+            <polygon class="der" points={cabeza.der} />
+            <polygon class="izq" points={cabeza.izq} />
+            <polygon class="top brillo" points={cabeza.top} />
+          </g>
+          <g data-bloque data-tarjeta>
+            <polygon class="der der--papel" points={tarjeta.der} />
+            <polygon class="izq izq--papel" points={tarjeta.izq} />
+            <polygon class="top top--papel" points={tarjeta.top} />
+          </g>
+        </g>
+      </svg>
+    </div>
+  </div>
+
+  <a class="portada__baja" href="#plantilla" aria-label="Bajar">
+    <span></span>
+  </a>
+</section>
+
+<style>
+  .portada { padding-top: clamp(100px, 13vh, 160px); }
+  .portada__grid {
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 0.92fr);
+    gap: clamp(32px, 5vw, 80px); align-items: center;
+  }
+
+  .portada__titulo {
+    margin-top: 22px;
+    font-size: var(--fs-hero); line-height: 0.88; letter-spacing: -0.045em; font-weight: 800;
+  }
+  .ln { display: block; overflow: hidden; padding-block: 0.1em 0.04em; margin-block: -0.1em -0.04em; }
+  .ln > span { display: block; }
+  /* the struck line has to stay on one line or the rule lands in the wrong place */
+  .portada__titulo .ln:nth-child(2) > span { white-space: nowrap; }
+  .portada__azul { color: var(--azul-300); }
+  .ln > span.tachado { position: relative; display: inline-block; }
+  .tachado::after {
+    content: ''; position: absolute; left: -0.02em; right: -0.02em; top: 52%;
+    height: 0.07em; background: var(--azul); transform: scaleX(var(--tachado, 1)); transform-origin: left;
+  }
+
+  .portada__lead { margin-top: clamp(20px, 2.4vw, 30px); }
+  .portada__cta { margin-top: clamp(26px, 3vw, 40px); display: flex; flex-wrap: wrap; gap: 12px; }
+
+  .portada__escena { position: relative; }
+  .portada__escena .iso { filter: drop-shadow(0 50px 60px rgba(0, 0, 0, 0.55)); }
+
+  .portada__baja {
+    position: absolute; left: 50%; bottom: clamp(24px, 4vh, 48px); transform: translateX(-50%);
+    width: 26px; height: 42px; border: 1px solid color-mix(in srgb, var(--papel) 28%, transparent);
+    border-radius: 999px; display: grid; justify-items: center; padding-top: 8px;
+  }
+  .portada__baja span { width: 2px; height: 8px; background: var(--azul-300); border-radius: 2px; }
+  :global(html.motion:not(.rm)) .portada__baja span { animation: baja 1.9s var(--ease-io) infinite; }
+  @keyframes baja { 0% { transform: translateY(0); opacity: 1; } 70% { transform: translateY(16px); opacity: 0; } 71% { transform: translateY(0); opacity: 0; } 100% { opacity: 1; } }
+
+  @media (max-width: 1000px) {
+    .portada__grid { grid-template-columns: minmax(0, 1fr); }
+    .portada__escena { order: -1; max-width: 520px; margin-inline: auto; }
+    .portada__baja { display: none; }
+  }
+  @media (max-width: 560px) {
+    .portada__cta .btn { width: 100%; justify-content: center; }
+  }
+</style>

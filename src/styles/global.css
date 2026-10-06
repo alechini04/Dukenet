@@ -3,59 +3,50 @@
 
 /* ── Tokens ─────────────────────────────────────────────────────────────── */
 :root {
-  /* Sign blue: the steel blue from the original design, as road-sign panels */
-  --sign-100: #eef6ff;
-  --sign-200: #d6ebff;
-  --sign-300: #b5d9fd;
-  --sign-400: #94bce3;
-  --sign-500: #749dc4;
-  --sign: #5980a6;
-  --sign-700: #416180;
-  --sign-800: #2c455d;
-  --sign-900: #1d2d3d;
+  /* The palette stays: steel blue, greys, black, white. */
+  --azul-100: #eef6ff;
+  --azul-200: #d6ebff;
+  --azul-300: #b5d9fd;
+  --azul-400: #94bce3;
+  --azul-500: #749dc4;
+  --azul: #5980a6;
+  --azul-700: #416180;
+  --azul-800: #2c455d;
+  --azul-900: #1d2d3d;
 
-  /* Ink and plates */
-  --ink: #0c0d0e;
-  --ink-2: #141618;
-  --ink-3: #1d2023;
-  --paper: #f2f2f3;
-  --paper-2: #e7e7ea;
+  --tinta: #0c0d0e;
+  --tinta-2: #141618;
+  --tinta-3: #1d2023;
+  --papel: #f2f2f3;
+  --papel-2: #e7e7ea;
 
-  /* Concrete */
-  --concrete-300: #d4d4d7;
-  --concrete-400: #b7b7ba;
-  --concrete-500: #98989b;
-  --concrete-600: #7a7a7d;
-  --concrete-700: #5d5d60;
-  --concrete-800: #424244;
+  --gris-300: #d4d4d7;
+  --gris-400: #b7b7ba;
+  --gris-500: #98989b;
+  --gris-600: #7a7a7d;
+  --gris-700: #5d5d60;
+  --gris-800: #424244;
 
-  --font-display: 'Overpass Variable', 'Overpass', system-ui, sans-serif;
-  --font-body: 'Overpass Variable', 'Overpass', system-ui, sans-serif;
-  --font-plate: 'Overpass Mono Variable', 'Overpass Mono', ui-monospace, monospace;
+  /* Isometric faces: one light source, three values. */
+  --cara-top: var(--azul-400);
+  --cara-izq: var(--azul-700);
+  --cara-der: var(--azul-800);
 
-  /* Small-text ramp. Fluid display sizes stay per component; everything under 1rem uses these. */
-  --fs-micro: 0.62rem;  /* chart days, stage captions */
-  --fs-mini: 0.7rem;    /* dashboard labels, frente codes */
-  --fs-plate: 0.74rem;  /* .t-plate: ficha terms, plate codes */
-  --fs-small: 0.85rem;  /* secondary copy, small plates, links */
-  --fs-note: 0.92rem;   /* nav, form status, compact titles */
-  --fs-base: 1rem;      /* plates, ficha values */
+  --fuente: 'Overpass Variable', 'Overpass', system-ui, sans-serif;
+  --mono: 'Overpass Mono Variable', 'Overpass Mono', ui-monospace, monospace;
 
-  --gutter: clamp(16px, 3.2vw, 44px);
-  --max: 1520px;
-  --radius-sign: clamp(12px, 1.4vw, 22px);
-  --radius-plate: 0px;
+  --fs-mini: 0.72rem;
+  --fs-small: 0.86rem;
+  --fs-base: 1rem;
+  --fs-lead: clamp(1.05rem, 1.25vw, 1.35rem);
+  --fs-cap: clamp(2.2rem, 5.2vw, 5.4rem);
+  --fs-hero: clamp(2.5rem, 5.9vw, 6.2rem);
 
-  /* Night-site lighting: one work lamp follows the pointer and every reflective
-     surface answers to it. Updated from app.ts; these are the lights-off defaults. */
-  --mx: 50%;
-  --my: 24%;
-  --glint: 0;
+  --borde: clamp(20px, 4vw, 72px);
+  --max: 1440px;
 
-  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-  --ease-in-out: cubic-bezier(0.76, 0, 0.24, 1);
-
-  --stripe: repeating-linear-gradient(-45deg, var(--paper) 0 14px, var(--ink) 14px 28px);
+  --ease: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-io: cubic-bezier(0.76, 0, 0.24, 1);
 
   color-scheme: dark;
 }
@@ -65,226 +56,111 @@
 html { -webkit-text-size-adjust: 100%; text-size-adjust: 100%; }
 html.lenis, html.lenis body { height: auto; }
 .lenis:not(.lenis-autoToggle).lenis-stopped { overflow: clip; }
+
 body {
   margin: 0;
-  background: var(--ink);
-  color: var(--paper);
-  font-family: var(--font-body);
-  font-size: clamp(16px, 1.05vw, 18px);
+  background: var(--tinta);
+  color: var(--papel);
+  font-family: var(--fuente);
+  font-size: clamp(16px, 1.02vw, 18px);
   line-height: 1.55;
   font-weight: 400;
   -webkit-font-smoothing: antialiased;
   overflow-x: clip;
-  caret-color: var(--sign);
 }
+
 img, svg { display: block; max-width: 100%; }
-a { color: inherit; text-decoration-thickness: 1px; text-underline-offset: 0.22em; }
+a { color: inherit; text-underline-offset: 0.22em; }
 button, input, select, textarea { font: inherit; color: inherit; }
 p { margin: 0; }
-h1, h2, h3, h4 { margin: 0; font-family: var(--font-display); text-wrap: balance; }
+h1, h2, h3, h4 { margin: 0; font-family: var(--fuente); font-weight: 800; letter-spacing: -0.03em; line-height: 0.95; text-wrap: balance; }
 figure { margin: 0; }
 
-::selection { background: var(--sign); color: var(--ink); }
-:focus-visible { outline: 3px solid var(--sign-300); outline-offset: 3px; border-radius: 2px; }
+::selection { background: var(--azul); color: var(--tinta); }
+:focus-visible { outline: 2px solid var(--azul-300); outline-offset: 3px; }
 
-html { scrollbar-color: var(--sign) var(--ink); }
-::-webkit-scrollbar { width: 12px; height: 12px; }
-::-webkit-scrollbar-track { background: var(--ink); }
-::-webkit-scrollbar-thumb { background: var(--sign-700); border: 3px solid var(--ink); border-radius: 6px; }
-::-webkit-scrollbar-thumb:hover { background: var(--sign); }
+html { scrollbar-color: var(--azul-700) var(--tinta); }
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: var(--tinta); }
+::-webkit-scrollbar-thumb { background: var(--azul-800); border-radius: 6px; }
+::-webkit-scrollbar-thumb:hover { background: var(--azul-700); }
 
 .sr-only {
   position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px;
-  overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0;
+  overflow: hidden; clip-path: inset(50%); white-space: nowrap; border: 0;
 }
 .skip {
-  position: fixed; left: 12px; top: -80px; z-index: 999;
-  background: var(--paper); color: var(--ink); padding: 12px 18px; font-weight: 700;
-  border-radius: var(--radius-plate);
+  position: fixed; left: 14px; top: -80px; z-index: 999;
+  background: var(--papel); color: var(--tinta); padding: 12px 18px; font-weight: 700;
 }
-.skip:focus { top: 12px; }
+.skip:focus { top: 14px; }
 
-.wrap { width: 100%; max-width: var(--max); margin-inline: auto; padding-inline: var(--gutter); }
+/* ── Layout ─────────────────────────────────────────────────────────────── */
+.marco { width: 100%; max-width: var(--max); margin-inline: auto; padding-inline: var(--borde); }
 
-/* ── Type roles ─────────────────────────────────────────────────────────── */
-.t-display {
-  font-family: var(--font-display);
-  font-weight: 850;
-  text-transform: uppercase;
-  line-height: 0.88;
-  letter-spacing: -0.035em;
-}
-.t-plate {
-  font-family: var(--font-plate);
-  font-weight: 500;
-  font-size: var(--fs-plate);
-  letter-spacing: 0.08em;
-  text-transform: uppercase;
-  font-variant-numeric: tabular-nums;
-}
-.num { font-variant-numeric: tabular-nums; }
-
-/* ── Plates (buttons & links rebuilt as sign plates) ────────────────────── */
-.plate {
-  --plate-bg: var(--ink);
-  --plate-fg: var(--paper);
-  --plate-line: var(--ink);
+/* A chapter: one screen, one idea. */
+.cap {
   position: relative;
-  display: inline-flex; align-items: center; gap: 0.9em;
-  min-height: 56px;
-  padding: 0 1.35em 0 1.4em;
-  background: var(--plate-bg);
-  color: var(--plate-fg);
-  border: 2px solid var(--plate-line);
-  border-radius: var(--radius-plate);
-  font-family: var(--font-display);
-  font-weight: 750;
-  font-size: var(--fs-base);
-  letter-spacing: 0.04em;
-  text-transform: uppercase;
-  text-decoration: none;
-  white-space: nowrap;
-  cursor: pointer;
-  overflow: hidden;
-  isolation: isolate;
-  transition: color 0.45s var(--ease-out), border-color 0.45s var(--ease-out), transform 0.45s var(--ease-out);
+  min-height: 100svh;
+  display: grid; align-content: center;
+  padding-block: clamp(96px, 12vh, 180px);
 }
-.plate::before {
-  content: '';
-  position: absolute; inset: 0; z-index: -1;
-  background: var(--plate-hover-bg, var(--sign));
-  transform: translateY(101%);
-  transition: transform 0.5s var(--ease-out);
+.cap__num {
+  font-family: var(--mono); font-size: var(--fs-mini); letter-spacing: 0.22em;
+  text-transform: uppercase; color: var(--azul-400);
+  display: flex; align-items: center; gap: 12px;
 }
-.plate svg { width: 1.15em; height: 1.15em; flex: none; transition: transform 0.5s var(--ease-out); }
-.plate:hover { color: var(--plate-hover-fg, var(--ink)); border-color: var(--plate-hover-bg, var(--sign)); }
-.plate:hover::before { transform: translateY(0); }
-.plate:hover svg { transform: translate(3px, -3px); }
-.plate:active { transform: translateY(1px); }
-.plate[disabled] { opacity: 0.5; cursor: not-allowed; }
+.cap__num::after { content: ''; flex: 1; max-width: 120px; height: 1px; background: currentColor; opacity: 0.4; }
 
-.plate--paper { --plate-bg: var(--paper); --plate-fg: var(--ink); --plate-line: var(--paper); --plate-hover-bg: var(--ink); --plate-hover-fg: var(--paper); }
-.plate--sign { --plate-bg: var(--sign); --plate-fg: var(--ink); --plate-line: var(--sign); --plate-hover-bg: var(--paper); --plate-hover-fg: var(--ink); }
-.plate--ghost-light { --plate-bg: transparent; --plate-fg: var(--paper); --plate-line: color-mix(in srgb, var(--paper) 55%, transparent); --plate-hover-bg: var(--paper); --plate-hover-fg: var(--ink); }
-.plate--ghost-dark { --plate-bg: transparent; --plate-fg: var(--ink); --plate-line: color-mix(in srgb, var(--ink) 70%, transparent); --plate-hover-bg: var(--ink); --plate-hover-fg: var(--paper); }
-.plate--sm { min-height: 42px; font-size: var(--fs-small); padding: 0 1em; }
+.titulo { font-size: var(--fs-cap); }
+.lead { font-size: var(--fs-lead); line-height: 1.5; color: color-mix(in srgb, var(--papel) 74%, transparent); max-width: 46ch; }
 
-/* Phones (<=430px covers every current model): these uppercase labels stop fitting
-   a plate on one line, so the type steps down and, if it still does not fit, it wraps. */
-@media (max-width: 430px) {
-  .plate { font-size: var(--fs-small); letter-spacing: 0.03em; gap: 0.7em; padding: 10px 1em; white-space: normal; }
+/* ── Botones ────────────────────────────────────────────────────────────── */
+.btn {
+  --btn-bg: var(--papel);
+  --btn-fg: var(--tinta);
+  position: relative;
+  display: inline-flex; align-items: center; gap: 0.7em;
+  min-height: 54px; padding: 0 1.5em;
+  background: var(--btn-bg); color: var(--btn-fg);
+  font-weight: 700; font-size: var(--fs-base); letter-spacing: -0.01em;
+  text-decoration: none; white-space: nowrap; cursor: pointer;
+  border: 1px solid var(--btn-bg);
+  border-radius: 999px;
+  transition: transform 0.45s var(--ease), background 0.45s var(--ease), color 0.45s var(--ease), border-color 0.45s var(--ease);
 }
+.btn svg { width: 1.1em; height: 1.1em; transition: transform 0.45s var(--ease); }
+.btn:hover { transform: translateY(-2px); }
+.btn:hover svg { transform: translate(3px, -3px); }
+.btn:active { transform: translateY(0); }
 
-/* Sign fixings */
-.bolt {
-  position: absolute; width: 11px; height: 11px; border-radius: 50%;
-  background: radial-gradient(circle at 35% 35%, var(--paper), var(--concrete-500) 60%, var(--concrete-700));
-  box-shadow: 0 1px 1px color-mix(in srgb, var(--ink) 45%, transparent);
+.btn--azul { --btn-bg: var(--azul); --btn-fg: var(--tinta); }
+.btn--azul:hover { --btn-bg: var(--azul-300); }
+.btn--linea {
+  --btn-bg: transparent; --btn-fg: var(--papel);
+  border-color: color-mix(in srgb, var(--papel) 34%, transparent);
 }
-.bolt::after { content: ''; position: absolute; left: 2px; right: 2px; top: 5px; height: 1px; background: var(--concrete-700); transform: rotate(-30deg); }
-.bolt--tl { top: clamp(22px, 2vw, 30px); left: clamp(22px, 2vw, 30px); }
-.bolt--tr { top: clamp(22px, 2vw, 30px); right: clamp(22px, 2vw, 30px); }
-.bolt--bl { bottom: clamp(22px, 2vw, 30px); left: clamp(22px, 2vw, 30px); }
-.bolt--br { bottom: clamp(22px, 2vw, 30px); right: clamp(22px, 2vw, 30px); }
+.btn--linea:hover { --btn-bg: var(--papel); --btn-fg: var(--tinta); }
+.btn--sm { min-height: 42px; font-size: var(--fs-small); padding: 0 1.2em; }
 
-/* Barrier stripe rail */
-.rail { height: 14px; background: var(--stripe); background-size: 39.6px 39.6px; background-position: 0 0; }
+/* ── Escena isométrica ──────────────────────────────────────────────────── */
+/* Every scene is one SVG drawn from src/lib/iso.ts. These are its materials. */
+.iso { width: 100%; height: auto; overflow: visible; }
+.iso .top { fill: var(--cara-top); }
+.iso .izq { fill: var(--cara-izq); }
+.iso .der { fill: var(--cara-der); }
+.iso .top--papel { fill: var(--papel); }
+.iso .izq--papel { fill: var(--gris-400); }
+.iso .der--papel { fill: var(--gris-600); }
+.iso .top--gris { fill: var(--tinta-3); }
+.iso .izq--gris { fill: #111416; }
+.iso .der--gris { fill: #0e1113; }
+.iso .malla { fill: none; stroke: color-mix(in srgb, var(--azul-400) 26%, transparent); stroke-width: 0.6; }
+.iso .filo { fill: none; stroke: color-mix(in srgb, var(--papel) 24%, transparent); stroke-width: 0.8; }
+.iso .brillo { fill: var(--azul-300); }
+.iso text { font-family: var(--mono); fill: var(--papel); }
 
-/* Duotone photo in sign blue */
-.duo { position: relative; overflow: hidden; background: var(--sign-800); }
-.duo img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1) contrast(1.08) brightness(1.02); }
-.duo::after {
-  content: ''; position: absolute; inset: 0; pointer-events: none;
-  background: var(--sign); mix-blend-mode: multiply; opacity: 0.92;
-}
-
-/* ── Sala: every dark frente is a room, not a flat band ─────────────────── */
-/* A floor in perspective running to a horizon, the bloom that sits on it and a
-   cone of work light. Absolute and z-index -1 inside an isolated section, so it
-   lies above the ground and under every piece of content. */
-.sala { position: fixed; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
-/* the page itself floats above the room */
-header, main, footer { position: relative; z-index: 1; }
-
-.sala__piso {
-  position: absolute; left: -30%; right: -30%; bottom: -1px; height: 52vh;
-  transform-origin: 50% 100%;
-  transform: perspective(520px) rotateX(76deg);
-  background-image:
-    linear-gradient(to right, color-mix(in srgb, var(--sign-400) 30%, transparent) 1px, transparent 1px),
-    linear-gradient(to bottom, color-mix(in srgb, var(--sign-400) 30%, transparent) 1px, transparent 1px);
-  background-size: 92px 92px;
-  background-position: var(--piso-x, 0px) var(--piso-y, 0px);
-  -webkit-mask-image: linear-gradient(to top, #000 0%, rgba(0, 0, 0, 0.55) 32%, transparent 82%);
-  mask-image: linear-gradient(to top, #000 0%, rgba(0, 0, 0, 0.55) 32%, transparent 82%);
-  opacity: 0.9;
-}
-
-.sala__horizonte {
-  position: absolute; left: 50%; bottom: 38%; width: 130%; height: 34vh;
-  transform: translateX(-50%);
-  background: radial-gradient(50% 52% at 50% 100%, color-mix(in srgb, var(--sign) 34%, transparent), transparent 72%);
-  filter: blur(28px);
-}
-
-.sala__haz {
-  position: absolute; top: -14%; width: 46vmax; height: 108%;
-  background: linear-gradient(to bottom, color-mix(in srgb, var(--sign-300) 16%, transparent), transparent 74%);
-  filter: blur(26px);
-  clip-path: polygon(46% 0, 54% 0, 100% 100%, 0 100%);
-}
-.sala__polvo { position: absolute; inset: 0; width: 100%; height: 100%; opacity: 0; transition: opacity 1.4s var(--ease-out); }
-html.motion:not(.rm) .sala__polvo { opacity: 1; }
-
-.sala__haz--der { right: -6vmax; transform: rotate(7deg); }
-.sala__haz--izq { left: -6vmax; transform: rotate(-7deg); }
-
-/* ── Night-site light ───────────────────────────────────────────────────── */
-/* One work lamp follows the pointer and lights the ground of each dark region.
-   The layer is absolute (a fixed one gets composited above the panels in Chrome)
-   and --lx/--ly carry the pointer's position inside that section, so the light
-   still reads as a single lamp walking across the page. z-index -1 inside an
-   isolated parent keeps it above the section's ground and under its content. */
-.luz {
-  position: absolute; inset: 0; pointer-events: none;
-  opacity: 0;
-  background: radial-gradient(40vmax 34vmax at var(--mx) var(--my), color-mix(in srgb, var(--sign-300) 13%, transparent), transparent 66%);
-  transition: opacity 0.9s var(--ease-out);
-}
-html.motion:not(.rm) .luz { opacity: 1; }
-
-/* Retroreflective glint: the light does not wash over the panel (that would eat the
-   contrast of the lettering) — it travels along the sign's reflective inner border,
-   which is the part that is actually made of reflective sheeting. --gx/--gy are the
-   pointer's position inside the panel, --glint fades it with distance. */
-.glint {
-  position: absolute; inset: clamp(8px, 0.8vw, 12px); z-index: -1; pointer-events: none;
-  border: clamp(3px, 0.32vw, 5px) solid #fff;
-  border-radius: calc(var(--radius-sign) - 6px);
-  opacity: 0;
-  filter: drop-shadow(0 0 7px color-mix(in srgb, var(--paper) 60%, transparent));
-  -webkit-mask-image: radial-gradient(26% 32% at var(--gx, 50%) var(--gy, 0%), #000 0%, transparent 70%);
-  mask-image: radial-gradient(26% 32% at var(--gx, 50%) var(--gy, 0%), #000 0%, transparent 70%);
-}
-html.motion:not(.rm) .glint { opacity: var(--glint); }
-
-/* The NET plate is sheeting as well: a sweep crosses it on hover and once on arrival. */
-.net-sheet { position: relative; overflow: hidden; }
-.net-sheet::after {
-  content: ''; position: absolute; inset: 0; pointer-events: none;
-  background: linear-gradient(104deg, transparent 38%, color-mix(in srgb, var(--paper) 80%, transparent) 50%, transparent 62%);
-  transform: translateX(-130%);
-}
-@keyframes destello { from { transform: translateX(-130%); } to { transform: translateX(130%); } }
-html.motion:not(.rm) a:hover > .net-sheet::after,
-html.motion:not(.rm) .net-sheet.destella::after { animation: destello 1s var(--ease-out); }
-
-/* Depth: panels lean a degree or two toward the lamp. The vanishing point stays
-   centred; moving it with the pointer made the panels swell as they turned. */
-.escena { perspective: 1700px; }
-html.motion:not(.rm) [data-tilt] { transform-style: preserve-3d; }
-
-/* Motion guards: content is visible by default; JS opts elements into motion */
+/* ── Movimiento ─────────────────────────────────────────────────────────── */
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
 }

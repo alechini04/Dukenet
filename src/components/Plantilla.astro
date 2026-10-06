@@ -1,0 +1,94 @@
+---
+import { caja } from '../lib/iso';
+const u = 34;
+// nine identical slabs: the templates everybody else sells
+const losas = [0, 1, 2].flatMap((fy) => [0, 1, 2].map((fx) => ({
+  i: fy * 3 + fx,
+  centro: fx === 1 && fy === 1,
+  c: caja(fx * 2.6, fy * 2.6, 0, 2.2, 2.2, 0.22, u),
+})));
+// what the chosen one becomes
+const sube1 = caja(2.6, 2.6, 0.22, 2.2, 2.2, 0.5, u);
+const sube2 = caja(2.95, 2.95, 0.72, 1.5, 1.5, 0.45, u);
+const sube3 = caja(3.25, 3.25, 1.17, 0.9, 0.9, 0.5, u);
+
+const principios = [
+  { n: '01', t: 'Primero entendemos cómo vendes', d: 'Después dibujamos la página que tu negocio necesita. Y solo entonces se escribe una línea de código.' },
+  { n: '02', t: 'Cada pantalla tiene un objetivo', d: 'Que el visitante entienda, confíe y compre. Nada decorativo que no aporte.' },
+  { n: '03', t: 'Salir al aire no es el final', d: 'Medimos, ajustamos y te contamos qué cambió, mes a mes.' },
+];
+---
+<section id="plantilla" class="cap plantilla" data-cap="plantilla" aria-labelledby="plantilla-tit" data-plantilla>
+  <div class="marco plantilla__grid">
+    <div class="plantilla__texto">
+      <p class="cap__num">01 · Por qué</p>
+      <h2 id="plantilla-tit" class="titulo plantilla__tit" data-parte>
+        Una plantilla te hace <span class="apagado">uno más</span>.<br />Nosotros te hacemos <span class="azul">el único</span>.
+      </h2>
+      <ol class="principios">
+        {principios.map((p) => (
+          <li data-principio>
+            <span class="principios__n">{p.n}</span>
+            <h3 class="principios__t">{p.t}</h3>
+            <p class="principios__d">{p.d}</p>
+          </li>
+        ))}
+      </ol>
+    </div>
+
+    <div class="plantilla__escena">
+      <svg class="iso" viewBox="-220 -175 440 345" role="img" aria-label="Ilustración: nueve plantillas iguales y una que se levanta y se construye distinta">
+        {losas.map((l) => (
+          <g data-losa={l.i} data-centro={l.centro ? '1' : undefined}>
+            <polygon class="der der--gris" points={l.c.der} />
+            <polygon class="izq izq--gris" points={l.c.izq} />
+            <polygon class="top top--gris" points={l.c.top} />
+          </g>
+        ))}
+        <g data-crece style="opacity:0">
+          <g>
+            <polygon class="der" points={sube1.der} />
+            <polygon class="izq" points={sube1.izq} />
+            <polygon class="top" points={sube1.top} />
+          </g>
+          <g>
+            <polygon class="der der--papel" points={sube2.der} />
+            <polygon class="izq izq--papel" points={sube2.izq} />
+            <polygon class="top top--papel" points={sube2.top} />
+          </g>
+          <g>
+            <polygon class="der" points={sube3.der} />
+            <polygon class="izq" points={sube3.izq} />
+            <polygon class="top brillo" points={sube3.top} />
+          </g>
+        </g>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<style>
+  .plantilla__grid {
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 0.86fr);
+    gap: clamp(32px, 5vw, 86px); align-items: center;
+  }
+  .plantilla__tit { margin-top: 20px; max-width: 16ch; }
+  .apagado { color: var(--gris-600); }
+  .azul { color: var(--azul-300); }
+
+  .principios { list-style: none; margin: clamp(32px, 4vw, 54px) 0 0; padding: 0; display: grid; gap: 0; }
+  .principios li {
+    display: grid; grid-template-columns: auto 1fr; gap: 6px 18px;
+    padding: 20px 0; border-top: 1px solid color-mix(in srgb, var(--papel) 14%, transparent);
+  }
+  .principios__n { grid-row: span 2; font-family: var(--mono); font-size: var(--fs-mini); color: var(--azul-300); padding-top: 4px; }
+  .principios__t { font-size: clamp(1.1rem, 1.5vw, 1.4rem); font-weight: 750; letter-spacing: -0.02em; }
+  .principios__d { font-size: var(--fs-small); color: color-mix(in srgb, var(--papel) 62%, transparent); max-width: 52ch; }
+
+  .plantilla__escena .iso { filter: drop-shadow(0 40px 50px rgba(0, 0, 0, 0.5)); }
+
+  @media (max-width: 1000px) {
+    .plantilla__grid { grid-template-columns: minmax(0, 1fr); }
+    .plantilla__escena { order: -1; max-width: 440px; margin-inline: auto; }
+  }
+</style>

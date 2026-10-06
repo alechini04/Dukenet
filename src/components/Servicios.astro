@@ -1,0 +1,104 @@
+---
+import Icon from './Icon.astro';
+import { SERVICIOS } from '../data/site';
+import { caja } from '../lib/iso';
+
+const u = 17;
+// one small isometric model per service, built from the same primitive
+const modelos: Record<string, ReturnType<typeof caja>[]> = {
+  tienda: [caja(0, 0, 0, 4, 4, 0.5, u), caja(0.4, 0.4, 0.5, 1.4, 1.4, 1, u), caja(2.2, 0.6, 0.5, 1.2, 1.2, 0.7, u), caja(1, 2.4, 0.5, 1.5, 1.2, 1.3, u)],
+  negocio: [caja(0, 0, 0, 4, 4, 0.5, u), caja(0.5, 0.5, 0.5, 3, 3, 0.4, u), caja(0.9, 0.9, 0.9, 2.2, 2.2, 0.4, u), caja(1.3, 1.3, 1.3, 1.4, 1.4, 0.4, u)],
+  landing: [caja(0, 0, 0, 4, 4, 0.5, u), caja(1.1, 1.1, 0.5, 1.8, 1.8, 2.2, u)],
+  datos: [caja(0, 0, 0, 4, 4, 0.5, u), caja(0.5, 2.4, 0.5, 0.9, 0.9, 0.8, u), caja(1.6, 2.4, 0.5, 0.9, 0.9, 1.6, u), caja(2.7, 2.4, 0.5, 0.9, 0.9, 2.4, u)],
+};
+---
+<section id="obras" class="cap servicios" data-cap="obras" aria-labelledby="serv-tit">
+  <div class="marco">
+    <header class="servicios__head">
+      <div>
+        <p class="cap__num">02 · Qué hacemos</p>
+        <h2 id="serv-tit" class="titulo" data-parte>Cuatro maneras<br />de crecer</h2>
+      </div>
+      <p class="lead" data-sube>Cada obra se diseña para tu negocio. Elige por dónde quieres empezar y cotiza solo eso.</p>
+    </header>
+
+    <ol class="servicios__lista">
+      {SERVICIOS.map((s) => (
+        <li class="serv" data-sube data-serv>
+          <div class="serv__modelo">
+            <svg class="iso" viewBox="-72 -78 144 150" aria-hidden="true">
+              {modelos[s.id].map((c, i) => (
+                <g data-pieza>
+                  <polygon class={i === 0 ? 'der der--gris' : 'der'} points={c.der} />
+                  <polygon class={i === 0 ? 'izq izq--gris' : 'izq'} points={c.izq} />
+                  <polygon class={i === 0 ? 'top top--gris' : i === modelos[s.id].length - 1 ? 'top brillo' : 'top'} points={c.top} />
+                </g>
+              ))}
+            </svg>
+          </div>
+          <span class="serv__letra">{s.letra}</span>
+          <h3 class="serv__nombre">{s.nombre}</h3>
+          <p class="serv__texto">{s.texto}</p>
+          <ul class="serv__incluye">
+            {s.incluye.map((x) => <li><Icon name="check" />{x}</li>)}
+          </ul>
+          <a class="serv__cta" href="#contacto" data-plan={s.nombre}>{s.cta} <Icon name="arrow-ur" /></a>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<style>
+  .servicios__head {
+    display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr);
+    gap: 24px 60px; align-items: end;
+  }
+  .servicios__head .titulo { margin-top: 18px; }
+
+  .servicios__lista {
+    list-style: none; margin: clamp(44px, 6vw, 80px) 0 0; padding: 0;
+    display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 1px;
+    background: color-mix(in srgb, var(--papel) 12%, transparent);
+    border-block: 1px solid color-mix(in srgb, var(--papel) 12%, transparent);
+  }
+  .serv {
+    display: flex; flex-direction: column;
+    padding: clamp(20px, 2vw, 30px) clamp(16px, 1.6vw, 26px) clamp(24px, 2.4vw, 34px);
+    background: var(--tinta);
+    transition: background 0.5s var(--ease);
+  }
+  .serv:hover { background: var(--tinta-2); }
+
+  .serv__modelo { align-self: center; width: min(170px, 60%); }
+  .serv__modelo .iso { transition: transform 0.6s var(--ease); }
+  .serv:hover .serv__modelo .iso { transform: translateY(-8px); }
+
+  .serv__letra {
+    margin-top: 14px; font-family: var(--mono); font-size: var(--fs-mini);
+    letter-spacing: 0.2em; color: var(--azul-300);
+  }
+  .serv__nombre { margin-top: 8px; font-size: clamp(1.2rem, 1.6vw, 1.55rem); font-weight: 800; letter-spacing: -0.03em; }
+  .serv__texto { margin-top: 12px; font-size: var(--fs-small); line-height: 1.5; color: color-mix(in srgb, var(--papel) 64%, transparent); }
+
+  .serv__incluye { list-style: none; margin: 18px 0 0; padding: 0; display: grid; gap: 7px; }
+  .serv__incluye li { display: flex; gap: 9px; align-items: center; font-size: var(--fs-small); font-weight: 600; }
+  .serv__incluye :global(svg) { width: 15px; height: 15px; color: var(--azul-300); flex: none; }
+
+  .serv__cta {
+    margin-top: auto; padding-top: 22px;
+    display: inline-flex; align-items: center; gap: 8px;
+    font-weight: 700; font-size: var(--fs-small); text-decoration: none; color: var(--azul-300);
+  }
+  .serv__cta :global(svg) { width: 14px; height: 14px; transition: transform 0.4s var(--ease); }
+  .serv__cta:hover :global(svg) { transform: translate(3px, -3px); }
+
+  @media (max-width: 1100px) {
+    .servicios__lista { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  }
+  @media (max-width: 760px) {
+    .servicios__head { grid-template-columns: minmax(0, 1fr); }
+    .servicios__lista { grid-template-columns: minmax(0, 1fr); }
+    .serv__modelo { width: 120px; align-self: flex-start; }
+  }
+</style>
