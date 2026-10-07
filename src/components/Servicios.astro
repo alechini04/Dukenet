@@ -2,15 +2,16 @@
 import Icon from './Icon.astro';
 import { SERVICIOS } from '../data/site';
 
-// Cada servicio ocupa su propia pantalla y tiene su propio objeto 3D, alusivo a
-// lo que se cuenta: la bolsa de compras, la pantalla con el teléfono, la diana
-// con la flecha y las barras del panel. El objeto se dibuja en `.serv__objeto`
-// y lo construye `src/scripts/tres.ts` a partir del id del servicio.
+// Cada servicio ocupa su propia pantalla y tiene su propio objeto 3D, que no
+// ilustra el servicio sino que lo actúa: el catálogo se apila, la página se abre
+// en capas, la campaña converge en un punto y el panel respira como una onda.
+// El objeto se dibuja en `.serv__objeto` y lo construye `src/scripts/tres.ts`
+// a partir del id del servicio; se arma al centrarse el capítulo.
 const rotulos: Record<string, string> = {
-  tienda: 'Bolsa de compras',
-  negocio: 'Pantalla y teléfono',
-  landing: 'Un objetivo',
-  datos: 'El panel del mes',
+  tienda: 'Se apila al mirarlo',
+  negocio: 'Se abre en capas',
+  landing: 'Converge en un punto',
+  datos: 'Respira como una onda',
 };
 ---
 <section id="servicios" class="servicios" data-cap="servicios" aria-labelledby="serv-tit">

@@ -111,7 +111,6 @@ Revisado sobre la página compilada, en escritorio y en celular:
   `1fr` a secas: usa `minmax(0, 1fr)`, o el contenido más ancho impondrá el
   tamaño mínimo de toda la página.
 - Enlace para saltar al contenido, visible al tabular.
-- Las pestañas de Obras se manejan con flechas, `Inicio` y `Fin`; el menú de
-  celular se cierra con `Esc`.
+- El menú se cierra con `Esc` y devuelve el foco al botón.
 
 Si agregas una sección, eso es lo que hay que sostener.

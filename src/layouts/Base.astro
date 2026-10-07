@@ -57,9 +57,18 @@ const negocio = {
     <script is:inline>
       // Motion opts in only when JS runs. With reduced motion requested, the page keeps fades and
       // count-ups but drops smooth scroll, pinning, parallax and travel.
-      document.documentElement.classList.add('motion');
-      if (matchMedia('(hover: hover) and (pointer: fine)').matches) document.documentElement.classList.add('puntero-fino');
-      if (matchMedia('(prefers-reduced-motion: reduce)').matches) document.documentElement.classList.add('rm');
+      // ?movimiento=si forces the full version even on a machine with system animations
+      // switched off, so the design can be reviewed; ?movimiento=no goes back to the system.
+      var raiz = document.documentElement;
+      raiz.classList.add('motion');
+      if (matchMedia('(hover: hover) and (pointer: fine)').matches) raiz.classList.add('puntero-fino');
+      var forzado = null;
+      try {
+        var q = new URLSearchParams(location.search);
+        if (q.has('movimiento')) localStorage.setItem('dkn-movimiento', q.get('movimiento') === 'no' ? '0' : '1');
+        forzado = localStorage.getItem('dkn-movimiento');
+      } catch (e) {}
+      if (forzado !== '1' && matchMedia('(prefers-reduced-motion: reduce)').matches) raiz.classList.add('rm');
     </script>
   </head>
   <body>

@@ -47,9 +47,10 @@ lleva su orden (01 / 04), el nombre en grande, la promesa corta en mono, el text
 píldoras de lo que incluye y el botón que baja al formulario **dejando marcada esa
 opción**. La cifra gigante del fondo es decoración.
 
-Cada uno tiene **su propio objeto 3D**, alusivo a lo que cuenta: una bolsa de compras
-con sus productos, una pantalla de navegador con su teléfono, una diana con la flecha en
-el centro y las barras de un panel. Los datos salen de `SERVICIOS` en `site.ts`.
+Cada uno tiene **su propio objeto 3D**, que no ilustra el servicio sino que lo actúa, y
+que **se arma mientras lo miras**: el catálogo se apila en una torre, la página se abre
+en sus capas, la campaña converge en un punto encendido y el panel respira como una onda.
+Los datos salen de `SERVICIOS` en `site.ts`.
 
 ## Proceso — el capítulo largo
 

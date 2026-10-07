@@ -18,9 +18,9 @@ if (matchMedia('(hover: hover) and (pointer: fine)').matches) classList.add('pun
 
 - **`motion`**: solo con JavaScript. Sin él la página se ve completa y quieta, y la
   maqueta del proceso aparece **terminada**, con el sitio publicado puesto.
-- **`rm`**: movimiento reducido. Se va el objeto 3D, el cursor propio, el pin, el
-  recorrido automático de las capturas y los desplazamientos; las líneas se reproducen
-  una vez.
+- **`rm`**: movimiento reducido. Se van el cursor propio, el pin, el recorrido
+  automático de las capturas y los desplazamientos; las líneas se reproducen una vez, y
+  los objetos 3D se dibujan armados pero quietos, como una fotografía.
 - **`puntero-fino`**: solo con mouse. Enciende el cursor propio y esconde el del sistema.
 
 Hay un cuarto, que lo pone el propio script cuando el 3D arrancó bien: **`con-3d`**. Sin
@@ -40,18 +40,23 @@ altura, y el nombre decide qué pieza se construye:
 <div class="serv__objeto" data-objeto="tienda"></div>
 ```
 
-| Nombre | Qué se dibuja | Dónde está |
+| Nombre | Qué hace | Dónde está |
 |---|---|---|
-| `nucleo` | La esfera de la marca, su jaula y los cuatro cuadros | Portada |
-| `tienda` | Bolsa de compras con sus productos | Servicio 01 |
-| `negocio` | Pantalla de navegador y teléfono | Servicio 02 |
-| `landing` | Diana con la flecha en el centro | Servicio 03 |
-| `datos` | Las barras del panel | Servicio 04 |
+| `nucleo` | La esfera de la marca; las lunas se cierran sobre ella | Portada |
+| `tienda` | Un enjambre de bloques que se apila en una torre | Servicio 01 |
+| `negocio` | Una pantalla que se abre en las capas de una página | Servicio 02 |
+| `landing` | Treinta esquirlas que convergen en un punto encendido | Servicio 03 |
+| `datos` | Un campo de barras que sube como una onda | Servicio 04 |
 
 El motor lee el rectángulo del hueco en cada cuadro y coloca ahí el objeto, a la escala
 que quepa. Por eso el núcleo se queda arriba y se va con la portada: no viaja por la
 página. Solo se dibuja lo que está a la vista, y cuando no queda nada visible el lienzo
 se limpia; si no, se quedaría pegado el último fotograma.
+
+**El scroll es quien los arma.** Cada objeto recibe un `foco` que vale 0 cuando su hueco
+está entrando o saliendo de la pantalla y 1 cuando está justo en el centro. Con eso se
+apilan los bloques, se abren las capas, convergen las esquirlas y sube la onda: el
+movimiento no va solo, responde a lo que hace quien mira.
 
 Lo que tiene cara se mece en vez de dar vueltas enteras (`gira` negativo en el catálogo);
 solo el núcleo gira sin parar.
@@ -85,6 +90,19 @@ raíz, quita `<Nucleo />` del layout.
   sola vía. Si agregas algo, hazlo igual.
 
 Para cambiar el ritmo mueve `F` y `FIN`; para que dure más o menos scroll, cambia el `3`.
+
+## Ver la versión con movimiento en un equipo que lo tiene apagado
+
+Windows trae los efectos de animación apagados en muchos equipos, y entonces la página
+se ve quieta a propósito. Para revisar el diseño sin tocar la configuración del sistema:
+
+```
+http://localhost:4321/?movimiento=si
+```
+
+Queda guardado en el navegador; `?movimiento=no` lo devuelve a lo que diga el sistema.
+Es una ayuda para revisar, no un truco para ignorar la preferencia: quien no pase por esa
+dirección sigue viendo la versión quieta.
 
 ## Probar con movimiento reducido
 

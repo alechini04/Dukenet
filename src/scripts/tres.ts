@@ -1,15 +1,15 @@
 /* ── Los objetos ────────────────────────────────────────────────────────────
-   WebGL de verdad (Three.js) en un solo lienzo fijo. Cada objeto está anclado a
-   un hueco del HTML (`data-objeto`): se dibuja donde está ese hueco y se va con
-   él al bajar, así que el núcleo vive en la portada y cada servicio tiene su
-   propia pieza. Todo es decoración: si no hay WebGL, si el equipo es modesto o
-   si la persona pidió menos movimiento, la página se lee igual. */
+   WebGL de verdad (Three.js) en un solo lienzo fijo. Cada objeto se ancla a un
+   hueco del HTML (`data-objeto`): se dibuja donde está ese hueco y se va con él
+   al bajar. Y cada uno reacciona al scroll: `foco` vale 0 cuando el hueco está
+   entrando o saliendo de la pantalla y 1 cuando está justo en el centro, así
+   que las piezas se arman mientras lo miras y se sueltan cuando lo dejas. */
 import {
-  ACESFilmicToneMapping, AdditiveBlending, BoxGeometry, BufferAttribute, BufferGeometry, ConeGeometry,
-  CylinderGeometry, DirectionalLight, EdgesGeometry, Group, HemisphereLight, IcosahedronGeometry,
-  LineBasicMaterial, LineSegments, Mesh, MeshStandardMaterial, Object3D, OctahedronGeometry,
-  PMREMGenerator, PerspectiveCamera, PointLight, Points, PointsMaterial, Scene, SphereGeometry,
-  TorusGeometry, WebGLRenderer,
+  ACESFilmicToneMapping, AdditiveBlending, BoxGeometry, BufferAttribute, BufferGeometry,
+  DirectionalLight, EdgesGeometry, Group, HemisphereLight, IcosahedronGeometry, LineBasicMaterial,
+  LineSegments, Mesh, MeshPhysicalMaterial, MeshStandardMaterial, OctahedronGeometry, PMREMGenerator,
+  PerspectiveCamera, PointLight, Points, PointsMaterial, Scene, SphereGeometry, TorusGeometry,
+  Vector3, WebGLRenderer,
 } from 'three';
 import { RoomEnvironment } from 'three/examples/jsm/environments/RoomEnvironment.js';
 import { gsap } from 'gsap';
@@ -19,250 +19,265 @@ const AZUL_CLARO = 0xb5d9fd;
 const AZUL_HONDO = 0x1d2d3d;
 const PAPEL = 0xf2f2f3;
 
-const acero = new MeshStandardMaterial({ color: AZUL, metalness: 0.92, roughness: 0.22 });
-const claro = new MeshStandardMaterial({ color: AZUL_CLARO, metalness: 0.4, roughness: 0.13 });
-const papel = new MeshStandardMaterial({ color: PAPEL, metalness: 0.3, roughness: 0.26 });
-const hondo = new MeshStandardMaterial({ color: AZUL_HONDO, metalness: 0.85, roughness: 0.4 });
+/* Cinco materias, un solo tono: espejo, satén, mate, nieve y brasa encendida */
+const cromo = new MeshPhysicalMaterial({ color: AZUL, metalness: 1, roughness: 0.06, clearcoat: 1, clearcoatRoughness: 0.08 });
+const saten = new MeshPhysicalMaterial({ color: AZUL_HONDO, metalness: 1, roughness: 0.34, clearcoat: 1, clearcoatRoughness: 0.22 });
+const mate = new MeshStandardMaterial({ color: AZUL, metalness: 0.9, roughness: 0.3 });
+const nieve = new MeshPhysicalMaterial({ color: PAPEL, metalness: 0.2, roughness: 0.14, clearcoat: 1 });
+const brasa = new MeshStandardMaterial({ color: AZUL, emissive: AZUL_CLARO, emissiveIntensity: 0.65, metalness: 0.5, roughness: 0.25 });
 const hilo = new LineBasicMaterial({ color: AZUL_CLARO, transparent: true, opacity: 0.3 });
 
-/* `gira` positivo = vuelta entera continua (solo el núcleo). Negativo = vaivén
-   de esa amplitud: lo que tiene cara, como una pantalla o una diana, nunca debe
-   darnos la espalda. */
-type Suelta = { o: Object3D; gx: number; gy: number; gz: number; fase: number; amp: number; y0?: number };
-type Pieza = { grupo: Group; sueltas: Suelta[]; gira: number };
+type Pieza = { grupo: Group; animar: (t: number, d: number, foco: number) => void };
 
 const caja = (x: number, y: number, z: number, m: MeshStandardMaterial) => new Mesh(new BoxGeometry(x, y, z), m);
-const bola = (r: number, m: MeshStandardMaterial) => new Mesh(new SphereGeometry(r, 26, 18), m);
-const aro = (r: number, t: number, m: MeshStandardMaterial, arco?: number) =>
-  new Mesh(new TorusGeometry(r, t, 12, 64, arco), m);
+const bola = (r: number, m: MeshStandardMaterial) => new Mesh(new SphereGeometry(r, 28, 20), m);
+const aro = (r: number, t: number, m: MeshStandardMaterial) => new Mesh(new TorusGeometry(r, t, 14, 72), m);
+const suave = (a: number, b: number, k: number) => a + (b - a) * k;
+/* Curva de entrada: arranca lento, llega firme. La misma de toda la página. */
+const ease = (k: number) => 1 - Math.pow(1 - k, 3);
 
-function suelta(o: Object3D, amp = 0.12): Suelta {
-  return { o, gx: (Math.random() - 0.5) * 0.4, gy: (Math.random() - 0.5) * 0.5, gz: (Math.random() - 0.5) * 0.3, fase: Math.random() * 6.3, amp };
+/* Reparto de Fibonacci: puntos repartidos sobre una esfera, sin grumos */
+function esfera(i: number, n: number, r: number, out: Vector3) {
+  const y = 1 - (i / Math.max(1, n - 1)) * 2;
+  const c = Math.sqrt(Math.max(0, 1 - y * y));
+  const a = i * 2.399963;
+  return out.set(Math.cos(a) * c * r, y * r * 0.82, Math.sin(a) * c * r);
 }
 
-/* ── El núcleo de la marca: lo único que vive en la portada ─────────────── */
+/* ── Portada · el núcleo de la marca ────────────────────────────────────── */
 function hacerNucleo(chico: boolean): Pieza {
   const g = new Group();
-  const sueltas: Suelta[] = [];
+  const cuerpo = new Mesh(new IcosahedronGeometry(1.06, 2), saten);
+  const jaula = new LineSegments(new EdgesGeometry(new IcosahedronGeometry(1.56, 1)), hilo);
+  g.add(cuerpo, jaula);
 
-  const cuerpo = new Mesh(new IcosahedronGeometry(1.08, 1), acero);
-  g.add(cuerpo);
-  sueltas.push({ o: cuerpo, gx: 0, gy: 0.18, gz: 0, fase: 0, amp: 0 });
-
-  const jaula = new LineSegments(new EdgesGeometry(new IcosahedronGeometry(1.58, 1)), hilo);
-  g.add(jaula);
-  sueltas.push({ o: jaula, gx: 0, gy: -0.3, gz: 0, fase: 0, amp: 0 });
-
-  [0.32, -0.74].forEach((t, i) => {
-    const a = aro(2.02, 0.011, claro);
+  const aros = [0.32, -0.74].map((t, i) => {
+    const a = aro(2, 0.012, cromo);
     a.rotation.set(t, i * 0.9, i * 0.5);
     g.add(a);
-    sueltas.push({ o: a, gx: i ? -0.17 : 0, gy: 0, gz: i ? 0 : 0.22, fase: 0, amp: 0 });
+    return a;
   });
 
-  /* Los cuatro cuadros del logotipo, girando pegados al núcleo */
   const marca = new Group();
   [[-1, 1], [1, 1], [-1, -1], [1, -1]].forEach(([x, y], i) => {
-    const c = caja(0.2, 0.2, 0.2, i === 3 ? papel : acero);
-    c.position.set(x * 0.19, y * 0.19, 2.12);
+    const c = caja(0.19, 0.19, 0.19, i === 3 ? nieve : cromo);
+    c.position.set(x * 0.19, y * 0.19, 2.08);
     marca.add(c);
   });
   g.add(marca);
-  sueltas.push({ o: marca, gx: 0, gy: 0, gz: -0.5, fase: 0, amp: 0 });
 
-  const formas = [new OctahedronGeometry(0.3, 0), new IcosahedronGeometry(0.26, 0), new BoxGeometry(0.34, 0.34, 0.34), new SphereGeometry(0.22, 24, 16), new TorusGeometry(0.26, 0.075, 12, 40)];
-  const n = chico ? 8 : 14;
-  for (let i = 0; i < n; i++) {
-    const y = 1 - (i / Math.max(1, n - 1)) * 2;
-    const r = Math.sqrt(Math.max(0, 1 - y * y));
-    const a = i * 2.399963;
-    const m = new Mesh(formas[i % formas.length], i % 5 === 0 ? claro : i % 3 === 0 ? hondo : acero);
-    m.position.set(Math.cos(a) * r * 2.9, y * 2.2, Math.sin(a) * r * 2.9);
-    m.scale.setScalar(0.72 + Math.random() * 0.6);
+  const formas = [new OctahedronGeometry(0.3, 0), new IcosahedronGeometry(0.26, 0), new BoxGeometry(0.33, 0.33, 0.33), new SphereGeometry(0.22, 24, 16)];
+  const n = chico ? 9 : 15;
+  const base = new Vector3();
+  const lunas = Array.from({ length: n }, (_, i) => {
+    const m = new Mesh(formas[i % formas.length], i % 5 === 0 ? nieve : i % 3 === 0 ? mate : cromo);
+    m.scale.setScalar(0.7 + Math.random() * 0.6);
     g.add(m);
-    sueltas.push(suelta(m, 0.16));
-  }
+    return { m, i, giro: new Vector3(Math.random() * 0.4, Math.random() * 0.5, Math.random() * 0.3), fase: Math.random() * 6.3 };
+  });
 
+  let polvo: Points | null = null;
   if (!chico) {
-    const cant = 260;
+    const cant = 300;
     const pos = new Float32Array(cant * 3);
-    for (let i = 0; i < cant; i++) {
-      const r = 3.4 + Math.random() * 2.6;
-      const a = Math.random() * Math.PI * 2;
-      const b = Math.acos(2 * Math.random() - 1);
-      pos.set([r * Math.sin(b) * Math.cos(a), r * Math.cos(b) * 0.7, r * Math.sin(b) * Math.sin(a)], i * 3);
-    }
+    const v = new Vector3();
+    for (let i = 0; i < cant; i++) pos.set(esfera(i, cant, 3.6 + Math.random() * 2.6, v).toArray(), i * 3);
     const geo = new BufferGeometry();
     geo.setAttribute('position', new BufferAttribute(pos, 3));
-    const polvo = new Points(geo, new PointsMaterial({ color: AZUL_CLARO, size: 0.035, transparent: true, opacity: 0.5, blending: AdditiveBlending, depthWrite: false }));
+    polvo = new Points(geo, new PointsMaterial({ color: AZUL_CLARO, size: 0.035, transparent: true, opacity: 0.5, blending: AdditiveBlending, depthWrite: false }));
     g.add(polvo);
-    sueltas.push({ o: polvo, gx: 0, gy: 0.02, gz: 0, fase: 0, amp: 0 });
   }
 
-  return { grupo: g, sueltas, gira: 0.1 };
+  return {
+    grupo: g,
+    animar(t, d, foco) {
+      cuerpo.rotation.y += d * 0.22;
+      cuerpo.rotation.x = Math.sin(t * 0.3) * 0.14;
+      jaula.rotation.y -= d * 0.32;
+      jaula.scale.setScalar(suave(1.1, 1, ease(foco)) + Math.sin(t * 0.8) * 0.012);
+      aros[0].rotation.z += d * 0.26;
+      aros[1].rotation.x -= d * 0.2;
+      marca.rotation.z -= d * 0.55;
+      /* Al centrarse el capítulo, las lunas se cierran sobre el núcleo */
+      const r = suave(3.9, 2.55, ease(foco));
+      for (const l of lunas) {
+        esfera(l.i, lunas.length, r, base);
+        l.m.position.set(base.x, base.y + Math.sin(t * 0.7 + l.fase) * 0.16, base.z);
+        l.m.rotation.x += l.giro.x * d;
+        l.m.rotation.y += l.giro.y * d;
+        l.m.rotation.z += l.giro.z * d;
+      }
+      if (polvo) { polvo.rotation.y = t * 0.014; polvo.scale.setScalar(suave(1.25, 1, foco)); }
+    },
+  };
 }
 
-/* ── Tienda en línea: una bolsa de compras y los productos ──────────────── */
-function hacerTienda(): Pieza {
+/* ── Tienda · el enjambre que se apila ──────────────────────────────────── */
+function hacerApilado(chico: boolean): Pieza {
   const g = new Group();
-  const sueltas: Suelta[] = [];
-
-  const bolsa = new Group();
-  bolsa.add(caja(1.5, 1.6, 0.8, acero));
-  const borde = caja(1.57, 0.14, 0.87, claro);
-  borde.position.y = 0.8;
-  bolsa.add(borde);
-  const asa = aro(0.4, 0.05, claro, Math.PI);
-  asa.position.y = 0.86;
-  bolsa.add(asa);
-  const etiqueta = caja(0.34, 0.24, 0.03, papel);
-  etiqueta.position.set(0.52, 0.3, 0.43);
-  etiqueta.rotation.z = -0.22;
-  bolsa.add(etiqueta);
-  g.add(bolsa);
-  sueltas.push({ o: bolsa, gx: 0, gy: 0, gz: 0, fase: 1.2, amp: 0.07 });
-
-  /* Los productos que entran al carrito */
-  const prods: Object3D[] = [caja(0.42, 0.42, 0.42, claro), bola(0.26, acero), caja(0.34, 0.5, 0.34, hondo), new Mesh(new OctahedronGeometry(0.3, 0), acero)];
-  prods.forEach((p, i) => {
-    const a = (i / prods.length) * Math.PI * 2 + 0.5;
-    p.position.set(Math.cos(a) * 1.55, 0.6 + Math.sin(a * 1.7) * 0.9, Math.sin(a) * 1.1);
-    g.add(p);
-    sueltas.push(suelta(p, 0.17));
+  const n = chico ? 9 : 14;
+  const suelto = new Vector3();
+  const piezas = Array.from({ length: n }, (_, i) => {
+    const lado = 0.46 + (i % 3) * 0.08;
+    const m = new Mesh(new BoxGeometry(lado, lado, lado), i % 5 === 0 ? nieve : i % 3 === 0 ? saten : cromo);
+    /* Destino: una torre de tres en fondo, como un pedido ya armado */
+    const col = i % 3, fila = Math.floor(i / 3);
+    m.userData.fin = new Vector3((col - 1) * 0.56, -1.3 + fila * 0.56, ((i * 7) % 3 - 1) * 0.1);
+    m.userData.ini = esfera(i, n, 3.2, new Vector3()).clone();
+    m.userData.giro = new Vector3(Math.random() * 2, Math.random() * 2, Math.random() * 2);
+    g.add(m);
+    return m;
   });
+  const cinta = aro(1.95, 0.012, cromo);
+  cinta.rotation.x = 1.25;
+  g.add(cinta);
 
-  return { grupo: g, sueltas, gira: -0.34 };
+  return {
+    grupo: g,
+    animar(t, d, foco) {
+      const k = ease(foco);
+      g.rotation.y = Math.sin(t * 0.25) * 0.4;
+      cinta.rotation.z += d * 0.3;
+      cinta.scale.setScalar(suave(1.18, 0.92, k));
+      for (const m of piezas) {
+        const ini = m.userData.ini as Vector3, fin = m.userData.fin as Vector3, giro = m.userData.giro as Vector3;
+        suelto.lerpVectors(ini, fin, k);
+        m.position.set(suelto.x, suelto.y + Math.sin(t * 0.8 + ini.x) * 0.1 * (1 - k), suelto.z);
+        m.rotation.set(giro.x * (1 - k), giro.y * (1 - k), giro.z * (1 - k));
+      }
+    },
+  };
 }
 
-/* ── Página de negocio: la pantalla grande y el teléfono ────────────────── */
-function hacerNegocio(): Pieza {
+/* ── Página de negocio · las capas de una página, separándose ───────────── */
+function hacerCapas(): Pieza {
   const g = new Group();
-  const sueltas: Suelta[] = [];
-
-  const pantalla = new Group();
-  pantalla.add(caja(2.3, 1.5, 0.08, hondo));
-  const barra = caja(2.3, 0.2, 0.09, acero);
-  barra.position.y = 0.65;
-  pantalla.add(barra);
-  [-1, 0, 1].forEach((i) => {
-    const p = bola(0.035, claro);
-    p.position.set(-0.98 + i * 0.1, 0.65, 0.06);
-    pantalla.add(p);
+  /* ancho, alto, material, y, x cuando está abierta */
+  const plan: [number, number, MeshStandardMaterial, number, number][] = [
+    [2.1, 0.26, cromo, 1.08, 0],
+    [1.5, 0.16, nieve, 0.62, -0.3],
+    [2.1, 1.0, saten, -0.05, 0],
+    [0.66, 0.2, brasa, -0.72, -0.72],
+    [2.1, 0.5, cromo, -1.15, 0],
+  ];
+  const capas = plan.map(([w, h, mat, y, x]) => {
+    const c = new Group();
+    const placa = caja(w, h, 0.05, mat);
+    const borde = new LineSegments(new EdgesGeometry(new BoxGeometry(w, h, 0.05)), hilo);
+    c.add(placa, borde);
+    c.userData.y = y;
+    c.userData.x = x;
+    g.add(c);
+    return c;
   });
-  const vista = caja(2.08, 1.16, 0.02, hondo);
-  vista.position.set(0, -0.12, 0.05);
-  pantalla.add(vista);
-  const titular = caja(1.1, 0.12, 0.02, papel);
-  titular.position.set(-0.4, 0.25, 0.07);
-  pantalla.add(titular);
-  const boton = caja(0.5, 0.16, 0.02, claro);
-  boton.position.set(-0.7, -0.05, 0.07);
-  pantalla.add(boton);
-  pantalla.position.x = -0.2;
-  g.add(pantalla);
-  sueltas.push({ o: pantalla, gx: 0, gy: 0, gz: 0, fase: 0.4, amp: 0.06 });
+  const marco = new LineSegments(new EdgesGeometry(new BoxGeometry(2.42, 2.9, 0.06)), hilo);
+  g.add(marco);
+  g.rotation.set(0.2, -0.62, 0);
 
-  const telefono = new Group();
-  telefono.add(caja(0.56, 1.04, 0.09, acero));
-  const lamina = caja(0.46, 0.9, 0.02, claro);
-  lamina.position.z = 0.055;
-  telefono.add(lamina);
-  telefono.position.set(1.18, -0.6, 0.5);
-  telefono.rotation.set(0, -0.4, 0.12);
-  g.add(telefono);
-  sueltas.push({ o: telefono, gx: 0, gy: 0, gz: 0, fase: 2.1, amp: 0.1 });
-
-  return { grupo: g, sueltas, gira: -0.3 };
+  return {
+    grupo: g,
+    animar(t, d, foco) {
+      const k = ease(foco);
+      /* Cerradas son una pantalla; al mirarlas se abren en sus capas */
+      g.rotation.y = suave(-0.95, -0.42, k) + Math.sin(t * 0.3) * 0.1;
+      g.rotation.x = 0.2 + Math.sin(t * 0.24) * 0.06;
+      marco.scale.set(suave(0.8, 1, k), suave(0.7, 1, k), 1);
+      capas.forEach((c, i) => {
+        c.position.set(
+          suave(0, c.userData.x, k),
+          suave((i - 2) * 0.05, c.userData.y, k),
+          suave((i - 2) * 0.03, (i - 2) * 0.42, k),
+        );
+        c.position.y += Math.sin(t * 0.6 + i) * 0.035 * k;
+        c.rotation.z = suave(0.09 * (i - 2), 0, k);
+      });
+    },
+  };
 }
 
-/* ── Landing de campaña: una página, un objetivo ────────────────────────── */
-function hacerDiana(): Pieza {
+/* ── Landing · todo converge en un punto ────────────────────────────────── */
+function hacerConverge(chico: boolean): Pieza {
   const g = new Group();
-  const sueltas: Suelta[] = [];
-
-  const diana = new Group();
-  [[1.5, acero], [1.05, claro], [0.6, acero]].forEach(([r, m]) => diana.add(aro(r as number, 0.075, m as MeshStandardMaterial)));
-  diana.add(bola(0.2, claro));
-  const fondo = new Mesh(new IcosahedronGeometry(1.72, 1), hondo);
-  fondo.scale.z = 0.12;
-  fondo.position.z = -0.14;
-  diana.add(fondo);
-  g.add(diana);
-  sueltas.push({ o: diana, gx: 0, gy: 0, gz: 0, fase: 0.8, amp: 0.06 });
-
-  /* La flecha que ya dio en el centro */
-  const flecha = new Group();
-  const vara = new Mesh(new CylinderGeometry(0.035, 0.035, 1.5, 14), papel);
-  vara.rotation.x = Math.PI / 2;
-  vara.position.z = 0.75;
-  flecha.add(vara);
-  const punta = new Mesh(new ConeGeometry(0.1, 0.26, 16), claro);
-  punta.rotation.x = -Math.PI / 2;
-  punta.position.z = 0.1;
-  flecha.add(punta);
-  [0, 1, 2].forEach((i) => {
-    const pluma = caja(0.02, 0.24, 0.3, acero);
-    pluma.position.z = 1.4;
-    pluma.rotation.z = (i / 3) * Math.PI * 2;
-    flecha.add(pluma);
+  const n = chico ? 16 : 30;
+  const p = new Vector3();
+  const esquirlas = Array.from({ length: n }, (_, i) => {
+    const m = new Mesh(new OctahedronGeometry(0.17 + (i % 4) * 0.035, 0), i % 6 === 0 ? nieve : i % 3 === 0 ? saten : cromo);
+    m.userData.ini = esfera(i, n, 3.9, new Vector3()).clone();
+    g.add(m);
+    return m;
   });
-  flecha.rotation.set(-0.3, 0.42, 0);
-  g.add(flecha);
-  sueltas.push({ o: flecha, gx: 0, gy: 0, gz: 0, fase: 2.6, amp: 0.05 });
-
-  [1, 2].forEach((i) => {
-    const a = aro(0.3, 0.05, i === 1 ? claro : acero);
-    a.position.set(i === 1 ? -1.9 : 1.75, i === 1 ? 1.2 : -1.3, 0.5);
-    a.rotation.set(0.6, 0.4, 0);
+  const nucleo = bola(0.2, brasa);
+  g.add(nucleo);
+  const anillos = [1.5, 1.05, 0.62].map((r, i) => {
+    const a = aro(r, 0.028, i === 1 ? saten : cromo);
     g.add(a);
-    sueltas.push(suelta(a, 0.18));
+    return a;
   });
 
-  return { grupo: g, sueltas, gira: -0.24 };
+  return {
+    grupo: g,
+    animar(t, d, foco) {
+      const k = ease(foco);
+      g.rotation.z += d * 0.05;
+      g.rotation.y = Math.sin(t * 0.2) * 0.25;
+      nucleo.scale.setScalar(suave(0.2, 1.5, k) + Math.sin(t * 2.4) * 0.07 * k);
+      anillos.forEach((a, i) => {
+        a.scale.setScalar(suave(1.9 + i * 0.3, 1, k));
+        a.rotation.z += d * (0.12 + i * 0.07) * (i % 2 ? -1 : 1);
+      });
+      esquirlas.forEach((m, i) => {
+        const ini = m.userData.ini as Vector3;
+        /* Cada esquirla entra con su propio retraso: una lluvia, no un bloque */
+        const kk = ease(Math.max(0, Math.min(1, foco * 1.5 - (i % 7) * 0.07)));
+        p.copy(ini).multiplyScalar(suave(1, 0.12, kk));
+        m.position.set(p.x, p.y + Math.sin(t * 0.9 + i) * 0.1 * (1 - kk), p.z);
+        m.rotation.set(t * 0.4 + i, t * 0.3 + i, 0);
+        m.scale.setScalar(suave(1, 0.45, kk));
+      });
+    },
+  };
 }
 
-/* ── Datos y acompañamiento: el panel que vas a recibir ─────────────────── */
-function hacerBarras(): Pieza {
+/* ── Datos · la onda del panel ──────────────────────────────────────────── */
+function hacerOnda(chico: boolean): Pieza {
   const g = new Group();
-  const sueltas: Suelta[] = [];
-
-  const panel = new Group();
-  const base = caja(2.5, 0.1, 1.1, hondo);
+  const cols = chico ? 6 : 9, filas = chico ? 3 : 5;
+  const barras: Mesh[] = [];
+  for (let x = 0; x < cols; x++) {
+    for (let z = 0; z < filas; z++) {
+      const b = caja(0.17, 1, 0.17, x === cols - 1 ? brasa : z % 2 ? saten : cromo);
+      b.position.set((x - (cols - 1) / 2) * 0.32, 0, (z - (filas - 1) / 2) * 0.32);
+      b.userData.f = (x + z) * 0.55;
+      g.add(b);
+      barras.push(b);
+    }
+  }
+  const base = new LineSegments(new EdgesGeometry(new BoxGeometry(cols * 0.32, 0.02, filas * 0.32)), hilo);
   base.position.y = -0.9;
-  panel.add(base);
-  [0.55, 0.95, 0.75, 1.35, 1.75].forEach((h, i) => {
-    const b = caja(0.3, h, 0.3, i === 4 ? claro : acero);
-    b.position.set(-0.92 + i * 0.46, -0.85 + h / 2, 0);
-    panel.add(b);
-  });
-  g.add(panel);
-  sueltas.push({ o: panel, gx: 0, gy: 0, gz: 0, fase: 0.2, amp: 0.06 });
+  g.add(base);
+  g.rotation.set(0.38, -0.5, 0);
 
-  const senal = bola(0.19, papel);
-  senal.position.set(0.84, 1.25, 0.3);
-  g.add(senal);
-  sueltas.push(suelta(senal, 0.2));
-
-  const anillo = aro(0.42, 0.05, claro);
-  anillo.position.set(-1.5, 0.75, 0.4);
-  anillo.rotation.set(0.5, 0.6, 0);
-  g.add(anillo);
-  sueltas.push(suelta(anillo, 0.16));
-
-  const dado = caja(0.34, 0.34, 0.34, acero);
-  dado.position.set(1.6, -0.1, 0.6);
-  g.add(dado);
-  sueltas.push(suelta(dado, 0.18));
-
-  return { grupo: g, sueltas, gira: -0.3 };
+  return {
+    grupo: g,
+    animar(t, d, foco) {
+      const k = ease(foco);
+      g.rotation.y = -0.5 + Math.sin(t * 0.22) * 0.22;
+      for (const b of barras) {
+        /* La onda solo sube cuando el capítulo está centrado */
+        const h = 0.18 + (Math.sin(t * 1.5 + b.userData.f) * 0.5 + 0.5) * 1.5 * k;
+        b.scale.y = h;
+        b.position.y = -0.9 + h / 2;
+      }
+    },
+  };
 }
 
 const catalogo: Record<string, (chico: boolean) => Pieza> = {
   nucleo: hacerNucleo,
-  tienda: () => hacerTienda(),
-  negocio: () => hacerNegocio(),
-  landing: () => hacerDiana(),
-  datos: () => hacerBarras(),
+  tienda: hacerApilado,
+  negocio: () => hacerCapas(),
+  landing: hacerConverge,
+  datos: hacerOnda,
 };
 
 /* ── El motor ───────────────────────────────────────────────────────────── */
@@ -281,7 +296,7 @@ export function iniciarNucleo(lienzo: HTMLCanvasElement, quieto = false) {
   const chico = matchMedia('(max-width: 760px)').matches;
   renderer.setPixelRatio(Math.min(devicePixelRatio, chico ? 1.5 : 1.75));
   renderer.toneMapping = ACESFilmicToneMapping;
-  renderer.toneMappingExposure = 1.05;
+  renderer.toneMappingExposure = 1.08;
 
   const escena = new Scene();
   const camara = new PerspectiveCamera(42, 1, 0.1, 160);
@@ -290,26 +305,25 @@ export function iniciarNucleo(lienzo: HTMLCanvasElement, quieto = false) {
   /* El entorno es lo que hace que el metal parezca metal y no plástico negro */
   const pmrem = new PMREMGenerator(renderer);
   escena.environment = pmrem.fromScene(new RoomEnvironment(), 0.04).texture;
-  escena.environmentIntensity = 0.6;
+  escena.environmentIntensity = 0.62;
   pmrem.dispose();
 
   escena.add(new HemisphereLight(AZUL_CLARO, 0x08090a, 0.55));
-  const clave = new DirectionalLight(0xffffff, 2.4);
+  const clave = new DirectionalLight(0xffffff, 2.5);
   clave.position.set(-4, 5, 6);
   escena.add(clave);
   const contra = new PointLight(AZUL_CLARO, 90, 30, 2);
   contra.position.set(3.4, -2.2, -4.5);
   escena.add(contra);
   /* Relleno frontal: sin él, las caras planas de los objetos se van a negro */
-  const relleno = new DirectionalLight(AZUL_CLARO, 1.1);
+  const relleno = new DirectionalLight(AZUL_CLARO, 1.2);
   relleno.position.set(3, -1, 8);
   escena.add(relleno);
 
-  /* Cada objeto vive pegado a su hueco del HTML */
   const piezas = anclas.map((el) => {
     const p = catalogo[el.dataset.objeto!](chico);
     escena.add(p.grupo);
-    return { el, ...p, x: 0, y: 0, lado: 0, dentro: false };
+    return { el, ...p, dentro: false, foco: 0 };
   });
 
   let unidad = 1; /* unidades de mundo por píxel, al nivel z = 0 */
@@ -319,52 +333,28 @@ export function iniciarNucleo(lienzo: HTMLCanvasElement, quieto = false) {
     camara.updateProjectionMatrix();
     renderer.setSize(w, h, false);
     unidad = (2 * camara.position.z * Math.tan((camara.fov * Math.PI) / 360)) / h;
-    colocar();
+    colocar(1);
   }
 
-  /* El hueco manda: centro y tamaño se leen del HTML, no se inventan */
-  function colocar() {
+  /* El hueco manda: centro, tamaño y avance se leen del HTML, no se inventan */
+  function colocar(k: number) {
     const w = innerWidth, h = innerHeight;
     for (const p of piezas) {
       const r = p.el.getBoundingClientRect();
-      p.dentro = r.bottom > -h * 0.4 && r.top < h * 1.4;
+      p.dentro = r.bottom > -h * 0.3 && r.top < h * 1.3;
       p.grupo.visible = p.dentro;
       if (!p.dentro) continue;
-      p.x = (r.left + r.width / 2 - w / 2) * unidad;
-      p.y = -(r.top + r.height / 2 - h / 2) * unidad;
-      p.lado = Math.min(r.width, r.height) * unidad;
-      p.grupo.position.set(p.x, p.y, 0);
-      p.grupo.scale.setScalar((p.lado / 3.7) * (chico ? 0.9 : 1));
+      p.grupo.position.set(
+        (r.left + r.width / 2 - w / 2) * unidad,
+        -(r.top + r.height / 2 - h / 2) * unidad,
+        0,
+      );
+      p.grupo.scale.setScalar((Math.min(r.width, r.height) * unidad / 3.9) * (chico ? 0.92 : 1));
+      /* 0 al entrar o salir, 1 justo en el centro de la pantalla */
+      const avance = 1 - (r.top + r.height / 2) / h;
+      const meta = Math.max(0, 1 - Math.abs(avance * 2 - 1) * 1.25);
+      p.foco += (meta - p.foco) * k;
     }
-  }
-
-  let reloj = 0;
-  let pintado = false;
-  function dibujar(t: number) {
-    const d = Math.min(0.05, t - reloj || 0.016);
-    reloj = t;
-    raton.dy += (raton.y - raton.dy) * Math.min(1, d * 3);
-    colocar();
-    let algo = false;
-    for (const p of piezas) {
-      if (!p.dentro) continue;
-      algo = true;
-      if (!quieto) {
-        if (p.gira > 0) p.grupo.rotation.y += d * p.gira;
-        else p.grupo.rotation.y = Math.sin(t * 0.32) * -p.gira;
-        p.grupo.rotation.x += (raton.dy * 0.2 - p.grupo.rotation.x) * Math.min(1, d * 4);
-        for (const s of p.sueltas) {
-          s.o.rotation.x += s.gx * d;
-          s.o.rotation.y += s.gy * d;
-          s.o.rotation.z += s.gz * d;
-          if (s.amp) s.o.position.y = s.y0! + Math.sin(t * 0.7 + s.fase) * s.amp;
-        }
-      }
-    }
-    /* Si no queda nada a la vista hay que limpiar: el lienzo conserva el último
-       fotograma dibujado y las piezas se quedarían flotando en otro capítulo. */
-    if (algo) { renderer.render(escena, camara); pintado = true; }
-    else if (pintado) { renderer.clear(); pintado = false; }
   }
 
   const raton = { y: 0, dy: 0 };
@@ -372,21 +362,46 @@ export function iniciarNucleo(lienzo: HTMLCanvasElement, quieto = false) {
     if (e.pointerType === 'mouse') raton.y = (e.clientY / innerHeight - 0.5) * 2;
   }, { passive: true });
 
-  for (const p of piezas) for (const s of p.sueltas) s.y0 = s.o.position.y;
+  let reloj = 0;
+  let pintado = false;
+  function dibujar(t: number) {
+    const d = Math.min(0.05, t - reloj || 0.016);
+    reloj = t;
+    const k = quieto ? 1 : 1 - Math.pow(0.004, d);
+    raton.dy += (raton.y - raton.dy) * Math.min(1, d * 3);
+    colocar(k);
+
+    let algo = false;
+    for (const p of piezas) {
+      if (!p.dentro) continue;
+      algo = true;
+      p.animar(quieto ? 0 : t, quieto ? 0 : d, quieto ? 1 : p.foco);
+      if (!quieto) p.grupo.rotation.x += (raton.dy * 0.16 - p.grupo.rotation.x) * Math.min(1, d * 3);
+    }
+    /* Si no queda nada a la vista hay que limpiar: el lienzo conserva el último
+       fotograma dibujado y las piezas se quedarían flotando en otro capítulo. */
+    if (algo) { renderer.render(escena, camara); pintado = true; }
+    else if (pintado) { renderer.clear(); pintado = false; }
+  }
+
   medir();
   addEventListener('resize', medir);
 
   if (quieto) {
-    /* Movimiento reducido: el objeto se ve, pero como una fotografía. Solo se
-       vuelve a dibujar cuando la página se mueve, nunca por su cuenta. */
+    /* Movimiento reducido: el objeto se ve armado, pero como una fotografía.
+       Solo se vuelve a dibujar cuando la página se mueve, nunca por su cuenta. */
     let pedido = false;
     const repintar = () => {
       if (pedido) return;
       pedido = true;
-      requestAnimationFrame(() => { pedido = false; dibujar(0); });
+      requestAnimationFrame(() => { pedido = false; medir(); dibujar(0); });
     };
     addEventListener('scroll', repintar, { passive: true });
-    dibujar(0);
+    /* Un solo pintado al arrancar se pierde: la medida cambia cuando entran las
+       tipografías y las imágenes, así que se repinta cuando eso ocurre. */
+    repintar();
+    document.fonts?.ready.then(repintar);
+    addEventListener('load', repintar);
     gsap.set(lienzo, { autoAlpha: 1 });
   } else {
     let vivo = true;

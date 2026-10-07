@@ -160,9 +160,9 @@ dos aros finos y los cuatro cuadros del logotipo girando alrededor—, y se qued
 va con la portada al bajar, no persigue al lector.
 
 Lo que brilla son los **servicios**: cada uno ocupa su propia pantalla completa y tiene
-**su propio objeto, alusivo a lo que cuenta** —una bolsa de compras con sus productos,
-una pantalla de navegador con su teléfono, una diana con la flecha en el centro, las
-barras de un panel—, con el texto al otro lado y alternando. El trabajo entregado de los
+**su propio objeto, que no ilustra el servicio sino que lo actúa** —el catálogo se
+apila, la página se abre en capas, la campaña converge en un punto encendido y el panel
+respira como una onda—, con el texto al otro lado y alternando. El trabajo entregado de los
 clientes no compite con ellos: vive solo en «Trabajos realizados», como prueba.
 
 Detrás del 3D sigue el **plano técnico**: rejilla de hilos azules fija al viewport, dos
@@ -212,8 +212,9 @@ con la página al bajar y nunca se monta sobre el texto. Se carga aparte y solo 
 JavaScript, sin ahorro de datos y con memoria suficiente; si falta algo, el hueco
 desaparece y queda el halo en CSS.
 
-Lo que tiene cara —pantalla, diana, panel— se mece en lugar de dar vueltas enteras; solo
-el núcleo gira sin parar.
+Cada objeto recibe además un `foco` de 0 a 1 según lo centrado que esté su capítulo en
+la pantalla: con él se arma al mirarlo y se suelta al dejarlo. Lo que tiene cara se mece
+en lugar de dar vueltas enteras; solo el núcleo gira sin parar.
 
 ### Capítulo de servicio (`.serv`)
 Pantalla completa: a un lado el texto (orden, nombre, claim en mono, descripción,
@@ -242,8 +243,10 @@ variante azul es la acción principal.
 GSAP + ScrollTrigger + SplitText, Lenis (lerp 0.085) enganchado al reloj de GSAP: un
 solo bucle por cuadro para el scroll, las líneas de tiempo y el dibujo 3D.
 
-- **Objetos**: giro o vaivén lento, piezas sueltas que flotan y una inclinación suave
-  hacia donde está el puntero. Solo se dibuja lo que está a la vista.
+- **Objetos**: el scroll los arma. Cada uno recibe un `foco` de 0 a 1 según lo centrado
+  que esté su capítulo: los bloques se apilan, las capas se abren, las esquirlas
+  convergen y la onda sube. Encima, giro o vaivén lento y una inclinación hacia el
+  puntero. Solo se dibuja lo que está a la vista.
 - **Cursor**: anillo con retraso de 0.42s, punto a 0.08s. Crece sobre lo tocable y se
   vuelve disco con la etiqueta «Ver sitio» sobre una obra. Solo con puntero fino.
 - **Entrada**: títulos por líneas desde máscara (`[data-parte]`), bloques que suben
@@ -254,8 +257,8 @@ solo bucle por cuadro para el scroll, las líneas de tiempo y el dibujo 3D.
   dibuja los bloques, los rellena, barre para revelar el sitio publicado mientras se
   escribe el dominio, y sube el panel de reporte. Reversible: la fase se calcula del
   tiempo de la línea.
-- **Reducido**: sin 3D, sin cursor, sin pin, sin recorrido automático; las líneas se
-  reproducen una vez. **Sin JS**: todo se ve terminado y los capítulos se recogen a una
+- **Reducido**: los objetos se ven armados pero quietos; sin cursor, sin pin, sin
+  recorrido automático, y las líneas se reproducen una vez. **Sin JS**: todo se ve terminado y los capítulos se recogen a una
   sola columna.
 
 ## Do's and Don'ts
