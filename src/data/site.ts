@@ -6,16 +6,6 @@ export const WHATSAPP = [
 export const wa = (tel = WHATSAPP[0].tel, text?: string) =>
   `https://wa.me/${tel}${text ? `?text=${encodeURIComponent(text)}` : ''}`;
 
-export const FRENTES = [
-  { id: 'inicio', code: 'FR-01', name: 'Inicio' },
-  { id: 'manifiesto', code: 'FR-02', name: 'Manifiesto' },
-  { id: 'obras', code: 'FR-03', name: 'Obras' },
-  { id: 'entregadas', code: 'FR-04', name: 'Entregadas' },
-  { id: 'cronograma', code: 'FR-05', name: 'Cronograma' },
-  { id: 'panel', code: 'FR-06', name: 'Panel' },
-  { id: 'contacto', code: 'FR-07', name: 'Cotizar' },
-];
-
 export const SERVICIOS = [
   {
     id: 'tienda',
@@ -25,8 +15,6 @@ export const SERVICIOS = [
     texto: 'Vende 24/7: carrito, pasarela de pagos, envíos, cupones y combos. Catálogo cargado, pruebas en celular y capacitación para que la manejes tú.',
     incluye: ['Pasarela de pagos', 'Envíos', 'Inventario', 'Cupones y combos', 'Capacitación'],
     cta: 'Cotizar tienda',
-    foto: '/fotos/obra-tienda.jpg',
-    alt: 'Productos organizados sobre una mesa, listos para fotografiar',
   },
   {
     id: 'negocio',
@@ -36,8 +24,6 @@ export const SERVICIOS = [
     texto: 'La página que convence antes de que te escriban: tus servicios, tu trabajo, tus precios si quieres, y contacto directo por WhatsApp desde cualquier pantalla.',
     incluye: ['Servicios', 'Menú o catálogo', 'Portafolio', 'WhatsApp en cada pantalla'],
     cta: 'Cotizar página',
-    foto: '/fotos/obra-negocio.jpg',
-    alt: 'Clientes dentro de un café atendido detrás de la barra',
   },
   {
     id: 'landing',
@@ -47,8 +33,6 @@ export const SERVICIOS = [
     texto: 'Una página, un objetivo. Para lanzamientos, promociones y pauta: cada clic que pagas llega a un sitio hecho para convertirlo, no a tu inicio.',
     incluye: ['Lanzamientos', 'Promociones', 'Pauta en redes', 'Medición de conversión'],
     cta: 'Cotizar landing',
-    foto: '/fotos/obra-landing.jpg',
-    alt: 'Persona revisando su celular frente a un portátil',
   },
   {
     id: 'datos',
@@ -58,8 +42,6 @@ export const SERVICIOS = [
     texto: 'Un panel en español y un reporte cada mes: qué se vende, qué no, de dónde llega la gente y qué vamos a ajustar. Aquí es donde el negocio empieza a escalar.',
     incluye: ['Panel en español', 'Reporte mensual', 'Mejoras continuas'],
     cta: 'Cotizar acompañamiento',
-    foto: '/fotos/obra-datos.jpg',
-    alt: 'Portátil con gráficas junto a una libreta de notas',
   },
 ];
 

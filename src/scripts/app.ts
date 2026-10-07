@@ -12,7 +12,7 @@ const motion = document.documentElement.classList.contains('motion');
 const rm = document.documentElement.classList.contains('rm');
 const fino = document.documentElement.classList.contains('puntero-fino');
 const Y = (n: number) => (rm ? 0 : n);
-const HEADER = 71;
+const HEADER = 76;
 
 /* ── Scroll suave ───────────────────────────────────────────────────────── */
 let lenis: Lenis | null = null;
@@ -72,7 +72,6 @@ toggle?.addEventListener('click', () => (menu?.hidden ? abrirMenu() : cerrarMenu
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape' && menu && !menu.hidden) { cerrarMenu(); toggle?.focus(); }
 });
-matchMedia('(min-width: 941px)').addEventListener('change', (m) => m.matches && cerrarMenu());
 
 /* ── Encabezado ─────────────────────────────────────────────────────────── */
 const hdr = $('[data-hdr]');
@@ -122,6 +121,23 @@ if (fino && motion && !rm) {
       if (texto) texto.textContent = obra?.dataset.cursorLabel ?? '';
     });
     addEventListener('blur', () => anillo.classList.remove('es-obra', 'es-enlace'));
+  }
+}
+
+/* ── El objeto 3D ───────────────────────────────────────────────────────────
+   Se carga aparte y solo si tiene sentido: con JavaScript, sin ahorro de datos y
+   con un equipo que pueda con ello. Si algo de eso falla la página se queda con
+   el plano y el halo dibujados en CSS. Con movimiento reducido el objeto se
+   dibuja igual, pero quieto: una preferencia de movimiento no es una orden de
+   esconder la imagen. */
+const red = (navigator as Navigator & { connection?: { saveData?: boolean }; deviceMemory?: number });
+const puedeCon3d = motion && !red.connection?.saveData && !(red.deviceMemory && red.deviceMemory < 2);
+if (puedeCon3d) {
+  const lienzo = $<HTMLCanvasElement>('[data-nucleo]');
+  if (lienzo) {
+    import('./tres')
+      .then(({ iniciarNucleo }) => { if (iniciarNucleo(lienzo, rm)) document.documentElement.classList.add('con-3d'); })
+      .catch((e) => console.warn('Sin objeto 3D:', e));
   }
 }
 
@@ -197,7 +213,7 @@ form?.addEventListener('input', (e) => {
 if (motion) document.fonts.ready.then(iniciarMovimiento);
 
 function iniciarMovimiento() {
-  /* Portada: el titular sube por líneas y la obra real entra desde el fondo */
+  /* Portada: el titular sube línea por línea y el resto aparece detrás */
   const titulo = $('[data-titulo]');
   if (titulo) {
     const tachado = $('[data-tachado]');
@@ -206,10 +222,6 @@ function iniciarMovimiento() {
       rm ? { autoAlpha: 1, duration: 0.8, stagger: 0.1 } : { yPercent: 0, duration: 1.1, stagger: 0.1 }, 0.15);
     if (tachado) tl.fromTo(tachado, { '--tachado': 0 }, { '--tachado': 1, duration: 0.65, ease: 'power2.inOut' }, 1.05);
     tl.fromTo($$('[data-aparece]'), { y: Y(20), autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.85, stagger: 0.08 }, 0.4);
-    const ventana = $('[data-ventana]');
-    const telefono = $('[data-telefono]');
-    if (ventana) tl.fromTo(ventana, { autoAlpha: 0, y: Y(40), scale: rm ? 1 : 0.96 }, { autoAlpha: 1, y: 0, scale: 1, duration: 1.2 }, 0.5);
-    if (telefono) tl.fromTo(telefono, { autoAlpha: 0, y: Y(50) }, { autoAlpha: 1, y: 0, duration: 1 }, 0.78);
   }
 
   /* Las capturas reales se recorren solas: el sitio del cliente, vivo */
@@ -271,7 +283,7 @@ function iniciarMovimiento() {
     const F = [0, 2.4, 4.8, 7.2, 9.8];
     const FIN = 12;
     const capa = (n: string) => $(`[data-capa="${n}"]`, proceso);
-    const DOMINIO = 'elgatogalletero.com';
+    const DOMINIO = 'tunegocio.com';
     const urlEn = (t: number) => {
       if (t < F[1]) return 'borrador · diagnóstico';
       if (t < F[2]) return 'borrador · propuesta';
@@ -288,8 +300,8 @@ function iniciarMovimiento() {
         .to(capa('wire'), { autoAlpha: 0.25, duration: 0.6 }, F[2] + 0.7)
         .to(capa('wire'), { autoAlpha: 0, duration: 0.5 }, F[3])
         .set($('[data-barrido]', proceso), { autoAlpha: 1 }, F[3] + 0.2)
-        .set(capa('foto'), { autoAlpha: 1 }, F[3] + 0.2)
-        .fromTo(capa('foto'), { clipPath: 'inset(0% 100% 0% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.3, ease: 'power3.inOut' }, F[3] + 0.2)
+        .set(capa('sitio'), { autoAlpha: 1 }, F[3] + 0.2)
+        .fromTo(capa('sitio'), { clipPath: 'inset(0% 100% 0% 0%)' }, { clipPath: 'inset(0% 0% 0% 0%)', duration: 1.3, ease: 'power3.inOut' }, F[3] + 0.2)
         .fromTo($('[data-barrido]', proceso), { x: 0 }, { x: () => $('.lienzo', proceso)!.clientWidth, duration: 1.3, ease: 'power3.inOut' }, F[3] + 0.2)
         .set($('[data-barrido]', proceso), { autoAlpha: 0 }, F[3] + 1.5)
         .to($('[data-vivo]', proceso), { autoAlpha: 1, duration: 0.4 }, F[3] + 1.5)
@@ -297,8 +309,8 @@ function iniciarMovimiento() {
         .fromTo($$('[data-pbarra]', proceso), { scaleY: 0 }, { scaleY: 1, duration: 0.6, stagger: 0.07, ease: 'back.out(1.6)' }, F[4] + 0.2)
         .to({}, { duration: 0.4 }, FIN - 0.4);
 
-      gsap.set([capa('foto'), capa('panel')], { autoAlpha: 0 });
-      gsap.set(capa('foto'), { clipPath: 'inset(0% 100% 0% 0%)' });
+      gsap.set([capa('sitio'), capa('panel')], { autoAlpha: 0 });
+      gsap.set(capa('sitio'), { clipPath: 'inset(0% 100% 0% 0%)' });
       gsap.set($$('[data-nota], [data-wire], [data-skel]', proceso), { autoAlpha: 0 });
       gsap.set([$('[data-vivo]', proceso), $('[data-barrido]', proceso)], { autoAlpha: 0 });
       tl.eventCallback('onUpdate', () => marcarFase(tl.time()));

@@ -56,6 +56,7 @@
   --fs-d3: clamp(2rem, 4.4vw, 4.2rem);
   --fs-cap: clamp(2rem, 4.6vw, 4.8rem);
   --fs-hero: clamp(2.4rem, 5.4vw, 5.8rem);
+  --fs-logo: clamp(1.32rem, 2.1vw, 1.72rem); /* solo el logotipo del encabezado */
   --fs-marca: clamp(3.2rem, 14.5vw, 14rem);
 
   --r-xs: 4px;
@@ -150,7 +151,7 @@ header, main, footer { position: relative; z-index: 1; }
 .lectura b { color: var(--azul-300); font-weight: 400; }
 
 /* caja de plano: marco de hilo con muescas en las esquinas */
-.caja { position: relative; border: 1px solid var(--linea); background: color-mix(in srgb, var(--tinta-2) 70%, transparent); }
+.caja { position: relative; border: 1px solid var(--linea); background: color-mix(in srgb, var(--tinta-2) 92%, transparent); }
 .caja::before, .caja::after {
   content: ''; position: absolute; width: 9px; height: 9px; border: 1px solid var(--azul-400); opacity: 0.55;
 }

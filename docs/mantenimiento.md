@@ -17,10 +17,13 @@ npm run preview  # sirve dist/ como lo vería un visitante
 | `@astrojs/sitemap` | 3.7 | Genera `sitemap-index.xml` en cada compilación. |
 | `gsap` | 3.15 | Animaciones (ScrollTrigger, SplitText). |
 | `lenis` | 1.3 | Desplazamiento suave. |
+| `three` | 0.182 | El objeto 3D del fondo. Es el paquete más pesado (unos 127 KB comprimidos) y por eso se carga aparte. |
 | `@fontsource-variable/overpass` y `overpass-mono` | 5.3 | Las dos tipografías, servidas desde el propio sitio (no dependen de Google Fonts). |
 
-Antes de subir una versión mayor de Astro o GSAP, compila y revisa el
-cronograma: es lo que más depende de ScrollTrigger.
+Antes de subir una versión mayor de Astro o GSAP, compila y revisa el capítulo
+del proceso: es lo que más depende de ScrollTrigger. Al subir Three.js, revisa
+que el objeto siga apareciendo: los nombres de sus módulos de ejemplo
+(`RoomEnvironment`) cambian de ruta cada tanto.
 
 ## Trampas conocidas
 
@@ -33,8 +36,11 @@ siempre es esto.
 
 **`backdrop-filter` recorta lo que esté fijo adentro.** El encabezado lleva
 desenfoque, y eso lo convierte en el marco de referencia de cualquier elemento
-`position: fixed` que esté dentro. Por eso el menú de celular vive fuera del
-`<header>`. Si lo mueves adentro, se recorta a 67 px de alto.
+`position: fixed` que esté dentro. Por eso el menú vive fuera del `<header>`.
+Si lo mueves adentro, se recorta al alto de la barra.
+
+**`hidden` no gana contra una clase.** El menú trae el atributo `hidden`, pero
+`.menu { display: grid }` lo pisa: por eso existe la regla `.menu[hidden]`.
 
 **El movimiento reducido es más común de lo que parece.** Windows trae los
 efectos de animación apagados en muchos equipos, así que hay visitantes reales
@@ -43,18 +49,31 @@ terminada: revísala cuando cambies algo grande
 (ver [animaciones.md](animaciones.md)).
 
 **Los anclajes y el scroll suave.** Los enlaces `#capitulo` los maneja el
-script, que compensa los 74 px del encabezado. El valor está en la constante
+script, que compensa los 76 px del encabezado. El valor está en la constante
 `HEADER` de `app.ts`: si cambia la altura de la barra, cámbialo ahí también.
 
-**Las escenas isométricas.** Nunca escribas puntos a mano: todas salen de
-`src/lib/iso.ts`. Para que una fila de bloques se vea horizontal en pantalla hay
-que moverse lo mismo en +x y en −y (si solo creces en x, la fila baja en
-diagonal).
+**El 3D no puede tapar el texto.** Cada objeto se dibuja dentro de su hueco
+(`data-objeto`), y por eso en el celular el hueco baja debajo del texto en vez
+de quedar encima. Si pones un bloque de texto nuevo sobre el lienzo, dale fondo:
+las cajas (`.caja`) son placas opacas justamente por eso.
+
+**Si dejas de dibujar, el lienzo no se borra.** WebGL conserva el último
+fotograma: cuando ningún objeto está a la vista hay que llamar a
+`renderer.clear()`, o las piezas se quedan flotando en el capítulo equivocado.
+
+**Declarar variables después de usarlas.** El objeto 3D se quedó invisible una
+tarde entera porque `medir()` leía una variable `let` declarada más abajo. El
+`import()` se traga el error con su `.catch`, así que no se ve nada en consola:
+si el 3D no aparece, ese `catch` es el primer sitio donde mirar.
+
+**El servidor de desarrollo y el CSS con ámbito.** Al cambiar solo un color
+dentro del `<style>` de un `.astro`, el recargado en caliente a veces sirve el
+CSS viejo. Si una medición no cuadra con lo que dice el archivo, reinicia
+`npm run dev` antes de salir a buscar el fantasma.
 
 **Las imágenes mueven las medidas.** ScrollTrigger calcula posiciones al
-cargar; por eso se llama `ScrollTrigger.refresh()` cuando termina cada imagen y
-al cambiar de pestaña en Obras. Si insertas contenido nuevo por JavaScript,
-llámalo tú.
+cargar; por eso se llama `ScrollTrigger.refresh()` cuando termina cada imagen.
+Si insertas contenido nuevo por JavaScript, llámalo tú.
 
 **El servidor de desarrollo y el puerto 4321.** Si `npm run dev` no arranca,
 casi siempre hay otro proceso ocupando el puerto. Ciérralo o usa

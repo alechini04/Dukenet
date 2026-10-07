@@ -1,56 +1,108 @@
 ---
 import Icon from './Icon.astro';
 import { SERVICIOS } from '../data/site';
----
-<section id="servicios" class="cap servicios" data-cap="servicios" aria-labelledby="serv-tit">
-  <div class="marco">
-    <header class="serv__head">
-      <div>
-        <p class="tag tag--linea">01 · Servicios</p>
-        <h2 id="serv-tit" class="titulo serv__tit" data-parte>Cuatro maneras<br />de crecer</h2>
-      </div>
-      <p class="lead" data-sube>Cada obra se diseña para tu negocio. Elige por dónde quieres empezar y cotiza solo eso.</p>
-    </header>
 
-    <ol class="serv__lista">
-      {SERVICIOS.map((s, i) => (
-        <li class="serv caja" data-sube>
-          <span class="serv__n">0{i + 1}</span>
-          <h3 class="serv__nombre">{s.nombre}</h3>
-          <p class="serv__corto">{s.corto}</p>
-          <p class="serv__texto">{s.texto}</p>
-          <ul class="serv__incluye">
+// Cada servicio ocupa su propia pantalla y tiene su propio objeto 3D, alusivo a
+// lo que se cuenta: la bolsa de compras, la pantalla con el teléfono, la diana
+// con la flecha y las barras del panel. El objeto se dibuja en `.serv__objeto`
+// y lo construye `src/scripts/tres.ts` a partir del id del servicio.
+const rotulos: Record<string, string> = {
+  tienda: 'Bolsa de compras',
+  negocio: 'Pantalla y teléfono',
+  landing: 'Un objetivo',
+  datos: 'El panel del mes',
+};
+---
+<section id="servicios" class="servicios" data-cap="servicios" aria-labelledby="serv-tit">
+  <div class="cap marco serv__intro">
+    <p class="tag tag--linea">Servicios</p>
+    <h2 id="serv-tit" class="serv__tit" data-parte>Cuatro maneras<br />de crecer</h2>
+    <p class="lead serv__lead" data-sube>Cada una se diseña y se programa para tu negocio. Elige por dónde quieres empezar y cotiza solo eso: precio fijo y fecha desde el primer día.</p>
+  </div>
+
+  {SERVICIOS.map((s, i) => (
+    <article
+      id={`serv-${s.id}`} class:list={['serv', i % 2 === 1 && 'serv--vuelta']}
+      aria-labelledby={`serv-${s.id}-tit`} style={`--cifra:'0${i + 1}'`}
+    >
+      <div class="marco serv__grid">
+        <div class="serv__texto">
+          <p class="serv__orden"><b>0{i + 1}</b> <span>/ 04</span></p>
+          <h3 id={`serv-${s.id}-tit`} class="serv__nombre" data-parte>{s.nombre}</h3>
+          <p class="serv__corto" data-sube>{s.corto}</p>
+          <p class="serv__texto-largo" data-sube>{s.texto}</p>
+
+          <ul class="serv__incluye" data-sube>
             {s.incluye.map((x) => <li><Icon name="check" />{x}</li>)}
           </ul>
-          <a class="serv__cta" href="/#contacto" data-plan={s.nombre}>{s.cta} <Icon name="arrow-ur" /></a>
-        </li>
-      ))}
-    </ol>
-  </div>
+
+          <a class="btn btn--azul serv__cta" href="/#contacto" data-plan={s.nombre} data-sube>{s.cta} <Icon name="arrow-ur" /></a>
+        </div>
+
+        <div class="serv__hueco" aria-hidden="true">
+          <div class="serv__objeto" data-objeto={s.id}></div>
+          <p class="serv__rotulo lectura"><b>{rotulos[s.id]}</b></p>
+        </div>
+      </div>
+    </article>
+  ))}
 </section>
 
 <style>
-  .serv__head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr); gap: 24px 60px; align-items: end; }
-  .serv__tit { margin-top: 18px; }
+  .serv__intro { display: grid; justify-items: start; gap: 18px; padding-bottom: clamp(20px, 4vw, 40px); }
+  .serv__tit { font-size: var(--fs-cap); font-weight: 700; }
+  .serv__lead { max-width: 52ch; }
 
-  .serv__lista { list-style: none; margin: clamp(40px, 5vw, 76px) 0 0; padding: 0; display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 10px; }
-  .serv {
-    display: flex; flex-direction: column; gap: 12px;
-    padding: clamp(18px, 1.8vw, 26px);
-    transition: background 0.5s var(--ease), border-color 0.5s var(--ease), transform 0.5s var(--ease);
+  /* ── Un capítulo por servicio ───────────────────────────────────────── */
+  .serv { position: relative; min-height: 100svh; display: grid; align-content: center; padding-block: clamp(70px, 10vh, 120px); }
+  .serv__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: clamp(20px, 4vw, 60px); align-items: center; }
+  .serv--vuelta .serv__texto { grid-column: 2; grid-row: 1; }
+  .serv--vuelta .serv__hueco { grid-column: 1; grid-row: 1; }
+
+  /* La cifra de fondo es marca de agua, no texto: va en el fondo, no en el DOM */
+  .serv::before {
+    content: var(--cifra); position: absolute; top: 50%; translate: 0 -50%; right: 0; z-index: -1;
+    font-size: var(--fs-marca); font-weight: 700; line-height: 0.8; letter-spacing: -0.06em;
+    color: color-mix(in srgb, var(--papel) 3.5%, transparent); pointer-events: none;
   }
-  .serv:hover { border-color: color-mix(in srgb, var(--azul-300) 40%, transparent); background: color-mix(in srgb, var(--tinta-2) 96%, transparent); transform: translateY(-4px); }
-  .serv__n { font-family: var(--mono); font-size: var(--fs-micro); letter-spacing: 0.2em; color: var(--azul-300); }
-  .serv__nombre { font-size: var(--fs-t1); font-weight: 700; margin-top: 4px; }
-  .serv__corto { font-family: var(--mono); font-size: var(--fs-micro); letter-spacing: 0.1em; text-transform: uppercase; color: color-mix(in srgb, var(--papel) 58%, transparent); }
-  .serv__texto { font-size: var(--fs-small); line-height: 1.5; color: color-mix(in srgb, var(--papel) 58%, transparent); }
-  .serv__incluye { list-style: none; margin: 4px 0 0; padding: 14px 0 0; border-top: 1px solid var(--linea); display: grid; gap: 7px; }
-  .serv__incluye li { display: flex; gap: 9px; align-items: center; font-size: var(--fs-small); }
-  .serv__incluye :global(svg) { width: 14px; height: 14px; color: var(--azul-300); flex: none; }
-  .serv__cta { margin-top: auto; padding-top: 18px; display: inline-flex; align-items: center; gap: 8px; font-family: var(--mono); font-size: var(--fs-micro); letter-spacing: 0.14em; text-transform: uppercase; text-decoration: none; color: var(--azul-300); }
-  .serv__cta :global(svg) { width: 13px; height: 13px; transition: transform 0.4s var(--ease); }
-  .serv__cta:hover :global(svg) { transform: translate(3px, -3px); }
+  .serv--vuelta::before { right: auto; left: 0; }
 
-  @media (max-width: 1100px) { .serv__lista { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
-  @media (max-width: 760px) { .serv__head { grid-template-columns: minmax(0, 1fr); } .serv__lista { grid-template-columns: minmax(0, 1fr); } }
+  .serv__orden { font-family: var(--mono); font-size: var(--fs-micro); letter-spacing: 0.2em; text-transform: uppercase; color: color-mix(in srgb, var(--papel) 50%, transparent); }
+  .serv__orden b { color: var(--azul-300); font-weight: 400; }
+  .serv__nombre { margin-top: 14px; font-size: var(--fs-d3); font-weight: 700; line-height: 0.95; }
+  .serv__corto {
+    margin-top: 16px; font-family: var(--mono); font-size: var(--fs-mini); letter-spacing: 0.16em;
+    text-transform: uppercase; color: var(--azul-300);
+  }
+  .serv__texto-largo { margin-top: 20px; font-size: var(--fs-lead); line-height: 1.55; color: color-mix(in srgb, var(--papel) 66%, transparent); max-width: 46ch; }
+
+  .serv__incluye { list-style: none; margin: clamp(22px, 3vw, 34px) 0 0; padding: 0; display: flex; flex-wrap: wrap; gap: 8px; }
+  .serv__incluye li {
+    display: inline-flex; align-items: center; gap: 8px; min-height: 34px; padding: 0 14px;
+    border: 1px solid var(--linea); border-radius: var(--r-pill);
+    font-size: var(--fs-small); color: color-mix(in srgb, var(--papel) 72%, transparent);
+    background: color-mix(in srgb, var(--tinta-2) 60%, transparent);
+  }
+  .serv__incluye :global(svg) { width: 13px; height: 13px; color: var(--azul-300); flex: none; }
+  .serv__cta { margin-top: clamp(26px, 3.4vw, 40px); }
+
+  /* Sin objeto 3D la columna vacía no tiene sentido: el texto se queda solo */
+  :global(html:not(.con-3d)) .serv { min-height: auto; padding-block: clamp(58px, 8vh, 96px); }
+  :global(html:not(.con-3d)) .serv__grid { grid-template-columns: minmax(0, 1fr); }
+  :global(html:not(.con-3d)) .serv__hueco { display: none; }
+
+  /* El rótulo de la formación se queda abajo, nunca encima del objeto */
+  /* El hueco donde se dibuja el objeto de este servicio, con su rótulo debajo */
+  .serv__hueco { display: grid; justify-items: center; gap: 16px; }
+  .serv__objeto { width: 100%; min-height: clamp(260px, 46vh, 540px); }
+  .serv__rotulo b { color: color-mix(in srgb, var(--papel) 58%, transparent); font-weight: 400; }
+
+  @media (max-width: 900px) {
+    .serv__grid { grid-template-columns: minmax(0, 1fr); gap: 26px; }
+    .serv--vuelta .serv__texto, .serv--vuelta .serv__hueco { grid-column: 1; grid-row: auto; }
+    .serv__hueco { justify-items: start; }
+    .serv { min-height: auto; padding-block: clamp(60px, 9vh, 90px); }
+    .serv::before { top: clamp(16px, 4vh, 40px); translate: 0 0; }
+  }
+  @media (max-width: 560px) { .serv__cta { width: 100%; justify-content: center; } }
 </style>

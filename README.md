@@ -1,7 +1,7 @@
 # Dukenet
 Soluciones tecnológicas, páginas web y desarrollo digital para impulsar tu negocio.
 
-Landing de DukeNet: sitio estático en [Astro](https://astro.build) con animaciones de [GSAP](https://gsap.com) (ScrollTrigger, SplitText) y scroll suave con [Lenis](https://lenis.darkroom.engineering).
+Landing de DukeNet: sitio estático en [Astro](https://astro.build) con un objeto 3D en [Three.js](https://threejs.org), animaciones de [GSAP](https://gsap.com) (ScrollTrigger, SplitText) y scroll suave con [Lenis](https://lenis.darkroom.engineering).
 
 ## Documentación
 
@@ -24,12 +24,13 @@ npm run preview  # sirve dist/
 
 ## Estructura
 
-- `src/pages/index.astro`: arma la página con los seis capítulos.
+- `src/pages/index.astro`: arma la página con los capítulos, en orden.
 - `src/pages/404.astro`: página de ruta no encontrada, con desvíos a cada capítulo.
 - `src/pages/privacidad.astro`, `cookies.astro`, `terminos.astro`: las políticas legales (ver [docs/legal.md](docs/legal.md)).
-- `src/components/`: un capítulo por archivo (Portada, Porque, Servicios, Proceso, Obras, Datos, Contacto) más Header, Footer y Plano.
+- `src/components/`: un capítulo por archivo (Portada, Porque, Servicios, Proceso, Obras, Datos, Contacto) más Header, Footer, Plano y Nucleo.
 - `src/data/site.ts`: textos editables (WhatsApp, servicios, fases, ciudades).
-- `src/scripts/app.ts`: menú, pestañas, formulario → WhatsApp y todas las animaciones.
+- `src/scripts/app.ts`: menú, formulario → WhatsApp y todas las animaciones.
+- `src/scripts/tres.ts`: el objeto 3D del fondo; se carga aparte y solo si el equipo puede con él.
 - `src/styles/global.css`: colores, tipografía y botones.
 
 ## Publicar
@@ -42,17 +43,6 @@ Los pasos completos, las opciones de hosting y la lista de lo que trae resuelto 
 
 Después de publicar: dar de alta el dominio en [Google Search Console](https://search.google.com/search-console), enviar `https://dukenet.co/sitemap-index.xml` y crear el perfil de Google Business para aparecer en búsquedas locales.
 
-## Imágenes para reemplazar
+## Imágenes
 
-Las fotos de `public/fotos/` son de relleno (Unsplash, vía picsum.photos). Cámbialas por fotos reales conservando el nombre de archivo:
-
-| Archivo | Uso | Origen |
-|---|---|---|
-| `obra-tienda.jpg` | Servicio A · Tienda en línea | Vadim Sherbakov, unsplash.com/photos/tCICLJ5ktBE |
-| `obra-negocio.jpg` | Servicio B · Página de negocio | Dogancan Ozturan, unsplash.com/photos/94taEmdowRw |
-| `obra-landing.jpg` | Servicio C · Landing de campaña | Alejandro Escamilla, unsplash.com/photos/Dl6jeyfihLk |
-| `obra-datos.jpg` | Servicio D · Datos y acompañamiento | Galymzhan Abdugalimov, unsplash.com/photos/ICW6QYOcdlg |
-| `diagnostico.jpg` | Manifiesto | Alejandro Escamilla, unsplash.com/photos/BbQLHCpVUqA |
-| `convite.jpg` | Caso Convite (ideal: captura real del producto) | Vee O, unsplash.com/photos/hGO27G5tZJ8 |
-
-`public/obras/` tiene capturas reales de elgatogalletero.com y suue.shop (16 sep 2026). Las cifras del panel de datos son de ejemplo y así se indican en la página.
+`public/obras/` tiene las capturas reales de elgatogalletero.com (16 sep 2026), que se usan solo en «Trabajos realizados». Las cifras del panel de datos son de ejemplo y así se indican en la página.

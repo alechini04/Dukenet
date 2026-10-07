@@ -2,6 +2,8 @@
 import Icon from './Icon.astro';
 import { WHATSAPP, wa } from '../data/site';
 
+// El trabajo entregado vive solo aquí: no es el protagonista de la página, es
+// la prueba de que lo que ofrecemos arriba ya existe funcionando.
 const casos = [
   {
     n: '01', nombre: 'El Gato Galletero', url: 'https://www.elgatogalletero.com/', dominio: 'elgatogalletero.com',
@@ -9,23 +11,18 @@ const casos = [
     texto: 'Tienda completa con causa: catálogo por categorías, combos y envíos a toda Colombia. Cada compra apoya el rescate de gatos en Bucaramanga.',
     desk: '/obras/gato-galletero.jpg', movil: '/obras/gato-galletero-movil.jpg',
   },
-  {
-    n: '02', nombre: 'Suè', url: 'https://suue.shop/', dominio: 'suue.shop',
-    tipo: 'Marca de moda', estado: 'Entregada', anio: '2026',
-    texto: 'Marca de ropa con tejidos hechos a mano: lanzamiento de colección, fotografía grande y compra directa, con editorial propio.',
-    desk: '/obras/suue.jpg', movil: '/obras/suue-movil.jpg',
-  },
 ];
 const MSG = 'Hola DukeNet, quiero pedir el cupo del mes para la web de mi negocio.';
 ---
-<section id="obras" class="cap obras" data-cap="obras" aria-labelledby="obras-tit">
+<section id="obras" class="cap obras" data-cap="obras" aria-labelledby="obras-tit"
+>
   <div class="marco">
     <header class="obras__head">
       <div>
-        <p class="tag tag--linea">03 · Obras</p>
-        <h2 id="obras-tit" class="titulo obras__tit" data-parte>Entregadas<br />y funcionando</h2>
+        <p class="tag tag--linea">Trabajos realizados</p>
+        <h2 id="obras-tit" class="titulo obras__tit" data-parte>Entregado<br />y funcionando</h2>
       </div>
-      <p class="lead" data-sube>Ninguna se parece a la otra. Ese es justamente el punto: entra y compruébalo.</p>
+      <p class="lead" data-sube>Lo de arriba no es una promesa: entra, míralo en tu celular y compruébalo.</p>
     </header>
 
     <div class="obras__lista">
@@ -61,9 +58,9 @@ const MSG = 'Hola DukeNet, quiero pedir el cupo del mes para la web de mi negoci
 
       <article class="obra obra--cupo caja" data-sube>
         <div>
-          <span class="obra__n">obra 03 · en construcción</span>
+          <span class="obra__n">obra 02 · en construcción</span>
           <h3 class="obra__nombre">Tu marca aquí</h3>
-          <p class="obra__texto">Hay cupo este mes. Tomamos pocos proyectos para acompañar cada uno de cerca. La siguiente obra puede ser la tuya.</p>
+          <p class="obra__texto">Hay cupo este mes. Tomamos pocos proyectos para acompañar cada uno de cerca. El siguiente trabajo puede ser el tuyo.</p>
         </div>
         <div class="cupo__acc">
           <a class="btn btn--azul" href={wa(WHATSAPP[0].tel, MSG)} target="_blank" rel="noopener">Pedir el cupo del mes <Icon name="arrow-ur" /></a>
@@ -78,9 +75,8 @@ const MSG = 'Hola DukeNet, quiero pedir el cupo del mes para la web de mi negoci
   .obras__head { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr); gap: 24px 60px; align-items: end; }
   .obras__tit { margin-top: 18px; }
 
-  .obras__lista { margin-top: clamp(44px, 6vw, 86px); display: grid; gap: clamp(50px, 7vw, 110px); }
+  .obras__lista { margin-top: clamp(44px, 6vw, 86px); display: grid; gap: clamp(44px, 6vw, 92px); }
   .obra { display: grid; grid-template-columns: minmax(0, 1.3fr) minmax(0, 0.7fr); gap: clamp(24px, 4vw, 60px); align-items: center; }
-  .obra:nth-child(even) .obra__vista { order: 2; }
 
   .obra__vista { position: relative; display: block; text-decoration: none; padding-right: clamp(30px, 5vw, 70px); }
   .obra__vista .ventana__vista { aspect-ratio: 16 / 10; }
@@ -107,7 +103,6 @@ const MSG = 'Hola DukeNet, quiero pedir el cupo del mes para la web de mi negoci
   @media (max-width: 1000px) {
     .obras__head { grid-template-columns: minmax(0, 1fr); }
     .obra, .obra--cupo { grid-template-columns: minmax(0, 1fr); }
-    .obra:nth-child(even) .obra__vista { order: 0; }
   }
   @media (max-width: 560px) { .obra__ficha > div { grid-template-columns: minmax(0, 1fr); gap: 2px; } }
 </style>

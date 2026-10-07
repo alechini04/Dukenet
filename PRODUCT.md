@@ -44,7 +44,7 @@ No templates: every site is designed and programmed from zero around how that bu
 
 ## Evidence on Hand
 
-- Case studies (real, in production): El Gato Galletero — https://www.elgatogalletero.com/ (store with a cause, supports cat rescue); Suè — https://suue.shop/ (handmade knitwear brand, collection launch). Convite — wedding platform (digital invitation, RSVP, gift list), still in construction.
+- Case study (real, in production): El Gato Galletero — https://www.elgatogalletero.com/ (store with a cause, supports cat rescue). Convite — wedding platform (digital invitation, RSVP, gift list), still in construction. Client work appears only in the "Trabajos realizados" chapter, never as the page's own hero.
 - Dashboard figures in the design (4.812 visits, 167 orders, 3,4% conversion, $78.400 ticket) are illustrative and must stay labeled as example.
 - No testimonials, client logos, awards, prices or metrics exist. Do not fabricate them.
 

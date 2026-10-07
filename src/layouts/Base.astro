@@ -1,6 +1,7 @@
 ---
 import '../styles/global.css';
 import Plano from '../components/Plano.astro';
+import Nucleo from '../components/Nucleo.astro';
 import { WHATSAPP, CIUDADES } from '../data/site';
 
 interface Props { title: string; description: string; robots?: string }
@@ -62,6 +63,7 @@ const negocio = {
     </script>
   </head>
   <body>
+    <Nucleo />
     <Plano />
     <a class="skip" href="#contenido">Saltar al contenido</a>
     <slot />

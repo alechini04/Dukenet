@@ -1,0 +1,23 @@
+---
+// El lienzo donde vive el objeto 3D. Va fijo detrás de todo el contenido y es
+// decorativo por completo: si no hay WebGL, si el equipo es modesto o si la
+// persona pidió menos movimiento, queda el halo dibujado en CSS y ya.
+---
+<div class="nucleo" aria-hidden="true">
+  <canvas class="nucleo__lienzo" data-nucleo></canvas>
+  <div class="nucleo__halo"></div>
+</div>
+
+<style>
+  .nucleo { position: fixed; inset: 0; z-index: 0; pointer-events: none; }
+  .nucleo__lienzo { width: 100%; height: 100%; opacity: 0; }
+
+  /* Halo: el respaldo cuando no hay 3D, y la luz de fondo cuando sí lo hay */
+  .nucleo__halo {
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(42vmax 42vmax at 68% 32%, color-mix(in srgb, var(--azul) 16%, transparent) 0%, transparent 62%),
+      radial-gradient(30vmax 30vmax at 22% 78%, color-mix(in srgb, var(--azul-800) 30%, transparent) 0%, transparent 65%);
+  }
+  :global(html.con-3d) .nucleo__halo { opacity: 0.45; }
+</style>

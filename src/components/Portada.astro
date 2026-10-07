@@ -1,9 +1,10 @@
 ---
 import Icon from './Icon.astro';
-import { WHATSAPP, wa } from '../data/site';
+import { WHATSAPP, wa, SERVICIOS } from '../data/site';
 const MSG = 'Hola DukeNet, quiero información para la web de mi negocio.';
 ---
-<section id="inicio" class="cap cap--alto portada" data-cap="inicio">
+<section id="inicio" class="cap cap--alto portada" data-cap="inicio"
+>
   <div class="marco portada__grid">
     <div class="portada__texto">
       <p class="tag tag--linea" data-aparece>Estudio de desarrollo web · Colombia</p>
@@ -24,44 +25,26 @@ const MSG = 'Hola DukeNet, quiero información para la web de mi negocio.';
           <a class="btn" href={wa(w.tel, MSG)} target="_blank" rel="noopener"><Icon name="whatsapp" /> {w.label}</a>
         ))}
       </div>
-
-      <ul class="lectura portada__lectura" data-aparece>
-        <li><b>02</b> sitios en producción</li>
-        <li><b>100%</b> código a mano</li>
-        <li><b>CO</b> cobertura nacional</li>
-      </ul>
     </div>
 
-    <div class="portada__obra" data-obra-viva>
-      <div class="ventana caja" data-ventana>
-        <div class="ventana__barra">
-          <span class="ventana__puntos" aria-hidden="true"><i></i><i></i><i></i></span>
-          <span class="ventana__url">elgatogalletero.com</span>
-          <span class="ventana__vivo" aria-hidden="true"><i></i>en vivo</span>
-        </div>
-        <div class="ventana__vista">
-          <img src="/obras/gato-galletero.jpg" alt="Tienda en línea de El Gato Galletero, hecha por DukeNet" width="1200" height="2167" data-tira />
-        </div>
-      </div>
-
-      <div class="telefono" aria-hidden="true" data-telefono>
-        <div class="telefono__vista">
-          <img src="/obras/gato-galletero-movil.jpg" alt="" width="560" height="2297" data-tira />
-        </div>
-      </div>
-
-      <p class="portada__pie lectura"><b>obra 01</b> tienda en línea · entregada</p>
-    </div>
+    <div class="portada__objeto" data-objeto="nucleo" aria-hidden="true"></div>
   </div>
 
-  <a class="portada__baja" href="/#porque" aria-label="Bajar"><span></span></a>
+  <div class="marco portada__pie">
+    <ul class="portada__frentes" data-aparece>
+      {SERVICIOS.map((s) => (
+        <li><a href={`/#serv-${s.id}`}>{s.nombre}</a></li>
+      ))}
+    </ul>
+    <a class="portada__baja" href="/#porque" aria-label="Bajar al contenido"><span></span></a>
+  </div>
 </section>
 
 <style>
-  .portada { padding-top: clamp(100px, 13vh, 150px); }
-  .portada__grid { display: grid; grid-template-columns: minmax(0, 1.04fr) minmax(0, 0.96fr); gap: clamp(30px, 4vw, 70px); align-items: center; }
+  .portada { padding-top: clamp(104px, 14vh, 160px); padding-bottom: clamp(80px, 10vh, 120px); align-content: space-between; }
+  .portada__grid { display: grid; grid-template-columns: minmax(0, 0.98fr) minmax(0, 1.02fr); gap: clamp(24px, 4vw, 70px); align-items: center; flex: 1; }
 
-  .portada__titulo { margin-top: 20px; font-size: var(--fs-hero); line-height: 0.92; letter-spacing: -0.05em; font-weight: 700; }
+  .portada__titulo { margin-top: 22px; font-size: var(--fs-hero); line-height: 0.92; letter-spacing: -0.05em; font-weight: 700; }
   .ln { display: block; overflow: hidden; padding-block: 0.12em 0.04em; margin-block: -0.12em -0.04em; }
   .ln > span { display: block; }
   .portada__titulo .ln:nth-child(2) > span { white-space: nowrap; }
@@ -69,36 +52,36 @@ const MSG = 'Hola DukeNet, quiero información para la web de mi negocio.';
   .ln > span.tachado { position: relative; display: inline-block; color: color-mix(in srgb, var(--papel) 40%, transparent); }
   .tachado::after { content: ''; position: absolute; left: -0.02em; right: -0.02em; top: 52%; height: 2px; background: var(--azul); transform: scaleX(var(--tachado, 1)); transform-origin: left; }
 
-  .portada__lead { margin-top: 22px; }
-  .portada__cta { margin-top: 28px; display: flex; flex-wrap: wrap; gap: 10px; }
-  .portada__lectura { margin-top: clamp(28px, 4vh, 48px); grid-auto-flow: column; justify-content: start; gap: clamp(18px, 3vw, 44px); }
+  /* El hueco donde se dibuja el núcleo: el 3D nunca se inventa dónde va */
+  .portada__objeto { min-height: clamp(280px, 52vh, 620px); }
+  :global(html:not(.con-3d)) .portada__objeto { display: none; }
 
-  /* La obra viva: el sitio real del cliente, moviéndose */
-  .portada__obra { position: relative; padding: 0 clamp(26px, 5vw, 64px) clamp(34px, 5vw, 60px) 0; }
-  .telefono {
-    position: absolute; right: 0; bottom: clamp(16px, 3vw, 34px); width: clamp(92px, 15%, 150px);
-    padding: 5px; border-radius: var(--r-dispositivo); background: var(--tinta-3);
-    border: 1px solid var(--linea-fuerte);
-    box-shadow: 0 30px 60px -24px color-mix(in srgb, var(--negro) 92%, transparent);
+  .portada__lead { margin-top: 24px; }
+  .portada__cta { margin-top: 30px; display: flex; flex-wrap: wrap; gap: 10px; }
+
+  /* El pie de la portada ya nombra los cuatro servicios: son los protagonistas */
+  .portada__pie { margin-top: clamp(40px, 7vh, 86px); display: flex; align-items: center; justify-content: space-between; gap: 20px; }
+  .portada__frentes { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px 10px; }
+  .portada__frentes a {
+    display: inline-flex; align-items: center; min-height: 34px; padding: 0 14px;
+    border: 1px solid var(--linea); border-radius: var(--r-pill);
+    font-family: var(--mono); font-size: var(--fs-micro); letter-spacing: 0.14em; text-transform: uppercase;
+    color: color-mix(in srgb, var(--papel) 62%, transparent); text-decoration: none;
+    transition: color 0.4s var(--ease), border-color 0.4s var(--ease), background 0.4s var(--ease);
   }
-  .telefono__vista { aspect-ratio: 390 / 844; overflow: hidden; border-radius: var(--r-pantalla); background: var(--blanco); }
-  .telefono__vista img { width: 100%; height: auto; }
+  .portada__frentes a:hover { color: var(--tinta); background: var(--azul-300); border-color: var(--azul-300); }
 
-  .portada__pie { position: absolute; left: 0; bottom: 0; }
-
-  .portada__baja { position: absolute; left: 50%; bottom: clamp(18px, 3vh, 36px); transform: translateX(-50%); width: 24px; height: 38px; border: 1px solid var(--linea-fuerte); border-radius: var(--r-pill); display: grid; justify-items: center; padding-top: 7px; }
+  .portada__baja { flex: none; width: 24px; height: 38px; border: 1px solid var(--linea-fuerte); border-radius: var(--r-pill); display: grid; justify-items: center; padding-top: 7px; }
   .portada__baja span { width: 2px; height: 7px; background: var(--azul-300); border-radius: var(--r-pill); }
   :global(html.motion:not(.rm)) .portada__baja span { animation: baja 1.9s var(--ease-io) infinite; }
   @keyframes baja { 0% { transform: translateY(0); opacity: 1; } 70% { transform: translateY(14px); opacity: 0; } 71% { transform: translateY(0); opacity: 0; } 100% { opacity: 1; } }
 
   @media (max-width: 1040px) {
     .portada__grid { grid-template-columns: minmax(0, 1fr); }
-    .portada__obra { order: -1; max-width: 620px; margin-inline: auto; width: 100%; }
-    .portada__baja { display: none; }
+    .portada { padding-top: clamp(96px, 16vh, 150px); }
   }
   @media (max-width: 560px) {
     .portada__cta .btn { width: 100%; justify-content: center; }
-    .portada__lectura { grid-auto-flow: row; gap: 6px; }
-    .portada__pie { display: none; }
+    .portada__baja { display: none; }
   }
 </style>

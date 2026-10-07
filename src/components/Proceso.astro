@@ -1,6 +1,8 @@
 ---
 import { FASES } from '../data/site';
-const notas = ['Vende papelería y accesorios para gatos', 'Cada compra apoya el rescate', 'Envíos a toda Colombia'];
+// Las notas del diagnóstico: lo que dice un negocio cualquiera en la primera
+// reunión. Genéricas a propósito: aquí no se muestra el trabajo de un cliente.
+const notas = ['Vende por encargo y por WhatsApp', 'Quiere recibir pedidos sin contestar llamadas', 'Cuarenta productos y envíos en la ciudad'];
 // bloques del plano: la estructura real de una home de tienda
 const bloques = [
   { id: 'nav', x: 3, y: 4, w: 94, h: 9, label: 'Encabezado' },
@@ -13,11 +15,12 @@ const bloques = [
   { id: 'p3', x: 68, y: 60, w: 29, h: 28, label: 'Producto' },
 ];
 ---
-<section id="proceso" class="cap proceso" data-cap="proceso" aria-labelledby="proc-tit" data-proceso>
+<section id="proceso" class="cap proceso" data-cap="proceso" aria-labelledby="proc-tit" data-proceso
+>
   <div class="proceso__pin" data-proceso-pin>
     <div class="marco proceso__grid">
       <div class="proceso__texto">
-        <p class="tag tag--linea">02 · Proceso</p>
+        <p class="tag tag--linea">Proceso</p>
         <h2 id="proc-tit" class="titulo proceso__tit">Cinco fases,<br />cero misterio</h2>
 
         <ol class="pista" aria-hidden="true">
@@ -36,11 +39,11 @@ const bloques = [
         </ol>
       </div>
 
-      <figure class="proceso__obra" aria-label="Animación: el sitio de un cliente se construye en cinco fases, de las notas al sitio publicado">
+      <figure class="proceso__obra" aria-label="Animación: una página se construye en cinco fases, de las notas de la primera reunión al sitio publicado">
         <div class="ventana caja">
           <div class="ventana__barra">
             <span class="ventana__puntos" aria-hidden="true"><i></i><i></i><i></i></span>
-            <span class="ventana__url"><span data-url>elgatogalletero.com</span><i class="cursor-barra" data-caret></i></span>
+            <span class="ventana__url"><span data-url>tunegocio.com</span><i class="cursor-barra" data-caret></i></span>
             <span class="ventana__vivo" data-vivo aria-hidden="true"><i></i>en línea</span>
           </div>
 
@@ -65,8 +68,19 @@ const bloques = [
               ))}
             </div>
 
-            <div class="capa capa--foto" data-capa="foto">
-              <img src="/obras/gato-galletero.jpg" alt="" width="1200" height="2167" />
+            <!-- El sitio publicado: dibujado, no la captura de ningún cliente -->
+            <div class="capa sitio" data-capa="sitio" aria-hidden="true">
+              <div class="sitio__nav"><span class="sitio__marca"></span><i></i><i></i><i></i><span class="sitio__bolsa"></span></div>
+              <div class="sitio__cats">{[0, 1, 2, 3, 4].map(() => <i></i>)}</div>
+              <div class="sitio__hero">
+                <span class="sitio__tit"></span><span class="sitio__tit sitio__tit--corto"></span>
+                <span class="sitio__btn">Comprar</span>
+              </div>
+              <div class="sitio__fila">
+                {[0, 1, 2].map(() => (
+                  <span class="sitio__prod"><i class="sitio__foto"></i><i class="sitio__linea"></i><i class="sitio__precio"></i></span>
+                ))}
+              </div>
             </div>
             <span class="barrido" data-barrido aria-hidden="true"></span>
 
@@ -78,7 +92,7 @@ const bloques = [
             </div>
           </div>
         </div>
-        <figcaption class="lectura proceso__pie"><b>obra 01</b> elgatogalletero.com</figcaption>
+        <figcaption class="lectura proceso__pie"><b>maqueta</b> así se construye la tuya</figcaption>
       </figure>
     </div>
   </div>
@@ -108,7 +122,7 @@ const bloques = [
   :global(html:not(.motion)) .fases { display: grid; gap: 24px; }
 
   .proceso__obra { position: relative; }
-  .proceso__pie { position: absolute; left: 0; bottom: -26px; }
+  .proceso__pie { position: absolute; left: 0; bottom: -24px; display: block; }
   .lienzo { position: relative; aspect-ratio: 16 / 10.4; overflow: hidden; background: var(--tinta-2); }
   .capa { position: absolute; inset: 0; }
 
@@ -131,7 +145,31 @@ const bloques = [
   .wire i { position: absolute; left: 5px; top: 4px; font-family: var(--mono); font-size: var(--fs-nano); letter-spacing: 0.1em; text-transform: uppercase; color: var(--azul-300); font-style: normal; }
   .skel { position: absolute; background: var(--tinta-4); }
   .skel--azul { background: var(--azul); }
-  .capa--foto img { width: 100%; height: auto; }
+
+  /* ── El sitio publicado ─────────────────────────────────────────────── */
+  .sitio { background: var(--papel); padding: 3%; display: grid; grid-template-rows: 9% 6% 1fr 28%; gap: 2%; align-content: start; }
+  .sitio__nav { display: flex; align-items: center; gap: 4%; padding-inline: 2%; background: var(--blanco); border: 1px solid color-mix(in srgb, var(--tinta) 10%, transparent); }
+  .sitio__marca { width: 16%; height: 34%; background: var(--tinta); }
+  .sitio__nav i { width: 9%; height: 14%; background: color-mix(in srgb, var(--tinta) 32%, transparent); }
+  .sitio__bolsa { margin-left: auto; width: 6%; aspect-ratio: 1; border: 1.5px solid var(--azul); }
+  .sitio__cats { display: grid; grid-template-columns: repeat(5, 1fr); gap: 1.4%; }
+  .sitio__cats i { background: color-mix(in srgb, var(--azul) 16%, transparent); }
+  .sitio__hero {
+    display: grid; align-content: center; justify-items: center; gap: 4%;
+    background: linear-gradient(118deg, var(--azul-900), var(--azul-700) 52%, var(--azul) 100%);
+  }
+  .sitio__tit { width: 46%; height: 11%; background: color-mix(in srgb, var(--papel) 92%, transparent); }
+  .sitio__tit--corto { width: 28%; height: 8%; background: color-mix(in srgb, var(--papel) 58%, transparent); }
+  .sitio__btn {
+    display: grid; place-items: center; width: 22%; min-height: 13%; padding: 0.4em;
+    background: var(--azul-200); color: var(--tinta-2);
+    font-family: var(--mono); font-size: var(--fs-nano); letter-spacing: 0.14em; text-transform: uppercase;
+  }
+  .sitio__fila { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2%; }
+  .sitio__prod { display: grid; grid-template-rows: 1fr auto auto; gap: 6%; background: var(--blanco); padding: 4%; border: 1px solid color-mix(in srgb, var(--tinta) 8%, transparent); }
+  .sitio__foto { background: color-mix(in srgb, var(--azul) 22%, transparent); }
+  .sitio__linea { height: 7px; background: color-mix(in srgb, var(--tinta) 24%, transparent); }
+  .sitio__precio { height: 7px; width: 40%; background: var(--azul); }
 
   .barrido { position: absolute; top: 0; bottom: 0; left: 0; width: 2px; background: var(--azul-200); box-shadow: 0 0 20px 5px color-mix(in srgb, var(--azul-300) 60%, transparent); opacity: 0; }
 
@@ -147,8 +185,8 @@ const bloques = [
   @keyframes parpadeo { 50% { opacity: 0; } }
   .ventana__vivo { opacity: 0; }
 
-  /* Sin JavaScript la maqueta no puede construirse sola, así que se muestra la
-     obra terminada: la captura real, el panel y el sello de "en línea". */
+  /* Sin JavaScript la maqueta no puede construirse sola, así que se muestra
+     terminada: el sitio publicado, el panel y el sello de "en línea". */
   :global(html:not(.motion)) [data-capa='plano'],
   :global(html:not(.motion)) [data-capa='notas'],
   :global(html:not(.motion)) [data-capa='wire'],
