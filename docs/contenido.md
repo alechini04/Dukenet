@@ -77,5 +77,9 @@ de un cliente no aparece: ni en la portada ni en el proceso.
 3. El texto alternativo describe lo que se ve, en español, sin "imagen de".
    Si la imagen es decorativa, `alt=""`.
 4. Revisa que no aparezcan marcas de terceros en la foto.
-5. `og.png` (1200 × 630) es la miniatura al compartir el enlace; si cambia el
-   titular de la portada, conviene rehacerla.
+5. `og.png` (1200 × 630) es la miniatura al compartir el enlace —lo primero que
+   ve alguien cuando le pasan el sitio por WhatsApp—. Es una captura de la
+   portada real, así que **cada vez que cambie el diseño de la portada hay que
+   rehacerla**: abre `http://localhost:4321/?movimiento=si` en una ventana de
+   1200 × 630, espera a que el objeto 3D aparezca y captura. Si se queda con un
+   diseño viejo, el enlace compartido miente.
