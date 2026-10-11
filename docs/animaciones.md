@@ -91,18 +91,22 @@ raíz, quita `<Nucleo />` del layout.
 
 Para cambiar el ritmo mueve `F` y `FIN`; para que dure más o menos scroll, cambia el `3`.
 
-## Ver la versión con movimiento en un equipo que lo tiene apagado
+## El interruptor de movimiento
 
-Windows trae los efectos de animación apagados en muchos equipos, y entonces la página
-se ve quieta a propósito. Para revisar el diseño sin tocar la configuración del sistema:
+Windows trae los efectos de animación apagados en muchos equipos, y entonces la página se
+ve quieta a propósito. El problema es que así nadie se entera de que hay otra versión, ni
+siquiera para decidir si la quiere.
 
-```
-http://localhost:4321/?movimiento=si
-```
+Por eso el pie lleva un botón —**«Activar movimiento»**— que **solo aparece cuando hay
+algo que elegir**: cuando el sistema pide menos movimiento, o cuando ya se eligió la
+versión completa. Al tocarlo guarda la decisión en el navegador y recarga.
 
-Queda guardado en el navegador; `?movimiento=no` lo devuelve a lo que diga el sistema.
-Es una ayuda para revisar, no un truco para ignorar la preferencia: quien no pase por esa
-dirección sigue viendo la versión quieta.
+Para revisar el diseño sin tocar nada también sirve la dirección
+`?movimiento=si`, y `?movimiento=no` devuelve el control al sistema. Ambas cosas escriben
+la misma clave, `dkn-movimiento`, que lee el script del `<head>` antes de pintar.
+
+Nada de esto ignora la preferencia: por defecto siempre manda el sistema. Lo único que se
+añade es la posibilidad de cambiar de opinión.
 
 ## Probar con movimiento reducido
 

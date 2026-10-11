@@ -141,6 +141,26 @@ if (puedeCon3d) {
   }
 }
 
+/* ── Interruptor de movimiento ──────────────────────────────────────────────
+   Quien tiene los efectos de animación apagados en su equipo ve la página
+   quieta, y sin un control visible no tiene cómo enterarse de que hay otra
+   versión. El botón solo aparece cuando hay algo que elegir, y la decisión se
+   guarda en el navegador: por defecto siempre manda la preferencia del sistema. */
+const interruptor = $<HTMLButtonElement>('[data-movimiento]');
+if (interruptor) {
+  const pideReducir = matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let guardado: string | null = null;
+  try { guardado = localStorage.getItem('dkn-movimiento'); } catch {}
+  if (pideReducir || guardado === '1') {
+    interruptor.hidden = false;
+    interruptor.textContent = rm ? 'Activar movimiento' : 'Reducir movimiento';
+    interruptor.addEventListener('click', () => {
+      try { localStorage.setItem('dkn-movimiento', rm ? '1' : '0'); } catch {}
+      location.reload();
+    });
+  }
+}
+
 /* ── Botón flotante ─────────────────────────────────────────────────────── */
 const flota = $('[data-flota]');
 const contacto = $('#contacto');

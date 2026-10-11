@@ -3,13 +3,14 @@ import Base from '../layouts/Base.astro';
 import Icon from '../components/Icon.astro';
 import { WHATSAPP, wa } from '../data/site';
 const MSG = 'Hola DukeNet, quiero información para la web de mi negocio.';
+// Los mismos desvíos que ofrece el menú, con los mismos nombres: si aquí dicen
+// otra cosa, quien se pierde no reconoce a dónde va.
 const destinos = [
-  { href: '/#porque', n: '00', t: 'Por qué' },
-  { href: '/#servicios', n: '01', t: 'Servicios' },
-  { href: '/#proceso', n: '02', t: 'Proceso' },
-  { href: '/#obras', n: '03', t: 'Obras' },
-  { href: '/#datos', n: '04', t: 'Datos' },
-  { href: '/#contacto', n: '05', t: 'Cotizar' },
+  { href: '/#servicios', t: 'Servicios' },
+  { href: '/#proceso', t: 'Proceso' },
+  { href: '/#obras', t: 'Trabajos' },
+  { href: '/#datos', t: 'Datos' },
+  { href: '/#contacto', t: 'Contacto' },
 ];
 ---
 <Base
@@ -26,7 +27,7 @@ const destinos = [
         <div class="e404__cta">
           <a class="btn btn--azul" href="/">Volver al inicio <Icon name="arrow-ur" /></a>
           {WHATSAPP.map((w) => (
-            <a class="btn btn--linea" href={wa(w.tel, MSG)} target="_blank" rel="noopener"><Icon name="whatsapp" /> {w.label}</a>
+            <a class="btn" href={wa(w.tel, MSG)} target="_blank" rel="noopener"><Icon name="whatsapp" /> {w.label}</a>
           ))}
         </div>
       </div>
@@ -45,7 +46,7 @@ const destinos = [
     <nav class="e404__rutas marco" aria-label="Secciones del sitio">
       <ul>
         {destinos.map((d) => (
-          <li><a href={d.href}><span>{d.n}</span>{d.t}<Icon name="arrow-ur" /></a></li>
+          <li><a href={d.href}>{d.t}<Icon name="arrow-ur" /></a></li>
         ))}
       </ul>
     </nav>
@@ -55,7 +56,7 @@ const destinos = [
 <style>
   .e404 { min-height: 100svh; display: grid; align-content: center; padding-block: clamp(80px, 12vh, 150px); }
   .e404__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr); gap: clamp(28px, 5vw, 70px); align-items: center; }
-  .e404__tit { margin-top: 18px; font-size: var(--fs-hero); font-weight: 800; letter-spacing: -0.045em; line-height: 0.92; }
+  .e404__tit { margin-top: 18px; font-size: var(--fs-hero); font-weight: 700; letter-spacing: -0.045em; line-height: 0.92; }
   .azul { color: var(--azul-300); }
   .e404__lead { margin-top: 20px; }
   .e404__cta { margin-top: 30px; display: flex; flex-wrap: wrap; gap: 12px; }
@@ -65,10 +66,9 @@ const destinos = [
   .e404__vacio span { font-family: var(--mono); font-size: var(--fs-micro); letter-spacing: 0.18em; text-transform: uppercase; color: color-mix(in srgb, var(--papel) 40%, transparent); }
 
   .e404__rutas { margin-top: clamp(44px, 6vw, 80px); }
-  .e404__rutas ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--linea); border-block: 1px solid var(--linea); }
+  .e404__rutas ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 1px; background: var(--linea); border-block: 1px solid var(--linea); }
   .e404__rutas a { display: flex; align-items: center; gap: 12px; padding: 16px 14px; background: var(--tinta); text-decoration: none; font-weight: 600; font-size: var(--fs-small); transition: background 0.4s var(--ease); }
   .e404__rutas a:hover { background: var(--tinta-2); }
-  .e404__rutas span { font-family: var(--mono); font-size: var(--fs-micro); letter-spacing: 0.14em; color: var(--azul-300); font-weight: 400; }
   .e404__rutas :global(svg) { width: 15px; height: 15px; margin-left: auto; opacity: 0.6; }
 
   @media (max-width: 900px) {

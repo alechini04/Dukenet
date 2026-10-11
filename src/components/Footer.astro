@@ -26,7 +26,7 @@ const MSG = 'Hola DukeNet, quiero información para la web de mi negocio.';
           <ul>
             <li><a href="/#servicios">Servicios</a></li>
             <li><a href="/#proceso">Proceso</a></li>
-            <li><a href="/#obras">Obras</a></li>
+            <li><a href="/#obras">Trabajos</a></li>
             <li><a href="/#contacto">Cotizar</a></li>
           </ul>
         </div>
@@ -42,6 +42,8 @@ const MSG = 'Hola DukeNet, quiero información para la web de mi negocio.';
     </div>
     <div class="pie__base">
       <span>© 2026 DukeNet · Colombia</span>
+      <!-- Solo aparece si el equipo pide menos movimiento: ahí sí hay algo que elegir. -->
+      <button type="button" class="pie__mov" data-movimiento hidden>Activar movimiento</button>
       <span class="pie__legal">
         <a href="/privacidad">Datos personales</a>
         <a href="/cookies">Cookies</a>
@@ -72,6 +74,17 @@ const MSG = 'Hola DukeNet, quiero información para la web de mi negocio.';
   .pie__legal a { padding-block: 5px; margin-block: -5px; text-decoration: none; }
   .pie__legal a:hover, .pie__arriba:hover { color: var(--papel); }
   .pie__arriba { display: inline-flex; flex: none; align-items: center; gap: 6px; padding-block: 5px; margin-block: -5px; text-decoration: none; }
+
+  /* Interruptor de movimiento: la preferencia del sistema manda, pero aquí se
+     puede cambiar de opinión sin ir a la configuración de Windows. */
+  .pie__mov {
+    display: inline-flex; align-items: center; gap: 8px; min-height: 30px; padding: 0 14px;
+    background: transparent; color: inherit; border: 1px solid var(--linea-fuerte);
+    border-radius: var(--r-pill); font: inherit; letter-spacing: 0.1em; text-transform: uppercase;
+    cursor: pointer; transition: color 0.35s var(--ease), border-color 0.35s var(--ease);
+  }
+  .pie__mov::before { content: ''; width: 6px; height: 6px; border-radius: var(--r-pill); background: currentColor; }
+  .pie__mov:hover { color: var(--azul-200); border-color: var(--azul); }
   .pie__arriba :global(svg) { width: 12px; height: 12px; }
 
   .flota {
