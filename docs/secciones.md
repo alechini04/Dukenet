@@ -24,8 +24,12 @@ y el **plano** —rejilla, ejes y cursor propio—
 
 Solo el logotipo —**Duke** en papel, **Net** en azul— centrado, y a la derecha el botón
 de menú. El menú ocupa la pantalla completa con las cinco secciones, el botón de cotizar
-y los dos WhatsApp. Debajo del encabezado, una línea de un píxel marca cuánto llevas
-leído.
+y los dos WhatsApp, y se comporta como un diálogo: atrapa el foco del teclado y apaga el
+resto de la página mientras está abierto. Debajo del encabezado, una línea de un píxel
+marca cuánto llevas leído.
+
+Sin JavaScript el botón no aparece, porque no podría abrir nada: ahí la navegación son
+las píldoras de los cuatro servicios en la portada y los enlaces del pie.
 
 ## Portada
 

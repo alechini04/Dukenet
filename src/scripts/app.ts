@@ -50,6 +50,11 @@ document.addEventListener('click', (e) => {
 const toggle = $<HTMLButtonElement>('[data-menu-toggle]');
 const menu = $('[data-menu]');
 const menuLabel = $('[data-menu-label]');
+/* El menú tapa la página entera, así que mientras está abierto el resto se
+   apaga con `inert`: si no, el teclado sigue entrando en enlaces invisibles. */
+const detras = () => [$('main'), $('footer')].filter(Boolean) as HTMLElement[];
+const focosDelMenu = () => (menu ? $$<HTMLElement>('a[href], button:not([disabled])', menu) : []);
+
 function abrirMenu() {
   if (!toggle || !menu) return;
   menu.hidden = false;
@@ -57,20 +62,36 @@ function abrirMenu() {
   if (menuLabel) menuLabel.textContent = 'Cerrar menú';
   lenis?.stop();
   document.body.style.overflow = 'hidden';
+  detras().forEach((el) => (el.inert = true));
   if (motion) gsap.fromTo($$('li, .menu__cta', menu), { y: Y(18), autoAlpha: 0 }, { y: 0, autoAlpha: 1, stagger: 0.05, duration: 0.5, ease: 'power3.out' });
-  $<HTMLAnchorElement>('a', menu)?.focus();
+  focosDelMenu()[0]?.focus();
 }
-function cerrarMenu() {
+
+function cerrarMenu(devolverFoco = false) {
   if (!toggle || !menu || menu.hidden) return;
   menu.hidden = true;
   toggle.setAttribute('aria-expanded', 'false');
   if (menuLabel) menuLabel.textContent = 'Abrir menú';
   lenis?.start();
   document.body.style.overflow = '';
+  detras().forEach((el) => (el.inert = false));
+  if (devolverFoco) toggle.focus();
 }
-toggle?.addEventListener('click', () => (menu?.hidden ? abrirMenu() : cerrarMenu()));
+
+toggle?.addEventListener('click', () => (menu?.hidden ? abrirMenu() : cerrarMenu(true)));
+
 document.addEventListener('keydown', (e) => {
-  if (e.key === 'Escape' && menu && !menu.hidden) { cerrarMenu(); toggle?.focus(); }
+  if (!menu || menu.hidden || !toggle) return;
+  if (e.key === 'Escape') { cerrarMenu(true); return; }
+  if (e.key !== 'Tab') return;
+  /* El foco da vueltas dentro del diálogo: botón de cerrar y enlaces, y ya */
+  const vuelta = [toggle, ...focosDelMenu()];
+  const i = vuelta.indexOf(document.activeElement as HTMLElement);
+  const siguiente = e.shiftKey
+    ? (i <= 0 ? vuelta.length - 1 : i - 1)
+    : (i === vuelta.length - 1 ? 0 : i + 1);
+  e.preventDefault();
+  vuelta[siguiente]?.focus();
 });
 
 /* ── Encabezado ─────────────────────────────────────────────────────────── */

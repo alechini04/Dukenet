@@ -111,6 +111,11 @@ Revisado sobre la página compilada, en escritorio y en celular:
   `1fr` a secas: usa `minmax(0, 1fr)`, o el contenido más ancho impondrá el
   tamaño mínimo de toda la página.
 - Enlace para saltar al contenido, visible al tabular.
-- El menú se cierra con `Esc` y devuelve el foco al botón.
+- El menú es un diálogo de verdad: se anuncia como tal (`role="dialog"`,
+  `aria-modal`), el foco da vueltas dentro mientras está abierto, el resto de la
+  página queda `inert`, y al cerrarse con `Esc` o con el botón el foco vuelve a
+  donde estaba. Si tocas el menú, comprueba las tres cosas: que el tabulador no
+  se escape, que `main` y `footer` recuperen el foco al cerrar, y que un enlace
+  del menú cierre y navegue.
 
 Si agregas una sección, eso es lo que hay que sostener.

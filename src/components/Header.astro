@@ -29,7 +29,7 @@ const MSG = 'Hola DukeNet, quiero información para la web de mi negocio.';
   <div class="hdr__avance" aria-hidden="true"><i data-avance></i></div>
 </header>
 
-<div class="menu" id="menu" data-menu hidden>
+<div class="menu" id="menu" data-menu hidden role="dialog" aria-modal="true" aria-label="Menú">
   <div class="menu__fondo"></div>
   <nav class="marco menu__cuerpo" aria-label="Menú">
     <ul class="menu__lista">
@@ -78,6 +78,10 @@ const MSG = 'Hola DukeNet, quiero información para la web de mi negocio.';
   .boton-menu__ico i { display: block; width: 14px; height: 1px; background: currentColor; transition: transform 0.45s var(--ease); }
   .boton-menu[aria-expanded='true'] .boton-menu__ico i:first-child { transform: translateY(3px) rotate(45deg); }
   .boton-menu[aria-expanded='true'] .boton-menu__ico i:last-child { transform: translateY(-3px) rotate(-45deg); }
+
+  /* Sin JavaScript el botón no puede abrir nada: mejor no ofrecerlo. La
+     navegación queda en las píldoras de la portada y en el pie. */
+  :global(html:not(.motion)) .boton-menu { display: none; }
 
   .hdr__avance { height: 1px; background: var(--linea); }
   .hdr__avance i { display: block; height: 100%; background: var(--azul-300); transform: scaleX(0); transform-origin: left; }
