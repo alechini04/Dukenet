@@ -267,7 +267,9 @@ function iniciarMovimiento() {
 
   /* Las capturas reales se recorren solas: el sitio del cliente, vivo */
   if (!rm) $$('[data-tira]').forEach((img) => {
-    const marco = img.parentElement!;
+    /* El marco es el recuadro que recorta, no el padre: entre medias puede
+       haber un <picture>, que al ser en línea mide cero de alto. */
+    const marco = img.closest<HTMLElement>('[data-marco]') ?? img.parentElement!;
     const recorrido = () => Math.max(0, img.offsetHeight - marco.clientHeight);
     gsap.fromTo(img, { y: 0 }, {
       y: () => -recorrido(), duration: 26, ease: 'none', repeat: -1, yoyo: true,

@@ -55,15 +55,34 @@ hay son las capturas del trabajo entregado.
 
 ### Capturas de los casos · `public/obras/`
 
+Cada captura existe en tres formatos y el navegador elige el que entienda. El
+JPG es el que se nombra en el `<img>` y el que siempre funciona; los otros dos
+son `<source>` y pesan la mitad.
+
 | Archivo | Medidas | Peso |
 |---|---|---|
+| `gato-galletero.avif` | 1200 × 2167 | 97 KB |
+| `gato-galletero.webp` | 1200 × 2167 | 120 KB |
 | `gato-galletero.jpg` | 1200 × 2167 | 184 KB |
+| `gato-galletero-movil.avif` | 560 × 2297 | 34 KB |
+| `gato-galletero-movil.webp` | 560 × 2297 | 43 KB |
 | `gato-galletero-movil.jpg` | 560 × 2297 | 62 KB |
+
+Si rehaces una captura, genera los tres a la vez:
+
+```bash
+node -e "const s=require('sharp');const f='public/obras/NOMBRE';s(f+'.jpg').avif({quality:52,effort:6}).toFile(f+'.avif');s(f+'.jpg').webp({quality:76,effort:6}).toFile(f+'.webp')"
+```
 
 Son capturas de página completa (por eso son tan altas: se recorren solas). Si
 rehaces una, mantén la proporción o ajusta el `width`/`height` de la etiqueta
 `<img>` en [`Obras.astro`](../src/components/Obras.astro), porque esas medidas son
 las que evitan que la página salte mientras carga.
+
+El recorrido automático mide el recuadro marcado con `data-marco`, no el padre
+directo de la imagen: entre medias hay un `<picture>`, que al ser en línea mide
+cero de alto. Si envuelves la imagen en algo más, el `data-marco` tiene que
+quedar en el recuadro que recorta.
 
 Estas capturas se usan **solo** en «Trabajos realizados». Fuera de ahí el trabajo
 de un cliente no aparece: ni en la portada ni en el proceso.

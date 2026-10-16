@@ -9,7 +9,7 @@ const casos = [
     n: '01', nombre: 'El Gato Galletero', url: 'https://www.elgatogalletero.com/', dominio: 'elgatogalletero.com',
     tipo: 'Tienda en línea', estado: 'Entregada', anio: '2026',
     texto: 'Tienda completa con causa: catálogo por categorías, combos y envíos a toda Colombia. Cada compra apoya el rescate de gatos en Bucaramanga.',
-    desk: '/obras/gato-galletero.jpg', movil: '/obras/gato-galletero-movil.jpg',
+    desk: '/obras/gato-galletero', movil: '/obras/gato-galletero-movil',
   },
 ];
 const MSG = 'Hola DukeNet, quiero pedir el cupo del mes para la web de mi negocio.';
@@ -35,10 +35,22 @@ const MSG = 'Hola DukeNet, quiero pedir el cupo del mes para la web de mi negoci
                 <span class="ventana__url">{c.dominio}</span>
                 <span class="ventana__vivo" aria-hidden="true"><i></i>en línea</span>
               </div>
-              <div class="ventana__vista"><img src={c.desk} alt={`Página de inicio de ${c.nombre}`} width="1200" height="2167" loading="lazy" decoding="async" data-tira /></div>
+              <div class="ventana__vista" data-marco>
+                <picture>
+                  <source srcset={`${c.desk}.avif`} type="image/avif" />
+                  <source srcset={`${c.desk}.webp`} type="image/webp" />
+                  <img src={`${c.desk}.jpg`} alt={`Página de inicio de ${c.nombre}`} width="1200" height="2167" loading="lazy" decoding="async" data-tira />
+                </picture>
+              </div>
             </div>
             <div class="telefono" aria-hidden="true">
-              <div class="telefono__vista"><img src={c.movil} alt="" width="560" height="2297" loading="lazy" decoding="async" data-tira /></div>
+              <div class="telefono__vista" data-marco>
+                <picture>
+                  <source srcset={`${c.movil}.avif`} type="image/avif" />
+                  <source srcset={`${c.movil}.webp`} type="image/webp" />
+                  <img src={`${c.movil}.jpg`} alt="" width="560" height="2297" loading="lazy" decoding="async" data-tira />
+                </picture>
+              </div>
             </div>
           </a>
 
