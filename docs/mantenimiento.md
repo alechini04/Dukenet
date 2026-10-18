@@ -9,6 +9,10 @@ npm run build    # compila a dist/
 npm run preview  # sirve dist/ como lo vería un visitante
 ```
 
+Hay cosas que solo se pueden comprobar sobre `dist/`, no sobre el servidor de
+desarrollo: las rutas con huella (`/_astro/…`), el caché y si una precarga de
+verdad se aprovecha. Para eso está `npm run build && npm run preview`.
+
 ## Dependencias
 
 | Paquete | Versión | Para qué |
@@ -41,6 +45,14 @@ Si lo mueves adentro, se recorta al alto de la barra.
 
 **`hidden` no gana contra una clase.** El menú trae el atributo `hidden`, pero
 `.menu { display: grid }` lo pisa: por eso existe la regla `.menu[hidden]`.
+
+**Las tipografías van precargadas a mano.** El `<head>` lleva dos
+`<link rel="preload">` con los dos subconjuntos latinos, el de texto y el mono,
+importados desde el paquete para que Astro les ponga la misma huella que usa el
+CSS. Si no coinciden exactamente, el navegador descarga cada fuente dos veces,
+que es peor que no precargar nada: compruébalo sobre `dist/`, no en desarrollo
+—ahí siempre se ven dos peticiones por culpa del caché del servidor—. Y si
+cambias de tipografía, cambia también esos dos imports.
 
 **El movimiento reducido es más común de lo que parece.** Windows trae los
 efectos de animación apagados en muchos equipos, así que hay visitantes reales

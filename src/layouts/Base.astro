@@ -1,5 +1,10 @@
 ---
 import '../styles/global.css';
+// Las dos fuentes que sí se usan en español. Sin esto el navegador no se entera
+// de que existen hasta terminar de leer el CSS, y el titular —que es enorme—
+// parpadea de la tipografía del sistema a la nuestra.
+import overpassLatin from '@fontsource-variable/overpass/files/overpass-latin-wght-normal.woff2?url';
+import monoLatin from '@fontsource-variable/overpass-mono/files/overpass-mono-latin-wght-normal.woff2?url';
 import Plano from '../components/Plano.astro';
 import Nucleo from '../components/Nucleo.astro';
 import { WHATSAPP, CIUDADES } from '../data/site';
@@ -32,6 +37,8 @@ const negocio = {
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
+    <link rel="preload" href={overpassLatin} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={monoLatin} as="font" type="font/woff2" crossorigin />
     <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
     <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
     <meta name="theme-color" content="#0c0d0e" />
