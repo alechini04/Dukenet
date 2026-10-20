@@ -7,7 +7,7 @@ import overpassLatin from '@fontsource-variable/overpass/files/overpass-latin-wg
 import monoLatin from '@fontsource-variable/overpass-mono/files/overpass-mono-latin-wght-normal.woff2?url';
 import Plano from '../components/Plano.astro';
 import Nucleo from '../components/Nucleo.astro';
-import { WHATSAPP, CIUDADES } from '../data/site';
+import { WHATSAPP, CIUDADES, SERVICIOS } from '../data/site';
 
 interface Props { title: string; description: string; robots?: string }
 const { title, description, robots = 'index, follow, max-image-preview:large, max-snippet:-1' } = Astro.props;
@@ -25,7 +25,24 @@ const negocio = {
   inLanguage: 'es-CO',
   telephone: WHATSAPP.map((w) => `+${w.tel}`),
   areaServed: [{ '@type': 'Country', name: 'Colombia' }, ...CIUDADES.map((c) => ({ '@type': 'City', name: c }))],
-  serviceType: ['Tienda en línea', 'Página de negocio', 'Landing de campaña', 'Datos y acompañamiento'],
+  // Los cuatro servicios con el mismo nombre y el mismo texto que la página: un
+  // catálogo sin precios, porque los precios se cotizan y no están escritos.
+  hasOfferCatalog: {
+    '@type': 'OfferCatalog',
+    name: 'Desarrollo web a medida',
+    itemListElement: SERVICIOS.map((s) => ({
+      '@type': 'Offer',
+      itemOffered: {
+        '@type': 'Service',
+        name: s.nombre,
+        description: s.texto,
+        serviceType: s.nombre,
+        provider: { '@type': 'ProfessionalService', name: 'DukeNet' },
+        areaServed: { '@type': 'Country', name: 'Colombia' },
+      },
+      url: new URL(`/#serv-${s.id}`, Astro.site).href,
+    })),
+  },
   knowsLanguage: 'es-CO',
 };
 ---
