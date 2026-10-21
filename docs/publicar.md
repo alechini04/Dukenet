@@ -43,7 +43,12 @@ y volver a compilar; no hay ningún otro lugar donde esté escrito a mano.
 - `robots.txt` y `sitemap-index.xml` (el sitemap se genera en cada compilación y
   deja la 404 por fuera).
 - `meta robots` con `max-image-preview:large`, `geo.region` para Colombia,
-  `theme-color`, favicon SVG y `apple-touch-icon` de 180 × 180.
+  `theme-color` (el mismo negro del fondo, para que la barra del navegador no
+  desentone), favicon SVG y `apple-touch-icon` de 180 × 180.
+- `site.webmanifest` con el nombre, la descripción y tres iconos, para cuando
+  alguien guarda el sitio en la pantalla de inicio del celular. El de 512 marcado
+  como `maskable` tiene la marca encogida dentro de la zona segura: si se dibuja
+  a sangre, Android le recorta las esquinas al hacerlo redondo.
 - Idioma declarado `es-CO`.
 - Todas las imágenes con medidas reales, para que la página no salte mientras
   carga.

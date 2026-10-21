@@ -37,7 +37,7 @@ npm run preview  # sirve dist/
 
 El dominio de producción es `https://dukenet.co` y está declarado en `astro.config.mjs` (`site`) y en `public/robots.txt`. Si cambia el dominio hay que actualizar esos dos archivos: de ahí salen el enlace canónico, el sitemap, las etiquetas para redes y los datos estructurados.
 
-Ya incluidos: `robots.txt`, `sitemap-index.xml`, canónico, Open Graph y Twitter con imagen `og.png` (1200×630), datos estructurados de tipo `ProfessionalService`, favicon, `apple-touch-icon` y página de error (`src/pages/404.astro` → `dist/404.html`, marcada `noindex` y fuera del sitemap). Casi todos los hostings la sirven solos; en algunos hay que indicarla en su configuración.
+Ya incluidos: `robots.txt`, `sitemap-index.xml`, canónico, Open Graph y Twitter con imagen `og.png` (1200×630), datos estructurados de tipo `ProfessionalService` con el catálogo de los cuatro servicios, favicon, `apple-touch-icon`, `site.webmanifest` con iconos para la pantalla de inicio, y página de error (`src/pages/404.astro` → `dist/404.html`, marcada `noindex` y fuera del sitemap). Casi todos los hostings la sirven solos; en algunos hay que indicarla en su configuración.
 
 Los pasos completos, las opciones de hosting y la lista de lo que trae resuelto para buscadores están en [docs/publicar.md](docs/publicar.md).
 
