@@ -29,8 +29,26 @@ domicilio: '',     // dirección de notificaciones
 correo: '',        // correo para derechos de habeas data
 ```
 
-Llena esos cuatro campos y las tres páginas quedan completas. Revisa también `ciudad` y
-las fechas `vigencia` y `actualizado`.
+Llena esos cuatro campos y las tres páginas quedan completas. Revisa también `ciudad`.
+
+## Las fechas
+
+`vigencia` es común a las tres políticas: el día que entraron en vigor. `actualizado`, en
+cambio, lleva **una fecha por política**:
+
+```ts
+actualizado: {
+  privacidad: '5 de octubre de 2026',
+  cookies: '23 de octubre de 2026',
+  terminos: '5 de octubre de 2026',
+},
+```
+
+Esto no es cosmético. La política de privacidad promete que «la fecha de arriba siempre
+indica qué versión está vigente», así que una sola fecha compartida mentiría sobre las dos
+políticas que no se tocaron. **Cuando cambies el texto de una, cambia su fecha y solo la
+suya.** Cada página declara cuál es con la propiedad `politica` del layout, así que no se
+puede añadir una política nueva sin darle su fecha.
 
 ## La autorización en el formulario
 

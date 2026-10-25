@@ -4,8 +4,13 @@ import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import { LEGAL } from '../data/legal';
 
-interface Props { title: string; description: string; numero: string; titulo: string; intro: string; indice: { id: string; t: string }[] }
-const { title, description, numero, titulo, intro, indice } = Astro.props;
+interface Props {
+  title: string; description: string; numero: string; titulo: string; intro: string;
+  indice: { id: string; t: string }[];
+  /** Cuál de las políticas es, para mostrar su propia fecha de revisión. */
+  politica: keyof typeof LEGAL.actualizado;
+}
+const { title, description, numero, titulo, intro, indice, politica } = Astro.props;
 ---
 <Base title={title} description={description}>
   <Header />
@@ -17,7 +22,7 @@ const { title, description, numero, titulo, intro, indice } = Astro.props;
         <p class="lead legal__intro">{intro}</p>
         <p class="legal__fechas">
           <span>Vigente desde: <b>{LEGAL.vigencia}</b></span>
-          <span>Última actualización: <b>{LEGAL.actualizado}</b></span>
+          <span>Última actualización: <b>{LEGAL.actualizado[politica]}</b></span>
         </p>
       </header>
 

@@ -1,5 +1,6 @@
 ---
 import Base from '../layouts/Base.astro';
+import Footer from '../components/Footer.astro';
 import Icon from '../components/Icon.astro';
 import { WHATSAPP, wa } from '../data/site';
 const MSG = 'Hola DukeNet, quiero información para la web de mi negocio.';
@@ -51,10 +52,11 @@ const destinos = [
       </ul>
     </nav>
   </main>
+  <Footer />
 </Base>
 
 <style>
-  .e404 { min-height: 100svh; display: grid; align-content: center; padding-block: clamp(80px, 12vh, 150px); }
+  .e404 { min-height: 86svh; display: grid; align-content: center; padding-block: clamp(80px, 12vh, 150px); }
   .e404__grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 0.8fr); gap: clamp(28px, 5vw, 70px); align-items: center; }
   .e404__tit { margin-top: 18px; font-size: var(--fs-hero); font-weight: 700; letter-spacing: -0.045em; line-height: 0.92; }
   .azul { color: var(--azul-300); }
@@ -63,7 +65,7 @@ const destinos = [
   .e404__vacio { aspect-ratio: 16 / 10; display: grid; place-items: center; background: var(--tinta-2);
     background-image: linear-gradient(90deg, var(--rejilla) 1px, transparent 1px), linear-gradient(var(--rejilla) 1px, transparent 1px);
     background-size: 26px 26px; }
-  .e404__vacio span { font-family: var(--mono); font-size: var(--fs-micro); letter-spacing: 0.18em; text-transform: uppercase; color: color-mix(in srgb, var(--papel) 40%, transparent); }
+  .e404__vacio span { font-family: var(--mono); font-size: var(--fs-micro); letter-spacing: 0.18em; text-transform: uppercase; color: color-mix(in srgb, var(--papel) 58%, transparent); }
 
   .e404__rutas { margin-top: clamp(44px, 6vw, 80px); }
   .e404__rutas ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: 1px; background: var(--linea); border-block: 1px solid var(--linea); }

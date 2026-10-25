@@ -20,8 +20,17 @@ export const LEGAL = {
   correo: '',
   /** Fecha de entrada en vigencia de las políticas. */
   vigencia: '5 de octubre de 2026',
-  /** Última revisión del texto. */
-  actualizado: '5 de octubre de 2026',
+  /**
+   * Última revisión de cada política, por separado. La de privacidad promete
+   * que esta fecha dice qué versión está vigente, así que una sola fecha
+   * compartida mentiría sobre las dos que no se tocaron: cuando cambies el
+   * texto de una, cambia su fecha y solo la suya.
+   */
+  actualizado: {
+    privacidad: '5 de octubre de 2026',
+    cookies: '23 de octubre de 2026',
+    terminos: '5 de octubre de 2026',
+  },
   /** Vigencia de la base de datos: mientras dure la relación y los plazos legales. */
   vigenciaBase: 'mientras se mantenga la relación comercial y durante los plazos de conservación que exija la ley',
 };
