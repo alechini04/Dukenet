@@ -57,6 +57,13 @@ que enlaza a la política. Sin marcarla no se envía: es la autorización previa
 informada que pide el artículo 9 de la Ley 1581. La validación está en
 [`src/scripts/app.ts`](../src/scripts/app.ts), junto a la del resto del formulario.
 
+**Dónde queda la prueba.** La política promete guardar prueba de la autorización y da
+derecho a pedirla, así que la autorización viaja dentro del mensaje: la última línea del
+texto que se abre en WhatsApp la declara y enlaza a la política. La fecha y la hora las
+pone WhatsApp, y un mensaje de datos vale para eso (Ley 527 de 1999, que los términos ya
+invocan). Si marcar la casilla dejara de ser obligatorio, esa línea tendría que dejar de
+enviarse sola: estaría afirmando algo que nadie dijo.
+
 No borres esa casilla aunque estorbe: es el único registro de que el visitante autorizó.
 
 ## Lo que dicen las páginas y por qué conviene no exagerar

@@ -230,6 +230,10 @@ form?.addEventListener('submit', (e) => {
     `Negocio: ${String(data.get('negocio')).trim()}`,
     `Necesito: ${data.get('plan')}`,
     detalle && `Detalle: ${detalle}`,
+    // La autorización viaja dentro del propio mensaje. La política promete
+    // guardar prueba de ella, y hasta aquí esa prueba no salía del navegador:
+    // el mensaje, con la fecha que le pone WhatsApp, es lo que la conserva.
+    `Autorizo el tratamiento de mis datos personales para responder esta solicitud, conforme a ${form.dataset.politica}`,
   ].filter(Boolean).join('\n');
   const url = `https://wa.me/${form.dataset.tel}?text=${encodeURIComponent(txt)}`;
   const win = window.open(url, '_blank', 'noopener');

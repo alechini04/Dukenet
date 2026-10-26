@@ -23,7 +23,7 @@ const MSG = 'Hola DukeNet, quiero cotizar la web de mi negocio.';
       </ul>
     </div>
 
-    <form class="hoja" data-form data-tel={WHATSAPP[0].tel} novalidate data-sube>
+    <form class="hoja" data-form data-tel={WHATSAPP[0].tel} data-politica={new URL('/privacidad', Astro.site).href} novalidate data-sube>
       <header class="hoja__head">
         <span>Solicitud de obra</span>
         <span class="hoja__resp">Respuesta por WhatsApp</span>
