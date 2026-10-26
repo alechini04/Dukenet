@@ -54,6 +54,16 @@ que es peor que no precargar nada: compruébalo sobre `dist/`, no en desarrollo
 —ahí siempre se ven dos peticiones por culpa del caché del servidor—. Y si
 cambias de tipografía, cambia también esos dos imports.
 
+**Lo que entra al verse no existe para el tabulador.** `autoAlpha: 0` apaga la
+visibilidad, y un elemento invisible queda fuera del recorrido de teclado. Eso
+dejó el formulario entero, los cuatro botones de cotizar y la ficha de la obra
+inalcanzables para quien navega con Tab: no hay forma de llegar, porque tabular
+no desplaza la página hacia algo que no se puede enfocar. Por eso el primer Tab
+revela de golpe todo lo que seguía esperando y desactiva los disparadores de
+scroll de esos bloques —si no, al bajar volverían a ocultarse para reanimarse y
+el foco se perdería—. **Si animas la entrada de algo que contenga un enlace, un
+campo o un botón, entra en ese mismo mecanismo.**
+
 **El movimiento reducido es más común de lo que parece.** Windows trae los
 efectos de animación apagados en muchos equipos, así que hay visitantes reales
 viendo la versión sin anclaje ni paralaje. Esa versión también tiene que verse

@@ -70,7 +70,7 @@ raíz, quita `<Nucleo />` del layout.
 | Marca | Qué hace |
 |---|---|
 | `data-parte` | El título se parte en líneas y sube desde una máscara. |
-| `data-sube` | El bloque entra una vez, desde abajo, escalonado. |
+| `data-sube` | El bloque entra una vez, desde abajo, escalonado. Al primer Tab se revela sin esperar: ver [mantenimiento.md](mantenimiento.md). |
 | `data-revela` | La imagen se descubre con una máscara que sube, y la foto se asienta desde 1.18. |
 | `data-tira` | La captura real se recorre sola dentro de su ventana, en bucle de 26 s. |
 | `data-objeto` | El hueco donde se dibuja un objeto 3D, y cuál. |

@@ -295,11 +295,26 @@ function iniciarMovimiento() {
   /* Bloques y líneas de dato que entran al verse */
   const suben = $$('[data-sube]');
   if (suben.length) {
-    ScrollTrigger.batch(suben, {
+    const lotes = ScrollTrigger.batch(suben, {
       start: 'top 88%', once: true,
       onEnter: (els) => gsap.fromTo(els, { y: Y(28), autoAlpha: 0 }, { y: 0, autoAlpha: 1, duration: 0.9, stagger: 0.07, ease: 'power3.out', overwrite: true }),
     });
     gsap.set(suben, { autoAlpha: 0 });
+
+    /* `autoAlpha: 0` apaga la visibilidad, y lo invisible no existe para el
+       tabulador: el formulario, los botones de cotizar y la ficha de la obra
+       quedaban fuera del recorrido con teclado y no había forma de llegar a
+       ellos, porque tabular no desplaza la página hacia algo que no se puede
+       enfocar. Al primer Tab se revela todo lo que seguía esperando. */
+    const alTabular = (e: KeyboardEvent) => {
+      if (e.key !== 'Tab') return;
+      removeEventListener('keydown', alTabular, true);
+      /* Y se desactiva la entrada por scroll: si no, al bajar volvería a
+         ocultarlos para reanimarlos, y el foco se perdería a media frase. */
+      lotes.forEach((lote) => lote.kill());
+      gsap.to(suben.concat($$('[data-aparece]')), { autoAlpha: 1, y: 0, duration: 0.25, overwrite: true });
+    };
+    addEventListener('keydown', alTabular, true);
   }
 
   /* Imágenes que se revelan con una máscara que sube */
