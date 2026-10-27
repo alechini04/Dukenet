@@ -64,6 +64,15 @@ scroll de esos bloques —si no, al bajar volverían a ocultarse para reanimarse
 el foco se perdería—. **Si animas la entrada de algo que contenga un enlace, un
 campo o un botón, entra en ese mismo mecanismo.**
 
+**Un salto por ancla no cruza nada.** Los bloques `[data-sube]` entran al
+cruzar el borde inferior de la pantalla. Cuando se llega directo a
+`/#contacto` —desde el pie, desde la 404, desde un enlace compartido— la página
+salta, y lo que ya quedaba dentro de la pantalla nunca cruza ese borde: se
+quedaba invisible. El formulario entero desaparecía justo para quien venía a
+escribir. Por eso, cuando el scroll se detiene, se revisa qué bloques deberían
+estar revelados y no lo están, **con el mismo umbral del disparador (`top 88%`)
+y solo sobre los que siguen ocultos**, para no adelantar ninguna entrada.
+
 **El movimiento reducido es más común de lo que parece.** Windows trae los
 efectos de animación apagados en muchos equipos, así que hay visitantes reales
 viendo la versión sin anclaje ni paralaje. Esa versión también tiene que verse

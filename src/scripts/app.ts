@@ -23,6 +23,11 @@ if (motion && !rm) {
   gsap.ticker.lagSmoothing(0);
 }
 
+/* Al terminar un salto por ancla hay que revisar qué quedó a la vista: los
+   bloques que esperan para entrar se disparan al cruzar el borde de la
+   pantalla, y un salto no cruza nada. Lo pone `iniciarMovimiento`. */
+let alLlegar: (() => void) | null = null;
+
 const irA = (hash: string) => {
   const destino = hash === '#inicio' ? document.body : $(hash);
   if (!destino) return;
@@ -306,6 +311,29 @@ function iniciarMovimiento() {
        quedaban fuera del recorrido con teclado y no había forma de llegar a
        ellos, porque tabular no desplaza la página hacia algo que no se puede
        enfocar. Al primer Tab se revela todo lo que seguía esperando. */
+    /* Llegar por un enlace con ancla —el pie, la 404, un enlace compartido—
+       es un salto, y un salto no cruza el borde de la pantalla: los bloques
+       que ya estaban dentro no llegaban a dispararse nunca. El formulario de
+       contacto se quedaba invisible justo para quien venía a escribir. */
+    alLlegar = () => {
+      /* El mismo umbral que usa el disparador de scroll (`top 88%`), para no
+         adelantar la entrada de nada: esto solo rescata lo que debería haberse
+         revelado y no se reveló. */
+      const aLaVista = suben.filter((el) => {
+        const r = el.getBoundingClientRect();
+        return r.top < innerHeight * 0.88 && r.bottom > 0 && getComputedStyle(el).visibility === 'hidden';
+      });
+      if (aLaVista.length) gsap.to(aLaVista, { autoAlpha: 1, y: 0, duration: 0.4, ease: 'power2.out', overwrite: true });
+    };
+
+    /* Se revisa cuando el scroll se detiene, venga de donde venga: un salto por
+       ancla, el botón de volver arriba o el historial del navegador. */
+    let reposo = 0;
+    addEventListener('scroll', () => {
+      clearTimeout(reposo);
+      reposo = window.setTimeout(() => alLlegar?.(), 150);
+    }, { passive: true });
+
     const alTabular = (e: KeyboardEvent) => {
       if (e.key !== 'Tab') return;
       removeEventListener('keydown', alTabular, true);
@@ -435,4 +463,7 @@ function iniciarMovimiento() {
   addEventListener('load', () => ScrollTrigger.refresh());
   $$('img').forEach((img) => !img.complete && img.addEventListener('load', () => ScrollTrigger.refresh(), { once: true }));
   if (location.hash) setTimeout(() => irA(location.hash), 300);
+  /* Y si la página abre ya colocada en el ancla, sin un solo scroll de por
+     medio, no habría nada que avisara: se revisa una vez al arrancar. */
+  alLlegar?.();
 }
