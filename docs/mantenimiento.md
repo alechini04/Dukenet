@@ -73,6 +73,19 @@ escribir. Por eso, cuando el scroll se detiene, se revisa qué bloques deberían
 estar revelados y no lo están, **con el mismo umbral del disparador (`top 88%`)
 y solo sobre los que siguen ocultos**, para no adelantar ninguna entrada.
 
+**El scroll suave no dispara eventos `scroll`.** Lenis mueve la página sin que
+el navegador avise: conté los eventos durante una navegación entera por ancla y
+salieron **cero**. Por eso esa revisión se engancha a los dos lados, al evento
+nativo y al de Lenis. Si escribes algo que reaccione al scroll, no te fíes del
+evento nativo: compruébalo contándolos.
+
+**El enlace de saltar al contenido necesita que le muevan el foco.** `<main>` no
+es enfocable, y el manejador de anclas hace `preventDefault`, así que el
+navegador tampoco hace lo suyo: al pulsarlo, el foco se quedaba en el propio
+enlace y el siguiente Tab volvía al encabezado. Ahora `irA` pone `tabindex="-1"`
+en el destino y lleva el foco, pero **solo si quien navega venía con el teclado**
+(`:focus-visible`): con el ratón, robar el foco no aporta nada.
+
 **El movimiento reducido es más común de lo que parece.** Windows trae los
 efectos de animación apagados en muchos equipos, así que hay visitantes reales
 viendo la versión sin anclaje ni paralaje. Esa versión también tiene que verse

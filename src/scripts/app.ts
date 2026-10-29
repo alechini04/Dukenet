@@ -28,11 +28,18 @@ if (motion && !rm) {
    pantalla, y un salto no cruza nada. Lo pone `iniciarMovimiento`. */
 let alLlegar: (() => void) | null = null;
 
-const irA = (hash: string) => {
+const irA = (hash: string, mandaElTeclado = false) => {
   const destino = hash === '#inicio' ? document.body : $(hash);
   if (!destino) return;
   if (lenis) lenis.scrollTo(destino as HTMLElement, { offset: hash === '#inicio' ? 0 : -HEADER, duration: 1.25 });
   else destino.scrollIntoView({ block: 'start' });
+  /* Desplazar no es llegar: si el foco se queda donde estaba, el siguiente Tab
+     sigue en el encabezado y el enlace de saltar al contenido no sirve de nada.
+     Se mueve sin arrastrar la página, que de eso ya se encarga el scroll. */
+  if (mandaElTeclado && destino instanceof HTMLElement) {
+    if (!destino.hasAttribute('tabindex')) destino.setAttribute('tabindex', '-1');
+    destino.focus({ preventScroll: true });
+  }
 };
 
 document.addEventListener('click', (e) => {
@@ -45,7 +52,9 @@ document.addEventListener('click', (e) => {
   if (!$(hash) && hash !== '#inicio') return;
   e.preventDefault();
   cerrarMenu();
-  irA(hash);
+  /* Solo se roba el foco si quien navega lo estaba usando: con el ratón,
+     moverlo no aporta nada y puede desplazar la página por su cuenta. */
+  irA(hash, a.matches(':focus-visible'));
   history.replaceState(null, '', hash);
   const plan = a.dataset.plan;
   if (plan) marcarPlan(plan);
@@ -327,12 +336,18 @@ function iniciarMovimiento() {
     };
 
     /* Se revisa cuando el scroll se detiene, venga de donde venga: un salto por
-       ancla, el botón de volver arriba o el historial del navegador. */
+       ancla, el botón de volver arriba o el historial del navegador.
+       Hay que escuchar por los dos lados: el desplazamiento suave no produce
+       eventos `scroll` nativos —lo comprobé contándolos: cero en una navegación
+       entera—, y el salto que hace el navegador al abrir una dirección con
+       ancla ocurre antes de que Lenis exista. */
     let reposo = 0;
-    addEventListener('scroll', () => {
+    const alReposo = () => {
       clearTimeout(reposo);
       reposo = window.setTimeout(() => alLlegar?.(), 150);
-    }, { passive: true });
+    };
+    addEventListener('scroll', alReposo, { passive: true });
+    lenis?.on('scroll', alReposo);
 
     const alTabular = (e: KeyboardEvent) => {
       if (e.key !== 'Tab') return;
