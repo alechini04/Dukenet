@@ -60,14 +60,14 @@ const MSG = 'Hola DukeNet, quiero cotizar la web de mi negocio.';
       </div>
 
       <label class="permiso">
-        <input type="checkbox" name="permiso" required data-permiso />
+        <input type="checkbox" name="permiso" required data-permiso aria-describedby="e-permiso" />
         <span class="permiso__caja" aria-hidden="true"></span>
         <span class="permiso__txt">
           Autorizo a DukeNet a tratar mis datos personales para responder esta solicitud, conforme a la{' '}
           <a href="/privacidad">política de tratamiento de datos</a>.
         </span>
       </label>
-      <p class="campo__error permiso__error" data-error-permiso>Necesitamos tu autorización para poder responderte.</p>
+      <p class="campo__error permiso__error" id="e-permiso" data-error-permiso>Necesitamos tu autorización para poder responderte.</p>
 
       <div class="hoja__pie">
         <button type="submit" class="btn btn--azul">Enviar por WhatsApp <Icon name="arrow-ur" /></button>

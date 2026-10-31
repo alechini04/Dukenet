@@ -230,6 +230,7 @@ form?.addEventListener('submit', (e) => {
   const permiso = $<HTMLInputElement>('[data-permiso]', form);
   const faltaPermiso = !!permiso && !permiso.checked;
   form.classList.toggle('sin-permiso', faltaPermiso);
+  permiso?.setAttribute('aria-invalid', String(faltaPermiso));
   if (primerFallo || faltaPermiso) {
     estado.textContent = faltaPermiso && !primerFallo
       ? 'Marca la autorización de datos para poder enviarlo.'
@@ -257,7 +258,10 @@ form?.addEventListener('submit', (e) => {
   if (!win) location.href = url;
 });
 form?.addEventListener('change', (e) => {
-  if ((e.target as HTMLInputElement).dataset.permiso !== undefined) form.classList.remove('sin-permiso');
+  const casilla = e.target as HTMLInputElement;
+  if (casilla.dataset.permiso === undefined) return;
+  form.classList.remove('sin-permiso');
+  casilla.setAttribute('aria-invalid', 'false');
 });
 form?.addEventListener('input', (e) => {
   const input = e.target as HTMLInputElement;
