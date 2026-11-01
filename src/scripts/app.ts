@@ -184,9 +184,9 @@ if (puedeCon3d) {
 const interruptor = $<HTMLButtonElement>('[data-movimiento]');
 if (interruptor) {
   const pideReducir = matchMedia('(prefers-reduced-motion: reduce)').matches;
-  let guardado: string | null = null;
-  try { guardado = localStorage.getItem('dkn-movimiento'); } catch {}
-  if (pideReducir || guardado === '1') {
+  /* Solo se ofrece si el equipo pide reducir: sin eso no hay nada que reducir
+     (la preferencia guardada solo puede ganarle al sistema hacia «movimiento completo»). */
+  if (pideReducir) {
     interruptor.hidden = false;
     interruptor.textContent = rm ? 'Activar movimiento' : 'Reducir movimiento';
     interruptor.addEventListener('click', () => {
