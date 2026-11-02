@@ -44,8 +44,9 @@ Documentos que ya existían y siguen siendo la fuente de verdad de otra cosa:
 
 ## Cómo está armado
 
-Sitio estático en [Astro](https://astro.build) 7: una sola página (`/`) más una
-página de error (`/404`). Cada capítulo es un componente `.astro` con su HTML y
+Sitio estático en [Astro](https://astro.build) 7: la página principal (`/`),
+tres políticas legales (`/privacidad`, `/cookies`, `/terminos`) y una página de
+error (`/404`). Cada capítulo es un componente `.astro` con su HTML y
 su CSS juntos; el CSS de un componente no se escapa a los demás. Todo el
 comportamiento (menú, formulario y animaciones) vive en un único archivo,
 `src/scripts/app.ts`, que se carga una vez; el objeto 3D vive aparte en
@@ -55,11 +56,15 @@ comportamiento (menú, formulario y animaciones) vive en un único archivo,
 src/
   pages/index.astro     arma la página con los capítulos, en orden
   pages/404.astro       página de ruta no encontrada
+  pages/privacidad.astro, cookies.astro, terminos.astro
+                        las políticas legales (ver legal.md)
   layouts/Base.astro    <head>: título, SEO, datos estructurados, icono
+  layouts/Legal.astro   marco común de las tres políticas
   components/*.astro    un capítulo por archivo (Portada, Porque, Servicios,
                         Proceso, Obras, Datos, Contacto) más Header, Footer,
-                        Plano y Nucleo
+                        Plano, Nucleo e Icon
   data/site.ts          los textos y datos que se cambian seguido
+  data/legal.ts         los datos legales del titular (hoy sin completar)
   scripts/app.ts        comportamiento y animaciones
   scripts/tres.ts       el objeto 3D (se carga aparte, solo si hace falta)
   styles/global.css     colores, tipografía, botones y cajas
