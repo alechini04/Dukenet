@@ -232,3 +232,26 @@ html.puntero-fino.motion:not(.rm) a, html.puntero-fino.motion:not(.rm) button, h
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; scroll-behavior: auto !important; }
 }
+
+/* ── Impresión ──────────────────────────────────────────────────────────── */
+/* Las políticas legales existen para guardarse. Al imprimir, el navegador
+   descarta los fondos (print-color-adjust: economy) pero conserva el color del
+   texto, así que el papel casi blanco de la pantalla caería casi blanco sobre
+   blanco. En vez de forzar el fondo oscuro, que gasta tinta y que mucha gente
+   desactiva, se dan la vuelta los tokens: todo lo que mezcla sobre --papel y
+   --tinta se recalcula solo. */
+@media print {
+  :root {
+    --tinta: #ffffff; --tinta-2: #ffffff; --tinta-3: #ffffff; --tinta-4: #ffffff;
+    --papel: #08090a; --papel-2: #08090a;   /* el propio negro de la paleta */
+    --azul-200: #2c455d; --azul-300: #2c455d; --azul: #1d2d3d;
+  }
+  /* Lo que solo tiene sentido en pantalla. Hace falta !important porque el CSS
+     de cada componente está marcado con su propio atributo y pesa más. */
+  .plano, .nucleo, .cursor, .cursor__punto, .flota, .skip,
+  .boton-menu, .menu, .hdr__avance, .pie__arriba, canvas { display: none !important; }
+  .hdr { position: static !important; }
+  h1, h2, h3 { break-after: avoid; }
+  p, li { orphans: 3; widows: 3; }
+  @page { margin: 18mm; }
+}
