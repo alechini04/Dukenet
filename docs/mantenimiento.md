@@ -123,6 +123,25 @@ Si insertas contenido nuevo por JavaScript, llámalo tú.
 casi siempre hay otro proceso ocupando el puerto. Ciérralo o usa
 `npm run dev -- --port 4322`.
 
+**Una ventana que no se está pintando congela las animaciones.** Si automatizas
+el navegador y el panel está oculto o la ventana minimizada, la página sigue
+diciendo `visibilityState: "visible"` pero no dibuja: medido, cero fotogramas en
+800 ms. El reloj de GSAP va sobre `requestAnimationFrame`, así que ninguna
+animación avanza, y las transiciones CSS se quedan clavadas en el valor inicial
+de la interpolación: `getComputedStyle` devuelve un `oklab(...)` que no cambia
+por mucho que esperes. Todo lo que dependa de movimiento da falso positivo ahí.
+Para juzgar un color de estado, calcula el contraste desde los tokens en vez de
+leerlo de la página; para lo demás, trae la ventana al frente.
+
+**El árbol de accesibilidad que imprimen las herramientas no es el nombre
+accesible.** Concatena el texto de los hijos sin aplicar las reglas de
+`accname`. Comprobado con un control: dos `<span style="display:block">` pegados
+salen como `ZORROLIEBRE`, cuando un lector de pantalla diría «ZORRO LIEBRE»,
+porque un elemento de bloque aporta un separador. Los títulos del sitio reparten
+sus líneas en `<span class="ln">` o con `<br>`, y en esa salida aparecen
+pegados: **eso no prueba que se oigan mal**. Antes de «arreglar» espacios en un
+título, hace falta un lector de pantalla de verdad.
+
 ## Antes de dar por bueno un cambio
 
 1. `npm run build` sin errores.
