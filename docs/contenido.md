@@ -8,7 +8,7 @@ Un solo archivo alimenta varias secciones a la vez. Tocar aquí es lo más segur
 |---|---|
 | `WHATSAPP` | Los botones de la portada, los de la sección de cotizar, la lista del pie, el botón flotante y los teléfonos de los datos estructurados. El **primero** de la lista es al que llega el formulario. |
 | `wa(tel, texto)` | Arma el enlace `wa.me` con el mensaje ya escrito. Si agregas un botón nuevo de WhatsApp, úsala en vez de escribir la URL a mano. |
-| `SERVICIOS` | Las cuatro pestañas de Obras: letra, nombre, texto, qué incluye, botón, foto y su descripción alternativa. |
+| `SERVICIOS` | Los cuatro servicios: las píldoras de la portada, un capítulo cada uno en Servicios (nombre, promesa corta, texto, qué incluye y botón), las opciones del formulario y el catálogo de los datos estructurados. Cada uno lleva `id`, `letra`, `nombre`, `corto`, `texto`, `incluye` y `cta`; no tiene foto: las capturas viven en `Obras.astro`. |
 | `FASES` | Las cinco etapas: en la ficha de la portada y en el cronograma. |
 | `CIUDADES` | La cinta de cobertura y la lista de ciudades de los datos estructurados. |
 

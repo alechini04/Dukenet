@@ -9,7 +9,7 @@ cubren estas tres páginas.
 | Página | Archivo | Qué cubre |
 |---|---|---|
 | `/privacidad` | [`src/pages/privacidad.astro`](../src/pages/privacidad.astro) | Política de tratamiento de datos personales (Ley 1581/2012, Decreto 1074/2015). |
-| `/cookies` | [`src/pages/cookies.astro`](../src/pages/cookies.astro) | Qué se guarda en el navegador. Hoy: nada. |
+| `/cookies` | [`src/pages/cookies.astro`](../src/pages/cookies.astro) | Qué se guarda en el navegador. Hoy: ninguna cookie y una sola preferencia en el almacenamiento local, `dkn-movimiento` (la de movimiento). |
 | `/terminos` | [`src/pages/terminos.astro`](../src/pages/terminos.astro) | Uso del sitio y reglas de contratación (Ley 1480/2011, Ley 527/1999). |
 
 Las tres usan [`src/layouts/Legal.astro`](../src/layouts/Legal.astro), que arma el
