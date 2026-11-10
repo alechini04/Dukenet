@@ -251,7 +251,11 @@ form?.addEventListener('submit', (e) => {
     `Autorizo el tratamiento de mis datos personales para responder esta solicitud, conforme a ${form.dataset.politica}`,
   ].filter(Boolean).join('\n');
   const url = `https://wa.me/${form.dataset.tel}?text=${encodeURIComponent(txt)}`;
-  const win = window.open(url, '_blank', 'noopener');
+  /* Sin la opción «noopener»: con ella window.open devuelve siempre null, hasta
+     cuando la ventana sí se abrió, y la rama de abajo mandaría además la página
+     actual a WhatsApp. El aislamiento se consigue anulando opener a mano. */
+  const win = window.open(url, '_blank');
+  if (win) win.opener = null;
   estado.textContent = win
     ? 'Listo: abrimos WhatsApp con tu mensaje escrito. Solo dale enviar.'
     : 'Tu navegador bloqueó la ventana. Toca de nuevo o escríbenos directo.';
