@@ -143,8 +143,20 @@ if (fino && motion && !rm) {
     const px = gsap.quickTo(punto, 'x', { duration: 0.08, ease: 'power2' });
     const py = gsap.quickTo(punto, 'y', { duration: 0.08, ease: 'power2' });
 
+    /* Hasta el primer movimiento el cursor propio no sabe dónde está. Si se
+       cambiara antes, el visitante se quedaría sin ninguno: el nativo oculto y
+       el propio aparcado en la esquina. Los dos se cambian aquí, a la vez, y la
+       primera vez se coloca sin recorrido para que el anillo no cruce la
+       pantalla desde el origen. */
+    let colocado = false;
     addEventListener('pointermove', (e) => {
       if (e.pointerType !== 'mouse') return;
+      if (!colocado) {
+        colocado = true;
+        gsap.set([anillo, punto], { x: e.clientX, y: e.clientY });
+        document.documentElement.classList.add('con-cursor');
+        return;
+      }
       ax(e.clientX); ay(e.clientY); px(e.clientX); py(e.clientY);
     }, { passive: true });
 
