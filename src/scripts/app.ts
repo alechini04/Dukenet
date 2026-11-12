@@ -227,6 +227,13 @@ function marcarPlan(plan: string) {
   if (r) r.checked = true;
 }
 const form = $<HTMLFormElement>('[data-form]');
+/* El mensaje de error solo se asocia al campo mientras está a la vista: un
+   aria-describedby apunta también a lo que está en display:none, así que si
+   fuera fijo, cada campo válido leería su propio error como descripción. */
+function describirError(input: HTMLInputElement, id: string, mal: boolean) {
+  if (mal) input.setAttribute('aria-describedby', id);
+  else input.removeAttribute('aria-describedby');
+}
 form?.addEventListener('submit', (e) => {
   e.preventDefault();
   const data = new FormData(form);
@@ -237,12 +244,14 @@ form?.addEventListener('submit', (e) => {
     const mal = !String(data.get(key) || '').trim();
     input.closest('.campo')!.classList.toggle('con-error', mal);
     input.setAttribute('aria-invalid', String(mal));
+    describirError(input, `e-${key}`, mal);
     if (mal && !primerFallo) primerFallo = input;
   }
   const permiso = $<HTMLInputElement>('[data-permiso]', form);
   const faltaPermiso = !!permiso && !permiso.checked;
   form.classList.toggle('sin-permiso', faltaPermiso);
   permiso?.setAttribute('aria-invalid', String(faltaPermiso));
+  if (permiso) describirError(permiso, 'e-permiso', faltaPermiso);
   if (primerFallo || faltaPermiso) {
     estado.textContent = faltaPermiso && !primerFallo
       ? 'Marca la autorización de datos para poder enviarlo.'
@@ -278,6 +287,7 @@ form?.addEventListener('change', (e) => {
   if (casilla.dataset.permiso === undefined) return;
   form.classList.remove('sin-permiso');
   casilla.setAttribute('aria-invalid', 'false');
+  casilla.removeAttribute('aria-describedby');
 });
 form?.addEventListener('input', (e) => {
   const input = e.target as HTMLInputElement;
@@ -285,6 +295,7 @@ form?.addEventListener('input', (e) => {
   if (campo?.classList.contains('con-error') && input.value.trim()) {
     campo.classList.remove('con-error');
     input.setAttribute('aria-invalid', 'false');
+    input.removeAttribute('aria-describedby');
   }
 });
 
