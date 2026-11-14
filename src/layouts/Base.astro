@@ -7,7 +7,7 @@ import overpassLatin from '@fontsource-variable/overpass/files/overpass-latin-wg
 import monoLatin from '@fontsource-variable/overpass-mono/files/overpass-mono-latin-wght-normal.woff2?url';
 import Plano from '../components/Plano.astro';
 import Nucleo from '../components/Nucleo.astro';
-import { WHATSAPP, CIUDADES, SERVICIOS } from '../data/site';
+import { DESCRIPCION, WHATSAPP, CIUDADES, SERVICIOS } from '../data/site';
 
 interface Props { title: string; description: string; robots?: string }
 const { title, description, robots = 'index, follow, max-image-preview:large, max-snippet:-1' } = Astro.props;
@@ -19,7 +19,7 @@ const negocio = {
   '@context': 'https://schema.org',
   '@type': 'ProfessionalService',
   name: 'DukeNet',
-  description,
+  description: DESCRIPCION,
   url: Astro.site?.href,
   image: new URL('/og.png', Astro.site).href,
   inLanguage: 'es-CO',

@@ -9,10 +9,11 @@ import Obras from '../components/Obras.astro';
 import Datos from '../components/Datos.astro';
 import Contacto from '../components/Contacto.astro';
 import Footer from '../components/Footer.astro';
+import { DESCRIPCION } from '../data/site';
 ---
 <Base
   title="DukeNet · Webs a medida que venden, en toda Colombia"
-  description="Estudio de desarrollo web en Colombia. Diseñamos y programamos desde cero tu tienda en línea, página de negocio o landing, con datos y acompañamiento mensual."
+  description={DESCRIPCION}
 >
   <Header />
   <main id="contenido">

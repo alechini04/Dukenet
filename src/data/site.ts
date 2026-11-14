@@ -1,3 +1,9 @@
+// Lo que DukeNet es, en una frase. Es la descripción de la portada y la que va en
+// los datos estructurados de todas las páginas: la de una política describe la
+// política, no al negocio.
+export const DESCRIPCION =
+  'Estudio de desarrollo web en Colombia. Diseñamos y programamos desde cero tu tienda en línea, página de negocio o landing, con datos y acompañamiento mensual.';
+
 export const WHATSAPP = [
   { tel: '573163289924', label: '316 328 9924' },
   { tel: '573203945482', label: '320 394 5482' },
