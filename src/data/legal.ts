@@ -27,8 +27,8 @@ export const LEGAL = {
    * texto de una, cambia su fecha y solo la suya.
    */
   actualizado: {
-    privacidad: '5 de octubre de 2026',
-    cookies: '23 de octubre de 2026',
+    privacidad: '26 de octubre de 2026',
+    cookies: '9 de noviembre de 2026',
     terminos: '5 de octubre de 2026',
   },
   /** Vigencia de la base de datos: mientras dure la relación y los plazos legales. */
