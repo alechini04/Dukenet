@@ -6,3 +6,7 @@ dist/
 .impeccable/config.local.json
 .impeccable/review/
 .impeccable/decision/
+
+# Salidas de las herramientas de herramientas/
+capturas/
+.perfil-*/
