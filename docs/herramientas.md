@@ -8,7 +8,7 @@ Antes de usarlas, sirve el sitio:
 
 ```bash
 npm run build
-npm run preview        # queda en http://127.0.0.1:4323
+npm run preview        # queda en http://127.0.0.1:4323 (puerto fijado en astro.config.mjs)
 ```
 
 | Comando | Para qué |
@@ -16,6 +16,8 @@ npm run preview        # queda en http://127.0.0.1:4323
 | `npm run mirar -- capturas --ancho 390` | Un JPEG por sección y por página legal, al ancho que pidas. Para mirar. |
 | `npm run medir -- --anchos 320,390,768,1440` | Barre las cinco páginas y avisa de desplazamiento horizontal, texto recortado y blancos táctiles pequeños. Sale con código 1 si encuentra algo. |
 | `npm run arbol -- privacidad --roles heading,link` | Imprime el árbol de accesibilidad real: lo que recibe un lector de pantalla. |
+
+Si el preview ya estaba corriendo en otro puerto, detenlo (`npx astro preview stop`) y vuelve a lanzarlo: el que queda vivo conserva el puerto antiguo y las herramientas ven la página de error de Chrome.
 
 La ruta se puede escribir con barra inicial o sin ella.
 
