@@ -176,7 +176,7 @@ header, main, footer { position: relative; z-index: 1; }
 
 /* ── Botones ────────────────────────────────────────────────────────────── */
 .btn {
-  --btn-bg: transparent;
+  --btn-bg: color-mix(in srgb, var(--tinta) 80%, transparent); /* sin esto, un objeto 3D que pasa por detrás se come las letras */
   --btn-fg: var(--papel);
   --btn-line: var(--linea-fuerte);
   position: relative; overflow: hidden;
