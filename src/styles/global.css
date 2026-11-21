@@ -255,3 +255,12 @@ html.puntero-fino.motion.con-cursor:not(.rm) a, html.puntero-fino.motion.con-cur
   p, li { orphans: 3; widows: 3; }
   @page { margin: 18mm; }
 }
+
+/* El rótulo de la portada es largo: en el celular se partía en dos líneas y dejaba «COLOMBIA» suelto. */
+@media (max-width: 480px) {
+  .portada .tag--linea { letter-spacing: 0.14em; }
+}
+@media (max-width: 360px) {
+  .portada .tag--linea { letter-spacing: 0.12em; }
+  .portada .tag--linea::after { display: none; }
+}
