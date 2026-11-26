@@ -141,7 +141,7 @@ header, main, footer { position: relative; z-index: 1; }
 .tag--linea::after { content: ''; width: clamp(40px, 8vw, 130px); height: 1px; background: currentColor; opacity: 0.4; }
 
 .titulo { font-size: var(--fs-cap); font-weight: 700; }
-.lead { font-size: var(--fs-lead); line-height: 1.55; color: color-mix(in srgb, var(--papel) 66%, transparent); max-width: 48ch; }
+.lead { font-size: var(--fs-lead); line-height: 1.55; color: color-mix(in srgb, var(--papel) 66%, transparent); max-width: 48ch; text-wrap: balance; }
 
 /* lectura lateral: columnas de micro-texto alineadas al borde, como un índice */
 .lectura {
