@@ -31,7 +31,7 @@ tiene sentido si ahí vive el núcleo.
 
 Viven aparte, en [`src/scripts/tres.ts`](../src/scripts/tres.ts), y se cargan con
 `import()` solo si hay `motion`, no hay ahorro de datos y el equipo tiene memoria
-suficiente. Son unos 127 KB comprimidos que no pesan en la primera carga.
+suficiente. Son unos 131 KB con gzip, 108 KB con Brotli que no pesan en la primera carga.
 
 **Cada objeto se dibuja donde está su hueco.** El hueco es un div vacío con su propia
 altura, y el nombre decide qué pieza se construye:

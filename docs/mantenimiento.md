@@ -21,7 +21,7 @@ verdad se aprovecha. Para eso está `npm run build && npm run preview`.
 | `@astrojs/sitemap` | 3.7 | Genera `sitemap-index.xml` en cada compilación. |
 | `gsap` | 3.15 | Animaciones (ScrollTrigger, SplitText). |
 | `lenis` | 1.3 | Desplazamiento suave. |
-| `three` | 0.182 | El objeto 3D del fondo. Es el paquete más pesado (unos 127 KB comprimidos) y por eso se carga aparte. |
+| `three` | 0.182 | El objeto 3D del fondo. Es el paquete más pesado (unos 131 KB con gzip, 108 KB con Brotli) y por eso se carga aparte. |
 | `@fontsource-variable/overpass` y `overpass-mono` | 5.3 | Las dos tipografías, servidas desde el propio sitio (no dependen de Google Fonts). |
 
 Antes de subir una versión mayor de Astro o GSAP, compila y revisa el capítulo
