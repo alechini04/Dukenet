@@ -21,6 +21,8 @@ Si el preview ya estaba corriendo en otro puerto, detenlo (`npx astro preview st
 
 La ruta se puede escribir con barra inicial o sin ella.
 
+`arbol` recorre el árbol desde la raíz, así que imprime en el orden en que lo lee un lector de pantalla. `Accessibility.getFullAXTree` devuelve los nodos en un orden interno que no es el de la página, y con él parecía que «Dejas de adivinar» venía antes que «Cuatro maneras de crecer».
+
 ## Por qué un Chrome aparte
 
 Las dos cosas que más cuestan de este sitio -el movimiento y el color- no se

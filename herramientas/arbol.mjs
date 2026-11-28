@@ -29,8 +29,26 @@ const { nodes } = await cdp.enviar('Accessibility.getFullAXTree');
 const INTERESAN = new Set(['heading', 'link', 'button', 'navigation', 'main', 'banner', 'contentinfo',
   'dialog', 'textbox', 'checkbox', 'radio', 'radiogroup', 'group', 'form', 'image', 'StaticText', 'status']);
 
+// getFullAXTree devuelve los nodos en un orden interno (los títulos de «Dejas de
+// adivinar» y «Cotiza tu web hoy» salían antes que «Cuatro maneras de crecer»,
+// aunque en la página van después). Se recorre desde la raíz por childIds para
+// imprimirlos en el orden en que los lee un lector de pantalla.
+const porId = new Map(nodes.map((x) => [x.nodeId, x]));
+const enOrden = [];
+const visto = new Set();
+const recorrer = (id) => {
+  const x = porId.get(id);
+  if (!x || visto.has(id)) return;
+  visto.add(id);
+  enOrden.push(x);
+  for (const h of x.childIds || []) recorrer(h);
+};
+const raices = nodes.filter((x) => !x.parentId);
+for (const r of raices.length ? raices : nodes.slice(0, 1)) recorrer(r.nodeId);
+for (const x of nodes) if (!visto.has(x.nodeId)) enOrden.push(x);
+
 let n = 0;
-for (const nodo of nodes) {
+for (const nodo of enOrden) {
   if (nodo.ignored) continue;
   const rol = nodo.role?.value;
   if (!rol || !(filtro ? filtro.has(rol) : INTERESAN.has(rol))) continue;
